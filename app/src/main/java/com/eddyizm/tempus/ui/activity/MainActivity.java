@@ -209,6 +209,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (com.eddyizm.tempus.BuildConfig.LITE) com.eddyizm.tempus.lite.LiteUpdater.resumePending(this);
         pingServer();
         toggleNavigationDrawerLockOnOrientationChange();
     }

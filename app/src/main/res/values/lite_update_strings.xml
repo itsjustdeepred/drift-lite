@@ -6,4 +6,8 @@
     <string name="lite_update_later">Later</string>
     <string name="lite_update_skip">Skip this version</string>
     <string name="lite_update_downloading">Downloading Drift Lite %s</string>
+    <string name="lite_update_check">Check for updates</string>
+    <string name="lite_update_latest">You have the latest version</string>
+    <string name="lite_update_failed">Couldn\'t check for updates. Try again later.</string>
+    <string name="lite_update_allow">Allow Drift Lite to install apps, then come back: the update will continue.</string>
 </resources>

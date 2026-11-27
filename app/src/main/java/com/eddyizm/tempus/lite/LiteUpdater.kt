@@ -19,28 +19,51 @@ import com.google.gson.JsonParser
 import java.io.File
 
 /**
- * Drift Lite: checks GitHub for a newer release at startup (at most every 6 hours, in the background).
- * If there is one, shows the version and a short changelog; "Update" downloads the APK and opens the installer.
+ * Drift Lite: checks GitHub for a newer release at startup (at most once an hour, in the background) or on demand
+ * from Settings. If there is one, shows the version and a short changelog; "Update" downloads the APK and opens the
+ * system installer. The first time Android asks to allow installs from Drift Lite: the install resumes on return.
  */
 object LiteUpdater {
     private const val TAG = "LiteUpdater"
     private const val REPO = "itsjustdeepred/drift-lite"
     private const val KEY_LAST = "lite_update_checked_at"
     private const val KEY_SKIP = "lite_update_skip"
+    private const val KEY_LAST_CODE = "lite_update_checked_code"
+    private const val KEY_PENDING = "lite_update_pending_apk"
 
     private data class Release(val tag: String, val version: String, val notes: String, val apkUrl: String)
 
     @JvmStatic
-    fun check(activity: Activity) {
+    @JvmOverloads
+    fun check(activity: Activity, manual: Boolean = false) {
         if (!BuildConfig.LITE) return
         val prefs = App.getInstance().preferences
-        if (System.currentTimeMillis() - prefs.getLong(KEY_LAST, 0) < 6 * 3600_000L) return
-        prefs.edit().putLong(KEY_LAST, System.currentTimeMillis()).apply()
+        // right after an install or update the check runs at once, then at most once an hour
+        val sameBuild = prefs.getInt(KEY_LAST_CODE, 0) == BuildConfig.VERSION_CODE
+        if (!manual && sameBuild && System.currentTimeMillis() - prefs.getLong(KEY_LAST, 0) < 3600_000L) return
+        prefs.edit().putLong(KEY_LAST, System.currentTimeMillis()).putInt(KEY_LAST_CODE, BuildConfig.VERSION_CODE).apply()
         Thread {
-            val r = latest() ?: return@Thread
-            if (!isNewer(r.version, BuildConfig.VERSION_NAME) || prefs.getString(KEY_SKIP, null) == r.tag) return@Thread
-            activity.runOnUiThread { if (!activity.isFinishing) show(activity, r) }
+            val r = latest()
+            val newer = r != null && isNewer(r.version, BuildConfig.VERSION_NAME) && (manual || prefs.getString(KEY_SKIP, null) != r.tag)
+            activity.runOnUiThread {
+                if (activity.isFinishing) return@runOnUiThread
+                if (newer) show(activity, r!!)
+                else if (manual) android.widget.Toast.makeText(activity, if (r == null) R.string.lite_update_failed else R.string.lite_update_latest, android.widget.Toast.LENGTH_SHORT).show()
+            }
         }.start()
+    }
+
+    /** After the user allowed installs from Drift Lite in system settings: continue the pending install. */
+    @JvmStatic
+    fun resumePending(activity: Activity) {
+        if (!BuildConfig.LITE) return
+        val prefs = App.getInstance().preferences
+        val path = prefs.getString(KEY_PENDING, null) ?: return
+        val file = File(path)
+        if (!file.isFile) { prefs.edit().remove(KEY_PENDING).apply(); return }
+        if (Build.VERSION.SDK_INT >= 26 && !activity.packageManager.canRequestPackageInstalls()) return
+        prefs.edit().remove(KEY_PENDING).apply()
+        install(activity, file)
     }
 
     private fun latest(): Release? = try {
@@ -85,6 +108,7 @@ object LiteUpdater {
     private fun download(ctx: Context, r: Release) {
         val dir = File(ctx.getExternalFilesDir(null), "updates").apply { mkdirs(); listFiles()?.forEach { it.delete() } }
         val file = File(dir, "DriftLite-${r.version}.apk")
+        android.widget.Toast.makeText(ctx, ctx.getString(R.string.lite_update_downloading, r.version), android.widget.Toast.LENGTH_SHORT).show()
         val dm = ctx.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val id = dm.enqueue(DownloadManager.Request(Uri.parse(r.apkUrl))
             .setTitle(ctx.getString(R.string.lite_update_downloading, r.version))
@@ -102,6 +126,14 @@ object LiteUpdater {
     }
 
     private fun install(ctx: Context, file: File) {
+        if (Build.VERSION.SDK_INT >= 26 && !ctx.packageManager.canRequestPackageInstalls()) {
+            // first update: Android wants permission to install from Drift Lite; resumePending() continues on return
+            App.getInstance().preferences.edit().putString(KEY_PENDING, file.absolutePath).apply()
+            android.widget.Toast.makeText(ctx, R.string.lite_update_allow, android.widget.Toast.LENGTH_LONG).show()
+            ctx.startActivity(Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + ctx.packageName))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            return
+        }
         val uri = FileProvider.getUriForFile(ctx, ctx.packageName + ".updates", file)
         ctx.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, "application/vnd.android.package-archive")
             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))

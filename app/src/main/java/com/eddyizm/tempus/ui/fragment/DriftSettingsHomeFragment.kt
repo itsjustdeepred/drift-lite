@@ -221,6 +221,11 @@ private fun SettingsHome(open: (Int) -> Unit) {
                         Text(v, color = SHiS, fontSize = 14.sp)
                     }
                 }
+                val act = androidx.compose.ui.platform.LocalContext.current as? android.app.Activity
+                Spacer(Modifier.height(10.dp))
+                Text(stringResource(R.string.lite_update_check), color = SAccS, fontSize = 14.sp, fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clip(RoundedCornerShape(50)).clickable { act?.let { com.eddyizm.tempus.lite.LiteUpdater.check(it, manual = true) } }
+                        .padding(vertical = 6.dp))
             }
             // Donations: one ETH address, copied with a tap
             val ctx = androidx.compose.ui.platform.LocalContext.current

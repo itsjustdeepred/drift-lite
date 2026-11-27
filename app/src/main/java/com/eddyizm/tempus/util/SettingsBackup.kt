@@ -104,6 +104,8 @@ object SettingsBackup {
             }
         }
         keys["language"] = oneOf(languages)
+        // Drift: chart country, a list filled in at runtime
+        keys[com.eddyizm.tempus.helper.DriftCountry.KEY] = oneOf(com.eddyizm.tempus.helper.DriftCountry.CHOICES.toList())
         keys[Preferences.THEME] = oneOf(themes)
         keys[Preferences.DARK_THEME_BLACK] = Spec(Type.BOOLEAN)
         keys[Preferences.DYNAMIC_COLOR_ACCENT] = Spec(Type.BOOLEAN)

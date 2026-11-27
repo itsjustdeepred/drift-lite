@@ -35,6 +35,7 @@ playlists for those genres and new releases from the artists you follow.
 <tr><td align="center" width="33%"><img src="docs/features/discover.svg" width="48" alt=""/><br/><b>Discover</b><br/><sub>Similar artists to the ones you follow.</sub></td><td align="center" width="33%"><img src="docs/features/releases.svg" width="48" alt=""/><br/><b>New releases</b><br/><sub>A notification when a followed artist releases something.</sub></td><td align="center" width="33%"><img src="docs/features/offline.svg" width="48" alt=""/><br/><b>Offline</b><br/><sub>Save songs, albums and playlists. Cancel and retry downloads.</sub></td></tr>
 <tr><td align="center" width="33%"><img src="docs/features/lyrics.svg" width="48" alt=""/><br/><b>Synced lyrics</b><br/><sub>Line by line, also full screen. Tap a line to jump.</sub></td><td align="center" width="33%"><img src="docs/features/playlists.svg" width="48" alt=""/><br/><b>Your playlists</b><br/><sub>Create, rename, reorder. Liked songs included.</sub></td><td align="center" width="33%"><img src="docs/features/speakers.svg" width="48" alt=""/><br/><b>Network speakers</b><br/><sub>Play on Sonos and DLNA speakers on your Wi-Fi.</sub></td></tr>
 <tr><td align="center" width="33%"><img src="docs/features/auto.svg" width="48" alt=""/><br/><b>Android Auto</b><br/><sub>Home, playlists, Liked and Offline in the car.</sub></td><td align="center" width="33%"><img src="docs/features/backup.svg" width="48" alt=""/><br/><b>Backup</b><br/><sub>To a file or Google Drive, restore in one tap.</sub></td><td align="center" width="33%"><img src="docs/features/private.svg" width="48" alt=""/><br/><b>No account</b><br/><sub>Nothing to sign up for. Your data stays on the phone.</sub></td></tr>
+<tr><td align="center" width="33%"><img src="docs/features/recognize.svg" width="48" alt=""/><br/><b>Recognize songs</b><br/><sub>Hear something you like? Tap the mic, then save it to a playlist.</sub></td><td align="center" width="33%"><img src="docs/features/updates.svg" width="48" alt=""/><br/><b>Updates in the app</b><br/><sub>New versions show up with a short changelog.</sub></td><td align="center" width="33%"><img src="docs/features/languages.svg" width="48" alt=""/><br/><b>English and Italian</b><br/><sub>Follows your phone, or pick it at first launch.</sub></td></tr>
 </table>
 
 <br/><br/>
@@ -49,6 +50,8 @@ playlists for those genres and new releases from the artists you follow.
 | <img src="docs/screenshots/library.jpg" width="200"/> | <img src="docs/screenshots/artist.jpg" width="200"/> | <img src="docs/screenshots/search.jpg" width="200"/> | <img src="docs/screenshots/player.jpg" width="200"/> |
 | **Lyrics** | **Playlists** | **Offline** | **First run** |
 | <img src="docs/screenshots/lyrics.jpg" width="200"/> | <img src="docs/screenshots/playlists.jpg" width="200"/> | <img src="docs/screenshots/offline.jpg" width="200"/> | <img src="docs/screenshots/onboarding.jpg" width="200"/> |
+| **Recognize a song** | **Save it to a playlist** | | |
+| <img src="docs/screenshots/recognize.jpg" width="200"/> | <img src="docs/screenshots/recognized.jpg" width="200"/> | | |
 
 <sub>The music in the screenshots is from <a href="https://ncs.io">NCS</a> (royalty-free).</sub>
 
@@ -103,6 +106,7 @@ the other flavors build the original Subsonic client.
 <img src="docs/sections/privacy.svg" width="100%" alt="Privacy"/>
 
 - No account, no analytics, no ads.
+- The microphone is used only while you recognize a song. What leaves the phone is an audio fingerprint, not the recording.
 - The app only connects to the services listed above.
 - Everything you create in the app is stored on your phone.
 - If Android backup is on, settings and playlists are saved to your Google account. Audio files are not.
@@ -124,7 +128,7 @@ Subsonic server, and Jellyfin or Emby, and comes with <strong>Undertow</strong>,
 <li>rebuilds charts and playlists from your own files, and fills the gaps on request</li>
 <li>fetches synced lyrics from LRCLIB for your whole library</li>
 <li>builds daily mixes from what you listen to (with AudioMuse-AI)</li>
-<li>shows waveforms, recognizes songs around you, and more</li>
+<li>shows waveforms, and more</li>
 </ul>
 <p>Same look and feel, two different needs.</p>
 </blockquote>

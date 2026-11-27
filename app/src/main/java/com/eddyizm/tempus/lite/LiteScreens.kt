@@ -177,10 +177,14 @@ class LiteSearchFragment : LiteFragment() {
         LazyColumn(Modifier.fillMaxSize().background(LBg).imePadding(), contentPadding = PaddingValues(bottom = 180.dp)) {
             item {
                 Text(stringResource(R.string.lite_search), color = LHi, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.statusBarsPadding().padding(16.dp))
-                Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(RoundedCornerShape(10.dp)).background(LHi).padding(horizontal = 16.dp, vertical = 14.dp)) {
-                    if (q.isEmpty()) Text(stringResource(R.string.lite_search_hint), color = Color(0xFF55555F), fontSize = 16.sp)
-                    BasicTextField(q, { q = it }, singleLine = true, textStyle = TextStyle(color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Medium),
-                        cursorBrush = SolidColor(Color.Black), modifier = Modifier.fillMaxWidth())
+                Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(RoundedCornerShape(10.dp)).background(LHi).padding(start = 16.dp, end = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.weight(1f).padding(vertical = 14.dp)) {
+                        if (q.isEmpty()) Text(stringResource(R.string.lite_search_hint), color = Color(0xFF55555F), fontSize = 16.sp)
+                        BasicTextField(q, { q = it }, singleLine = true, textStyle = TextStyle(color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Medium),
+                            cursorBrush = SolidColor(Color.Black), modifier = Modifier.fillMaxWidth())
+                    }
+                    RecognizeButton(tint = Color(0xFF121212), size = 40)
                 }
                 if (loading && songs.isEmpty() && artists.isEmpty()) com.eddyizm.tempus.ui.components.DriftLoader(Modifier.fillMaxWidth().height(360.dp))
             }

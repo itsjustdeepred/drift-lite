@@ -27,6 +27,9 @@ android {
         // Drift Lite: no Undertow, charts and YouTube straight from the phone
         buildConfigField 'boolean', 'LITE', 'false'
         buildConfigField 'String', 'DRIFT_SIDECAR_TOKEN', "\"${driftProps.getProperty('drift.sidecar.token', '')}\""
+        // Drift Lite: Last.fm API account of the app (local.properties lastfm.key / lastfm.secret); empty = feature hidden
+        buildConfigField 'String', 'LASTFM_KEY', "\"${driftProps.getProperty('lastfm.key', '')}\""
+        buildConfigField 'String', 'LASTFM_SECRET', "\"${driftProps.getProperty('lastfm.secret', '')}\""
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -84,8 +87,8 @@ android {
             dimension = "default"
             applicationId = 'io.github.itsjustdeepred.driftlite'
             // Drift Lite has its own version line, independent from Tempus
-            versionCode 4
-            versionName '1.0.0'
+            versionCode 7
+            versionName '1.1.0'
             buildConfigField 'boolean', 'LITE', 'true'
             buildConfigField 'String', 'DRIFT_SIDECAR_URL', '""'
             buildConfigField 'String', 'DRIFT_SIDECAR_TOKEN', '""'

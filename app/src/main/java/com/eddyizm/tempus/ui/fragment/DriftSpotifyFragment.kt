@@ -186,6 +186,7 @@ private fun SpotifyCatalogScreen(openGroup: String?, setGroup: (String?) -> Unit
                 val n = com.eddyizm.tempus.lite.LiteApp.name
                 Row(Modifier.statusBarsPadding().padding(start = 16.dp, top = 12.dp, end = 6.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text(if (n.isEmpty()) stringResource(R.string.lite_hello) else stringResource(R.string.lite_hello_name, n), color = SHi, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.weight(1f))
+                    com.eddyizm.tempus.lite.RecognizeButton()
                     com.eddyizm.tempus.lite.SettingsButton()
                 }
             } else Row(Modifier.statusBarsPadding().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
