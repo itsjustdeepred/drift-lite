@@ -9,7 +9,7 @@ No account, no subscription, no server.
 
 [![Android](https://img.shields.io/badge/Android-7.0%2B-3DDC84?logo=android&logoColor=white)](#install)
 [![License](https://img.shields.io/badge/license-GPL--3.0-E8336D)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/itsjustdeepred/drift-lite?color=FF8A3D&label=release&cacheSeconds=3600)](../../releases/latest)
+[![Release](https://img.shields.io/github/v/release/itsjustdeepred/drift-lite?color=FF8A3D&label=release&cacheSeconds=1800)](../../releases/latest)
 [![No account, no ads](https://img.shields.io/badge/no%20account-no%20ads-222)](#privacy)
 [![Donate](https://img.shields.io/badge/donate-ETH-627EEA?logo=ethereum&logoColor=white)](#support)
 [![Stars](https://img.shields.io/github/stars/itsjustdeepred/drift-lite?style=flat&logo=github&color=FFC145&label=stars&cacheSeconds=3600)](../../stargazers)
