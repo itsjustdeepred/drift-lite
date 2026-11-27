@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_dark_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_dark_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_dark_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_dark_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
+        <!-- Drift: superfici neutre stile Spotify, niente tinta verde sull'elevazione -->
+        <item name="colorSurfaceContainerLowest">#0A0A0A</item>
+        <item name="colorSurfaceContainerLow">#181818</item>
+        <item name="colorSurfaceContainer">#1F1F1F</item>
+        <item name="colorSurfaceContainerHigh">#282828</item>
+        <item name="colorSurfaceContainerHighest">#333333</item>
+        <item name="colorSurfaceBright">#2A2A2A</item>
+        <item name="colorSurfaceDim">#121212</item>
+        <item name="colorOutlineVariant">#3E3E3E</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Drift.MaterialAlertDialog</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Drift.BottomSheetDialog</item>
+        <item name="popupMenuStyle">@style/Widget.Drift.PopupMenu</item>
+        <item name="actionOverflowMenuStyle">@style/Widget.Drift.PopupMenu.Overflow</item>
+        <item name="listPopupWindowStyle">@style/Widget.Drift.PopupMenu.ListPopupWindow</item>
+        <item name="dialogTheme">@style/ThemeOverlay.Drift.Dialog</item>
+        <item name="android:dialogTheme">@style/ThemeOverlay.Drift.Dialog</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:scrollbars">none</item>
+
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
+        <item name="snackbarTextViewStyle">@style/Widget.App.Snackbar.TextView</item>
+        <item name="snackbarButtonStyle">@style/Widget.App.Snackbar.Button</item>
+    </style>
+
+    <style name="AppTheme.Amoled.SurfacesOnly" parent="">
+        <!-- Regular surface overriding -->
+        <item name="colorSurface">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainer">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutline">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutlineVariant">@color/md_theme_amoled_surface_override</item>
+
+        <!-- Extended surface overriding -->
+        <item name="materialSwitchStyle">@style/Widget.App.MaterialSwitch.Amoled</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog.Amoled</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog.Amoled</item>
+        <item name="bottomSheetStyle">@style/Widget.App.BottomSheet.Amoled</item>
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView.Amoled</item>
+        <item name="android:dialogTheme">@style/ThemeOverlay.App.Dialog.Amoled</item>
+        <item name="dialogTheme">@style/ThemeOverlay.App.Dialog.Amoled</item>
+
+        <item name="android:colorBackground">@color/md_theme_amoled_surface_override</item>
+        <item name="android:windowBackground">@color/md_theme_amoled_surface_override</item>
+        <item name="android:scrollbars">none</item>
+
+        <!-- For API 24 to API 29-ish -->
+        <item name="android:statusBarColor">@color/md_theme_amoled_surface_override</item>
+        <item name="android:navigationBarColor">@color/md_theme_amoled_surface_override</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="27">@color/md_theme_amoled_surface_override</item>
+
+        <!-- Prevent black-over-black text -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog.Amoled" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <!-- This breaks Material3 default elevation -->
+        <item name="backgroundTint">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayColor">@color/md_theme_amoled_surface_override</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Regular surface overriding -->
+        <item name="colorSurface">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainer">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutline">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutlineVariant">@color/md_theme_amoled_surface_override</item>
+    </style>
+
+    <style name="Widget.App.BottomSheet.Amoled" parent="Widget.Material3.BottomSheet">
+        <!-- This breaks Material3 default elevation tint -->
+        <item name="backgroundTint">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayColor">@color/md_theme_amoled_surface_override</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Regular surface overriding -->
+        <item name="colorSurface">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainer">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutline">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutlineVariant">@color/md_theme_amoled_surface_override</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView.Amoled" parent="Widget.Material3.BottomNavigationView">
+        <!-- This breaks Material3 default elevation tint -->
+        <item name="backgroundTint">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayColor">@color/md_theme_amoled_surface_override</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Regular surface overriding -->
+        <item name="colorSurface">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainer">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutline">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutlineVariant">@color/md_theme_amoled_surface_override</item>
+    </style>
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog.Amoled" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <!-- This breaks Material3 default elevation tint -->
+        <item name="backgroundTint">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayColor">@color/md_theme_amoled_surface_override</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Regular surface overriding -->
+        <item name="colorSurface">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainer">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutline">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutlineVariant">@color/md_theme_amoled_surface_override</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Dialog.Amoled" parent="ThemeOverlay.Material3.Dialog">
+        <!-- This breaks Material3 default elevation tint -->
+        <item name="backgroundTint">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayColor">@color/md_theme_amoled_surface_override</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:background">@color/md_theme_amoled_surface_override</item>
+        <item name="elevationOverlayEnabled">false</item>
+
+        <!-- Regular surface overriding -->
+        <item name="colorSurface">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLowest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerLow">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainer">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHigh">@color/md_theme_amoled_surface_override</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutline">@color/md_theme_amoled_surface_override</item>
+        <item name="colorOutlineVariant">@color/md_theme_amoled_surface_override</item>
+    </style>
+
+    <style name="ThemeOverlay.App.MaterialSwitch.Amoled" parent="">
+        <item name="colorOutline">@color/md_theme_amoled_outline</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surfaceVariant</item>
+        <item name="colorSurfaceContainerHighest">@color/md_theme_amoled_surfaceVariant</item>
+    </style>
+
+    <style name="Widget.App.MaterialSwitch.Amoled" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.MaterialSwitch.Amoled</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/dividerColor</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="tint">?attr/colorOnPrimary</item>
+        <item name="shapeAppearanceOverlay">@style/FabShapeStyle</item>
+    </style>
+
+    <style name="FabShapeStyle" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">50%</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+    </style>
+
+    <style name="NoConnectionTextView">
+        <item name="background">?attr/colorErrorContainer</item>
+        <item name="android:textColor">?attr/colorOnErrorContainer</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Amoled" parent="">
+        <item name="android:colorBackground">@color/md_theme_amoled_background</item>
+        <item name="colorSurface">@color/md_theme_amoled_surface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_amoled_surfaceVariant</item>
+    </style>
+    <!-- Drift: popup grigi #282828 senza tinta d'accento -->
+    <style name="ThemeOverlay.Drift.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="backgroundTint">#282828</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="colorSurface">#282828</item>
+        <item name="colorSurfaceContainerHigh">#282828</item>
+        <item name="colorSurfaceContainerHighest">#333333</item>
+    </style>
+
+    <style name="ThemeOverlay.Drift.Dialog" parent="ThemeOverlay.Material3.Dialog">
+        <item name="backgroundTint">#282828</item>
+        <item name="android:background">#282828</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="colorSurface">#282828</item>
+        <item name="colorSurfaceContainerHigh">#282828</item>
+    </style>
+    <!-- Drift: comandi del player bianchi come Spotify (play = cerchio bianco con icona nera) -->
+    <style name="ThemeOverlay.Drift.Player" parent="">
+        <item name="colorPrimary">#FFFFFFFF</item>
+        <item name="colorOnPrimary">#FF000000</item>
+        <item name="colorPrimaryContainer">#4DFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FFFFFFFF</item>
+        <item name="colorOnSecondaryContainer">#80FFFFFF</item>
+        <item name="colorSecondaryContainer">#33FFFFFF</item>
+        <item name="colorOnSurface">#FFFFFFFF</item>
+    </style>
+    <!-- Drift: menu a comparsa grigi come Spotify, senza tinta verde -->
+    <style name="ThemeOverlay.Drift.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Drift.BottomSheet</item>
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+    <style name="Widget.Drift.BottomSheet" parent="Widget.Material3.BottomSheet">
+        <item name="backgroundTint">#FF242429</item>
+        <item name="elevation">0dp</item>
+    </style>
+    <!-- Drift: menu a tendina grigi e arrotondati -->
+    <style name="Widget.Drift.PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/drift_popup_bg</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+    <style name="Widget.Drift.PopupMenu.Overflow" parent="Widget.Material3.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/drift_popup_bg</item>
+    </style>
+    <style name="Widget.Drift.PopupMenu.ListPopupWindow" parent="Widget.Material3.PopupMenu.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/drift_popup_bg</item>
+    </style>
+</resources>

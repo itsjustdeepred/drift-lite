@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="drift_title_color" type="id" />
+    <item name="drift_row_background" type="id" />
+</resources>

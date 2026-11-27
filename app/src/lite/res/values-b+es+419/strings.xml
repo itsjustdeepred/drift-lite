@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The app name is not translated: overrides the "Drift" name of the main locale files -->
+<resources>
+    <string name="app_name">Drift Lite</string>
+</resources>

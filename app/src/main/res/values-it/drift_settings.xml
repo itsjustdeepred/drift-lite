@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ds_account">Account</string>
+    <string name="ds_playback">Riproduzione</string>
+    <string name="ds_quality">Qualità audio</string>
+    <string name="ds_sound">Suono ed equalizzatore</string>
+    <string name="ds_devices">Casse e altri dispositivi</string>
+    <string name="ds_library">Libreria e playlist</string>
+    <string name="ds_offline">Download e offline</string>
+    <string name="ds_look">Aspetto</string>
+    <string name="ds_privacy">Privacy e condivisione</string>
+    <string name="ds_advanced">Avanzate</string>
+    <string name="ds_about">Informazioni</string>
+    <string name="ds_servers">Server, utente e password</string>
+    <string name="ds_servers_summary">Modifica il server in uso o aggiungine altri</string>
+    <string name="ds_switch">Cambia server o esci</string>
+    <string name="ds_switch_summary">Torna all\'elenco dei server per entrare con un altro</string>
+    <string name="ds_lan_open">Controlla un altro telefono</string>
+    <string name="ds_undertow">Undertow: download, mix e testi</string>
+    <string name="ds_undertow_url">Indirizzo</string>
+    <string name="ds_undertow_test">Prova la connessione</string>
+    <string name="ds_undertow_panel">Apri il pannello di Undertow</string>
+    <string name="ds_undertow_panel_summary">Fonti di download, testi, classifiche, mix: si configura tutto lì</string>
+</resources>

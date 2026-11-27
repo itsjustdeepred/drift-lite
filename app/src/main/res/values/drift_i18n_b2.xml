@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DriftReleases -->
+    <string name="drift_releases_new_title">New release: %1$s</string>
+
+    <!-- DriftRecognition -->
+    <string name="drift_rec_not_configured">Undertow is not configured: set it in Settings → Undertow</string>
+    <string name="drift_rec_bad_token">Invalid Undertow token: check it in Settings → Undertow</string>
+    <string name="drift_rec_too_large">Recording too large: try again</string>
+    <string name="drift_rec_bad_audio">Recording unreadable: try again</string>
+    <string name="drift_rec_provider">Shazam did not respond: try again shortly</string>
+    <string name="drift_rec_http">Undertow responded HTTP %1$d</string>
+
+    <!-- DriftDevices -->
+    <string name="drift_devices_this_phone">This phone</string>
+    <string name="drift_devices_phone_speaker">Phone speaker</string>
+    <string name="drift_devices_current">Current device</string>
+    <string name="drift_devices_select">Select a device</string>
+    <string name="drift_devices_searching">Looking for speakers and TVs on the network… Sonos speakers must be on and on the same Wi-Fi.</string>
+    <string name="drift_devices_disconnect">Disconnect</string>
+    <string name="drift_devices_connecting">Connecting…</string>
+
+    <!-- PlaylistCatalogueFragment -->
+    <string name="drift_catalogue_mixes_title">Made for you</string>
+
+    <!-- BaseMediaService -->
+    <string name="drift_player_volume_zero">Volume is at zero: turn it up to hear</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="titleTextColor">#FFFFFF</color>
+    <color name="subtitleTextColor">#B3B3B3</color>
+    <color name="dividerColor">#2A2A2A</color>
+
+    <color name="lyricsTextColor">#FFFFFF</color>
+    <color name="shadowsLyricsTextColor">#73FFFFFF</color>
+
+    <color name="searchPlaceholderColor">#B3B3B3</color>
+    <color name="searchColor">#FFFFFF</color>
+</resources>
+

@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="900" height="300" viewBox="0 0 900 300">
+<defs>
+<radialGradient id="sky" cx="50%" cy="50%" r="65%"><stop offset="0" stop-color="#1a1424"/><stop offset="1" stop-color="#0b0b0f"/></radialGradient>
+<linearGradient id="ib" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#E8336D"/></linearGradient>
+<!-- note: croma, due crome, semiminima -->
+<symbol id="n1" viewBox="0 0 24 32" width="24" height="32"><ellipse cx="8" cy="26" rx="7" ry="5" transform="rotate(-20 8 26)"/><rect x="13" y="3" width="2.6" height="23"/><path d="M15.6 3c4 2 7 5 6 11-1-3-3-5-6-6z"/></symbol>
+<symbol id="n2" viewBox="0 0 24 32" width="24" height="32"><ellipse cx="5" cy="27" rx="5" ry="3.6" transform="rotate(-20 5 27)"/><ellipse cx="18" cy="24" rx="5" ry="3.6" transform="rotate(-20 18 24)"/><rect x="8.4" y="6" width="2.2" height="21"/><rect x="21.4" y="3" width="2.2" height="21"/><path d="M8.4 6l15.2-3v4l-15.2 3z"/></symbol>
+<symbol id="n3" viewBox="0 0 24 32" width="24" height="32"><ellipse cx="9" cy="26" rx="7" ry="5" transform="rotate(-20 9 26)"/><rect x="14" y="2" width="2.6" height="24"/></symbol>
+<clipPath id="ic"><rect x="-56" y="-56" width="112" height="112" rx="30"/></clipPath>
+</defs>
+<rect width="900" height="300" rx="18" fill="url(#sky)"/>
+<g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-51,52;-202,207" keyTimes="0;0.6;1" dur="4.50s" begin="-0.33s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.50s" begin="-0.33s" repeatCount="indefinite"/>
+<use href="#n3" fill="#1FDF64" transform="rotate(-7) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.50s" begin="-0.33s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;124,24;497,97" keyTimes="0;0.6;1" dur="3.27s" begin="-1.42s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.27s" begin="-1.42s" repeatCount="indefinite"/>
+<use href="#n1" fill="#22D3EE" transform="rotate(-20) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.27s" begin="-1.42s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-134,35;-536,141" keyTimes="0;0.6;1" dur="3.45s" begin="-0.77s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.45s" begin="-0.77s" repeatCount="indefinite"/>
+<use href="#n3" fill="#FFC145" transform="rotate(22) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.45s" begin="-0.77s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-112,-30;-449,-121" keyTimes="0;0.6;1" dur="5.15s" begin="-0.24s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="5.15s" begin="-0.24s" repeatCount="indefinite"/>
+<use href="#n1" fill="#8B5CF6" transform="rotate(-4) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="5.15s" begin="-0.24s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-132,-18;-528,-71" keyTimes="0;0.6;1" dur="4.32s" begin="-2.95s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.32s" begin="-2.95s" repeatCount="indefinite"/>
+<use href="#n1" fill="#FFC145" transform="rotate(4) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.32s" begin="-2.95s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;42,52;168,208" keyTimes="0;0.6;1" dur="4.62s" begin="-2.61s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.62s" begin="-2.61s" repeatCount="indefinite"/>
+<use href="#n3" fill="#22D3EE" transform="rotate(-0) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.62s" begin="-2.61s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-145,-15;-580,-60" keyTimes="0;0.6;1" dur="4.13s" begin="-3.81s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.13s" begin="-3.81s" repeatCount="indefinite"/>
+<use href="#n2" fill="#8B5CF6" transform="rotate(-13) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.13s" begin="-3.81s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;63,68;253,274" keyTimes="0;0.6;1" dur="3.36s" begin="-1.01s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.36s" begin="-1.01s" repeatCount="indefinite"/>
+<use href="#n2" fill="#8B5CF6" transform="rotate(11) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.36s" begin="-1.01s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-38,79;-150,316" keyTimes="0;0.6;1" dur="3.44s" begin="-1.44s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.44s" begin="-1.44s" repeatCount="indefinite"/>
+<use href="#n2" fill="#22D3EE" transform="rotate(22) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.44s" begin="-1.44s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-140,38;-558,153" keyTimes="0;0.6;1" dur="3.36s" begin="-1.87s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.36s" begin="-1.87s" repeatCount="indefinite"/>
+<use href="#n2" fill="#8B5CF6" transform="rotate(10) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.36s" begin="-1.87s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-114,-39;-454,-156" keyTimes="0;0.6;1" dur="4.11s" begin="-3.45s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.11s" begin="-3.45s" repeatCount="indefinite"/>
+<use href="#n2" fill="#FF5FA2" transform="rotate(10) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.11s" begin="-3.45s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;133,29;534,118" keyTimes="0;0.6;1" dur="3.82s" begin="-2.21s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.82s" begin="-2.21s" repeatCount="indefinite"/>
+<use href="#n3" fill="#FF8A3D" transform="rotate(-3) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.82s" begin="-2.21s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-32,-77;-128,-308" keyTimes="0;0.6;1" dur="3.89s" begin="-3.66s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.89s" begin="-3.66s" repeatCount="indefinite"/>
+<use href="#n2" fill="#22D3EE" transform="rotate(6) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.89s" begin="-3.66s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-117,2;-467,9" keyTimes="0;0.6;1" dur="3.77s" begin="-2.79s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.77s" begin="-2.79s" repeatCount="indefinite"/>
+<use href="#n2" fill="#FF5FA2" transform="rotate(21) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.77s" begin="-2.79s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-114,1;-456,5" keyTimes="0;0.6;1" dur="4.00s" begin="-1.11s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.00s" begin="-1.11s" repeatCount="indefinite"/>
+<use href="#n1" fill="#FF8A3D" transform="rotate(-3) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.00s" begin="-1.11s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-137,-23;-548,-91" keyTimes="0;0.6;1" dur="5.17s" begin="-3.53s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="5.17s" begin="-3.53s" repeatCount="indefinite"/>
+<use href="#n2" fill="#22D3EE" transform="rotate(-17) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="5.17s" begin="-3.53s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;53,54;210,215" keyTimes="0;0.6;1" dur="3.67s" begin="-1.78s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.67s" begin="-1.78s" repeatCount="indefinite"/>
+<use href="#n3" fill="#22D3EE" transform="rotate(-12) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.67s" begin="-1.78s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;128,2;512,7" keyTimes="0;0.6;1" dur="3.94s" begin="-2.23s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.94s" begin="-2.23s" repeatCount="indefinite"/>
+<use href="#n1" fill="#5B8CFF" transform="rotate(18) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.94s" begin="-2.23s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;134,-22;537,-89" keyTimes="0;0.6;1" dur="4.68s" begin="-2.14s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.68s" begin="-2.14s" repeatCount="indefinite"/>
+<use href="#n3" fill="#FF8A3D" transform="rotate(3) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.68s" begin="-2.14s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-102,39;-406,155" keyTimes="0;0.6;1" dur="4.16s" begin="-1.67s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.16s" begin="-1.67s" repeatCount="indefinite"/>
+<use href="#n1" fill="#1FDF64" transform="rotate(24) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.16s" begin="-1.67s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-103,21;-413,82" keyTimes="0;0.6;1" dur="4.40s" begin="-0.45s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.40s" begin="-0.45s" repeatCount="indefinite"/>
+<use href="#n3" fill="#22D3EE" transform="rotate(2) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.40s" begin="-0.45s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;132,-22;527,-89" keyTimes="0;0.6;1" dur="3.34s" begin="-0.69s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.34s" begin="-0.69s" repeatCount="indefinite"/>
+<use href="#n2" fill="#22D3EE" transform="rotate(7) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.34s" begin="-0.69s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;133,-19;531,-78" keyTimes="0;0.6;1" dur="4.15s" begin="-0.48s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.15s" begin="-0.48s" repeatCount="indefinite"/>
+<use href="#n2" fill="#FF5FA2" transform="rotate(-1) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.15s" begin="-0.48s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-43,53;-171,213" keyTimes="0;0.6;1" dur="4.70s" begin="-3.48s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.70s" begin="-3.48s" repeatCount="indefinite"/>
+<use href="#n2" fill="#FF8A3D" transform="rotate(10) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.70s" begin="-3.48s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-115,-6;-462,-24" keyTimes="0;0.6;1" dur="5.10s" begin="-1.85s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="5.10s" begin="-1.85s" repeatCount="indefinite"/>
+<use href="#n3" fill="#FFC145" transform="rotate(21) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="5.10s" begin="-1.85s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;6,-62;25,-247" keyTimes="0;0.6;1" dur="4.49s" begin="-0.41s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.49s" begin="-0.41s" repeatCount="indefinite"/>
+<use href="#n2" fill="#FFC145" transform="rotate(-7) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.49s" begin="-0.41s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;74,65;294,262" keyTimes="0;0.6;1" dur="4.27s" begin="-3.32s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.27s" begin="-3.32s" repeatCount="indefinite"/>
+<use href="#n2" fill="#5B8CFF" transform="rotate(-14) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.27s" begin="-3.32s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;60,-75;241,-302" keyTimes="0;0.6;1" dur="4.91s" begin="-3.95s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.91s" begin="-3.95s" repeatCount="indefinite"/>
+<use href="#n2" fill="#5B8CFF" transform="rotate(15) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.91s" begin="-3.95s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;41,64;164,257" keyTimes="0;0.6;1" dur="4.66s" begin="-4.61s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.66s" begin="-4.61s" repeatCount="indefinite"/>
+<use href="#n2" fill="#FF5FA2" transform="rotate(-12) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.66s" begin="-4.61s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;-56,-75;-223,-302" keyTimes="0;0.6;1" dur="4.09s" begin="-3.84s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.09s" begin="-3.84s" repeatCount="indefinite"/>
+<use href="#n2" fill="#8B5CF6" transform="rotate(-21) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.09s" begin="-3.84s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;105,40;419,160" keyTimes="0;0.6;1" dur="3.88s" begin="-1.87s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.88s" begin="-1.87s" repeatCount="indefinite"/>
+<use href="#n3" fill="#FF8A3D" transform="rotate(-25) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.88s" begin="-1.87s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;104,-34;417,-137" keyTimes="0;0.6;1" dur="4.49s" begin="-3.74s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.49s" begin="-3.74s" repeatCount="indefinite"/>
+<use href="#n1" fill="#FF5FA2" transform="rotate(14) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.49s" begin="-3.74s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;0,-67;0,-268" keyTimes="0;0.6;1" dur="3.56s" begin="-2.81s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="3.56s" begin="-2.81s" repeatCount="indefinite"/>
+<use href="#n2" fill="#1FDF64" transform="rotate(15) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="3.56s" begin="-2.81s" repeatCount="indefinite"/></use>
+</g></g></g><g transform="translate(450,150)"><g>
+<animateTransform attributeName="transform" type="translate" values="0,0;125,-11;499,-46" keyTimes="0;0.6;1" dur="4.00s" begin="-3.79s" repeatCount="indefinite"/>
+<g><animateTransform attributeName="transform" type="scale" values="0.15;0.6;2.2" keyTimes="0;0.6;1" dur="4.00s" begin="-3.79s" repeatCount="indefinite"/>
+<use href="#n3" fill="#22D3EE" transform="rotate(-16) translate(-12,-16)" opacity="0"><animate attributeName="opacity" values="0;0.9;1;0" keyTimes="0;0.35;0.85;1" dur="4.00s" begin="-3.79s" repeatCount="indefinite"/></use>
+</g></g></g>
+<g transform="translate(450,150)">
+<animateTransform attributeName="transform" type="translate" values="450,150;450,145;450,150" dur="2.4s" repeatCount="indefinite"/>
+<g clip-path="url(#ic)"><rect x="-56" y="-56" width="112" height="112" fill="url(#ib)"/>
+<g transform="translate(-54,-54)"><path d="M32,60 a16,16 0 1,0 32,0 a16,16 0 1,0 -32,0" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M64,60 V30 C64,26 72,26 78,30" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/></g></g>
+</g>
+</svg>

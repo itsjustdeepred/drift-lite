@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DriftReleases -->
+    <string name="drift_releases_new_title">Nuova uscita: %1$s</string>
+
+    <!-- DriftRecognition -->
+    <string name="drift_rec_not_configured">Undertow non è configurato: impostalo in Impostazioni → Undertow</string>
+    <string name="drift_rec_bad_token">Token di Undertow non valido: controllalo in Impostazioni → Undertow</string>
+    <string name="drift_rec_too_large">Registrazione troppo grande: riprova</string>
+    <string name="drift_rec_bad_audio">Registrazione non leggibile: riprova</string>
+    <string name="drift_rec_provider">Shazam non ha risposto: riprova tra poco</string>
+    <string name="drift_rec_http">Undertow ha risposto HTTP %1$d</string>
+
+    <!-- DriftDevices -->
+    <string name="drift_devices_this_phone">Questo telefono</string>
+    <string name="drift_devices_phone_speaker">Altoparlante del telefono</string>
+    <string name="drift_devices_current">Dispositivo attuale</string>
+    <string name="drift_devices_select">Seleziona un dispositivo</string>
+    <string name="drift_devices_searching">Cerco casse e TV sulla rete… Le casse Sonos devono essere accese e sulla stessa Wi-Fi.</string>
+    <string name="drift_devices_disconnect">Disconnetti</string>
+    <string name="drift_devices_connecting">Connessione…</string>
+
+    <!-- PlaylistCatalogueFragment -->
+    <string name="drift_catalogue_mixes_title">Fatti per te</string>
+
+    <!-- BaseMediaService -->
+    <string name="drift_player_volume_zero">Volume a zero: alzalo per sentire</string>
+</resources>

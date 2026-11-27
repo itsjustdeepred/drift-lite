@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift: barra in basso piena (dietro c'e' il foglio del player, una sfumatura lo farebbe vedere) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FF0B0B0F" />
+</shape>

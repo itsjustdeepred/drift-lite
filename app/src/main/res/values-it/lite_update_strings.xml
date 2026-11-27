@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_update_title">Drift Lite %s è disponibile</string>
+    <string name="lite_update_no_notes">È pronta una nuova versione.</string>
+    <string name="lite_update_install">Aggiorna</string>
+    <string name="lite_update_later">Più tardi</string>
+    <string name="lite_update_skip">Salta questa versione</string>
+    <string name="lite_update_downloading">Scarico Drift Lite %s</string>
+</resources>

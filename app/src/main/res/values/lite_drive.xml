@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_drive_backup_title">Save to Google Drive</string>
+    <string name="lite_drive_backup_summary">Settings, playlists and liked songs. To restore, use Restore backup and pick the file from Drive.</string>
+</resources>

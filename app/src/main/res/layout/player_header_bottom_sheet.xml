@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_sheet_peek_height"
+    android:background="#FF0B0B0F"
+    android:clipChildren="false">
+
+    <!-- Drift: mini player card (color from the cover art, set by DriftColors) -->
+    <View
+        android:id="@+id/player_header_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/drift_mini_card"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/player_header_media_cover_image"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:outlineProvider="background"
+        android:clipToOutline="true"
+        android:background="@drawable/drift_cover_round"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/player_header_media_title_label"
+        style="@style/LabelMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toStartOf="@+id/placeholder_left_view"
+        app:layout_constraintStart_toEndOf="@+id/player_header_media_cover_image"
+        app:layout_constraintTop_toTopOf="@+id/player_header_media_cover_image"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_media_artist_label"/>
+
+    <TextView
+        android:id="@+id/player_header_media_artist_label"
+        style="@style/LabelSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/placeholder_left_view"
+        app:layout_constraintStart_toEndOf="@+id/player_header_media_cover_image"
+        app:layout_constraintTop_toBottomOf="@+id/player_header_media_title_label"
+        app:layout_constraintBottom_toBottomOf="@+id/player_header_media_cover_image"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/player_header_remote_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="4dp"
+        android:padding="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/lan_play_on"
+        app:srcCompat="@drawable/ic_lan_remote"
+        app:layout_constraintEnd_toStartOf="@id/player_header_devices_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/player_header_seek_bar" />
+
+    <!-- Drift: devices in the mini player -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/player_header_devices_button"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:padding="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/drift_devices"
+        app:srcCompat="@drawable/ic_devices"
+        app:layout_constraintEnd_toStartOf="@id/player_header_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/player_header_seek_bar" />
+    <View
+        android:id="@+id/placeholder_left_view"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintEnd_toStartOf="@+id/player_header_remote_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/placeholder_right_view"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/player_header_bookmark_media_button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/ic_bookmark_sync"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintEnd_toStartOf="@+id/player_header_remote_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/player_header_rewind_media_button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/ic_replay"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintEnd_toStartOf="@+id/player_header_remote_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/player_header_button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/button_play_pause_selector"
+        android:checked="false"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintEnd_toStartOf="@+id/placeholder_right_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/player_header_next_media_button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/ic_skip_next"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/player_header_fast_forward_media_button"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/ic_forward"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/player_header_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="3dp"
+        android:background="@android:color/transparent"
+        android:progressTint="#FFFFFFFF"
+        android:progressBackgroundTint="#55FFFFFF"
+        android:clickable="false"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:thumb="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

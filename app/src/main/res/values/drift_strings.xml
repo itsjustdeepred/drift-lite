@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_menu_search">Search</string>
+    <string name="drift_menu_library">Library</string>
+    <string name="drift_menu_mix">Mix</string>
+    <string name="drift_menu_offline">Offline</string>
+    <string name="drift_devices">Devices</string>
+    <string name="drift_devices_title">Play on</string>
+    <string name="drift_devices_bt">Bluetooth and phone audio outputs</string>
+    <!-- Drift: per-output equalizer -->
+    <string name="eq_per_device_title">Equalizer per device</string>
+    <string name="eq_per_device_summary">Car, each Bluetooth headphone or speaker, wired headphones and the speaker each remember their own equalizer</string>
+    <string name="eq_profile_label">Profile: %1$s</string>
+    <string name="eq_profile_separate">Separate profile for this output</string>
+    <string name="eq_profile_separate_on">Changes apply only to this output</string>
+    <string name="eq_profile_separate_off">Use the default profile, shared with the other outputs</string>
+    <string name="eq_profile_remote_note">Playing on %1$s: the phone equalizer does not apply here</string>
+    <string name="eq_profile_autoeq">AutoEq: %1$s</string>
+    <string name="eq_profile_autoeq_none">AutoEq: no profile</string>
+    <string name="eq_profile_autoeq_clear">Remove</string>
+    <string name="eq_profiles_saved">Saved profiles</string>
+    <string name="eq_profile_delete">Delete profile</string>
+    <string name="eq_profile_current_suffix">%1$s (in use)</string>
+</resources>

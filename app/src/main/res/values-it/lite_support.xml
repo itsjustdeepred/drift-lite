@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_support">Sostieni Drift Lite</string>
+    <string name="lite_support_text">Gratis, senza pubblicità. Tocca per copiare l\'indirizzo.</string>
+    <string name="lite_support_copied">Indirizzo copiato</string>
+    <string name="lite_album">Album</string>
+</resources>

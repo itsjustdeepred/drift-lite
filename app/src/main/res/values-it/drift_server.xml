@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_server_type_label">Tipo di server</string>
+    <string name="drift_server_pass_keep">Password (vuota = mantieni l\'accesso)</string>
+    <string name="drift_server_authenticating">Accesso al server in corso…</string>
+    <string name="drift_server_auth_failed">Accesso non riuscito: %1$s</string>
+</resources>

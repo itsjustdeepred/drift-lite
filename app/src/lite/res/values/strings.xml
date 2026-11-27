@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Drift Lite</string>
+    <string name="settings_export_title">Backup</string>
+    <string name="settings_export_summary">Settings, followed playlists and YouTube songs in one file (not the audio files: they are downloaded again). Server logins are not included.</string>
+    <string name="settings_import_title">Restore backup</string>
+    <string name="settings_import_summary">Bring back settings and playlists from a backup file</string>
+    <string name="settings_imported">Backup restored (%d settings)</string>
+    <string name="ds_undertow">Playlists and offline</string>
+</resources>
