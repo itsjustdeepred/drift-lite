@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_rec_button">Identifier un titre</string>
+    <string name="lite_rec_listening">Écoute en cours</string>
+    <string name="lite_rec_listening_sub">Assure-toi que ton téléphone entend bien la musique</string>
+    <string name="lite_rec_searching">Recherche du titre</string>
+    <string name="lite_rec_searching_sub">Encore un instant</string>
+    <string name="lite_rec_not_found">Aucun résultat</string>
+    <string name="lite_rec_not_found_sub">Impossible de l\'identifier. Rapproche-toi de la musique et réessaie.</string>
+    <string name="lite_rec_error">Un problème est survenu</string>
+    <string name="lite_rec_no_network">Pas de connexion. Vérifie ta connexion Internet et réessaie.</string>
+    <string name="lite_rec_busy">L\'identification est saturée pour le moment. Réessaie dans une minute.</string>
+    <string name="lite_rec_mic_busy">Le micro est utilisé par une autre app.</string>
+    <string name="lite_rec_mic_denied">Drift Lite a besoin du micro pour identifier les titres.</string>
+    <string name="lite_rec_mic_blocked">Autorise le micro pour Drift Lite dans les paramètres.</string>
+    <string name="lite_rec_save_where">Enregistrer dans une playlist</string>
+    <string name="lite_rec_again">Identifier un autre titre</string>
+</resources>

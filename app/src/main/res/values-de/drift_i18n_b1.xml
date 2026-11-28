@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_error_detail">Fehler: %s</string>
+    <string name="drift_eq_output_speaker">Handylautsprecher</string>
+    <string name="drift_eq_output_wired">Kabelkopfhörer</string>
+    <string name="drift_eq_output_car">Auto</string>
+    <string name="drift_lib_title">Deine Bibliothek</string>
+    <string name="drift_lib_filter_liked">Lieblingssongs</string>
+    <string name="drift_lib_filter_downloaded">Heruntergeladen</string>
+    <string name="drift_lib_no_followed">Keine gefolgten Playlists</string>
+    <string name="drift_lib_followed_in_library">%1$d von %2$d in der Bibliothek</string>
+    <string name="drift_lib_followed_new">" · %d neu"</string>
+    <string name="drift_search_browse_all">Alles durchsuchen</string>
+    <string name="drift_search_hint">Was willst du hören?</string>
+    <string name="drift_search_nothing_in_library">Nichts in deiner Bibliothek für „%s“</string>
+    <string name="drift_search_not_in_library">Nicht in deiner Bibliothek</string>
+    <string name="drift_search_remote_hint">Von Deezer: Lade jetzt den Song oder mit Lidarr das ganze Album</string>
+    <string name="drift_search_albums_to_download">Alben zum Laden</string>
+    <string name="drift_search_album_requested">Album bei Lidarr angefragt</string>
+    <string name="drift_search_opt_track">Nur diesen Song</string>
+    <string name="drift_search_opt_track_sub">In etwa einer Minute von YouTube Music da, danach tausche ich ihn gegen FLAC/320 von Soulseek, falls ich was finde</string>
+    <string name="drift_search_opt_album">Ganzes Album · %s</string>
+    <string name="drift_search_opt_album_sub">Ich frage Lidarr: Es kommt vollständig und sauber getaggt, kann aber länger dauern</string>
+    <string name="drift_search_job_queued">In der Warteschlange…</string>
+    <string name="drift_search_job_searching">Suche läuft…</string>
+    <string name="drift_search_job_downloading">Wird geladen</string>
+    <string name="drift_search_job_upgrading">In der Bibliothek (%s) · suche FLAC/320</string>
+    <string name="drift_search_job_done">In der Bibliothek · %s</string>
+    <string name="drift_search_job_failed">Fehlgeschlagen</string>
+</resources>

@@ -64,7 +64,8 @@ object DriftSpotify {
     fun groupLabel(ctx: android.content.Context, key: String, fallback: String? = null): String = when (key) {
         G_RELEASES -> ctx.getString(com.eddyizm.tempus.R.string.drift_group_releases)
         G_FOR_YOU -> ctx.getString(com.eddyizm.tempus.R.string.drift_group_for_you)
-        G_MINE -> ctx.getString(com.eddyizm.tempus.R.string.drift_group_mine)
+        // Drift Lite: "Your playlists" are the ones made on the phone; this group holds the saved charts, playlists and albums
+        G_MINE -> ctx.getString(if (com.eddyizm.tempus.BuildConfig.LITE) com.eddyizm.tempus.R.string.lite_group_saved else com.eddyizm.tempus.R.string.drift_group_mine)
         G_CHARTS -> ctx.getString(com.eddyizm.tempus.R.string.drift_group_charts)
         G_ADDED -> ctx.getString(com.eddyizm.tempus.R.string.drift_group_added)
         G_GENRES -> ctx.getString(com.eddyizm.tempus.R.string.drift_group_genres)

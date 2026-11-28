@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.helper
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -160,8 +161,13 @@ class DevicesSheet : BottomSheetDialogFragment() {
 }
 
 private val Green get() = DriftAccent.compose
-private val Sub = Color(0xFFB3B3B3)
-private val RowBg = Color(0xFF2E2E34)
+private val Sub get() = if (DriftColors.dark) Color(0xFFB3B3B3) else DriftColors.textLo
+private val RowBg get() = if (DriftColors.dark) Color(0xFF2E2E34) else DriftColors.card
+private val SheetBg get() = if (DriftColors.dark) Color(0xFF242429) else DriftColors.surface
+private val Handle get() = if (DriftColors.dark) Color(0xFF5A5A60) else Color(0x33000000)
+private val ChipBg get() = if (DriftColors.dark) Color(0xFF3E3E44) else DriftColors.cardHi
+private val SliderTrack get() = if (DriftColors.dark) Color(0xFF4D4D4D) else Color(0x33000000)
+private val Hi get() = DriftColors.text
 
 @Composable
 private fun DevicesContent(onDone: () -> Unit) {
@@ -202,10 +208,10 @@ private fun DevicesContent(onDone: () -> Unit) {
         .sortedWith(compareBy({ it.isBluetooth }, { DriftDevices.name(ctx, it).lowercase() }))
 
     Column(
-        Modifier.fillMaxWidth().background(Color(0xFF242429)).navigationBarsPadding()
+        Modifier.fillMaxWidth().background(SheetBg).navigationBarsPadding()
             .verticalScroll(rememberScrollState()).padding(horizontal = 20.dp, vertical = 12.dp)
     ) {
-        Box(Modifier.align(Alignment.CenterHorizontally).size(36.dp, 4.dp).clip(CircleShape).background(Color(0xFF5A5A60)))
+        Box(Modifier.align(Alignment.CenterHorizontally).size(36.dp, 4.dp).clip(CircleShape).background(Handle))
         Spacer(Modifier.height(18.dp))
         Text(stringResource(R.string.drift_devices_current), color = Sub, fontSize = 13.sp)
         Spacer(Modifier.height(10.dp))
@@ -213,7 +219,7 @@ private fun DevicesContent(onDone: () -> Unit) {
 
         Spacer(Modifier.height(22.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.drift_devices_select), color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.drift_devices_select), color = Hi, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             CircularProgressIndicator(Modifier.size(16.dp), color = Sub, strokeWidth = 2.dp)
         }
         Spacer(Modifier.height(8.dp))
@@ -246,8 +252,8 @@ private fun CurrentDevice(r: MediaRouter.RouteInfo, router: MediaRouter, onDisco
                 Text(DriftDevices.kind(ctx, r), color = Sub, fontSize = 13.sp)
             }
             if (DriftDevices.isRemote(r)) {
-                Text(stringResource(R.string.drift_devices_disconnect), color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clip(CircleShape).background(Color(0xFF3E3E44)).clickable { onDisconnect() }
+                Text(stringResource(R.string.drift_devices_disconnect), color = Hi, fontSize = 14.sp, fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clip(CircleShape).background(ChipBg).clickable { onDisconnect() }
                         .padding(horizontal = 14.dp, vertical = 8.dp))
             }
         }
@@ -257,7 +263,7 @@ private fun CurrentDevice(r: MediaRouter.RouteInfo, router: MediaRouter, onDisco
             Slider(
                 value = v, valueRange = 0f..r.volumeMax.toFloat(),
                 onValueChange = { v = it; r.requestSetVolume(it.toInt()) },
-                colors = SliderDefaults.colors(thumbColor = Color.White, activeTrackColor = Green, inactiveTrackColor = Color(0xFF4D4D4D)),
+                colors = SliderDefaults.colors(thumbColor = if (DriftColors.dark) Color.White else Green, activeTrackColor = Green, inactiveTrackColor = SliderTrack),
             )
         }
     }
@@ -271,10 +277,10 @@ private fun DeviceRow(r: MediaRouter.RouteInfo, name: String, connecting: Boolea
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
     ) {
-        Icon(painterResource(DriftDevices.icon(r)), null, tint = Color.White, modifier = Modifier.size(28.dp))
+        Icon(painterResource(DriftDevices.icon(r)), null, tint = Hi, modifier = Modifier.size(28.dp))
         Spacer(Modifier.width(16.dp))
         Column(Modifier.weight(1f)) {
-            Text(name, color = Color.White, fontSize = 16.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(name, color = Hi, fontSize = 16.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(if (connecting) stringResource(R.string.drift_devices_connecting) else DriftDevices.kind(LocalContext.current, r), color = Sub, fontSize = 13.sp)
         }
         if (connecting) CircularProgressIndicator(Modifier.size(18.dp), color = Green, strokeWidth = 2.dp)

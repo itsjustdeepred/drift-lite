@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.lite
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.content.ComponentName
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -82,11 +83,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal val LBg = Color(0xFF0B0B0F)
+internal val LBg get() = DriftColors.bg
 internal val LAcc get() = com.eddyizm.tempus.helper.DriftAccent.compose
-internal val LHi = Color.White
-internal val LLo = Color(0xFFA7A7B3)
-internal val LCard = Color(0xFF1C1C22)
+internal val LHi get() = DriftColors.text
+internal val LLo get() = DriftColors.textLo
+internal val LCard get() = DriftColors.card
+/** "Liked" cover: the accent fading into deep violet, with a drawn heart on top. */
+internal val LikedBrush get() = androidx.compose.ui.graphics.Brush.linearGradient(listOf(Color(0xFF3B1E8F), LAcc))
 
 /** Drift Lite: base of the screens (player connection, opening playlists). */
 abstract class LiteFragment : Fragment() {
@@ -177,7 +180,7 @@ class LiteSearchFragment : LiteFragment() {
         LazyColumn(Modifier.fillMaxSize().background(LBg).imePadding(), contentPadding = PaddingValues(bottom = 180.dp)) {
             item {
                 Text(stringResource(R.string.lite_search), color = LHi, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.statusBarsPadding().padding(16.dp))
-                Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(RoundedCornerShape(10.dp)).background(LHi).padding(start = 16.dp, end = 4.dp),
+                Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(RoundedCornerShape(10.dp)).background(if (DriftColors.dark) Color.White else DriftColors.cardHi).padding(start = 16.dp, end = 4.dp),
                     verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.weight(1f).padding(vertical = 14.dp)) {
                         if (q.isEmpty()) Text(stringResource(R.string.lite_search_hint), color = Color(0xFF55555F), fontSize = 16.sp)
@@ -320,7 +323,7 @@ class LiteLibraryFragment : LiteFragment() {
 
 @Composable
 internal fun Section(title: String) {
-    Text(title, color = LHi, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 10.dp))
+    Text(title, color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 10.dp))
 }
 
 @Composable
@@ -347,8 +350,8 @@ internal fun ArtistCircle(name: String, picture: String?, selected: Boolean = fa
 @kotlin.OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 internal fun TrackRow(title: String, artist: String, cover: String?, duration: Int, offline: Boolean = false, onMenu: (() -> Unit)? = null,
-                      trailing: (@Composable () -> Unit)? = null, onClick: () -> Unit) {
-    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                      trailing: (@Composable () -> Unit)? = null, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Row(modifier.fillMaxWidth().background(LBg).clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(48.dp).clip(RoundedCornerShape(4.dp)).background(LCard)) {
             if (cover != null) GlideImage(cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
         }
@@ -380,7 +383,7 @@ fun LiteOnboarding(onLanguage: (String) -> Unit, onDone: () -> Unit) {
     val scope = rememberCoroutineScope()
 
     Column(Modifier.fillMaxSize().background(LBg).statusBarsPadding().navigationBarsPadding().imePadding().padding(20.dp)) {
-        Text(stringResource(R.string.lite_step, step + 1, 4), color = LAcc, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.lite_step, step + 1, 4), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 13.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(8.dp))
         when (step) {
             0 -> {
@@ -393,8 +396,8 @@ fun LiteOnboarding(onLanguage: (String) -> Unit, onDone: () -> Unit) {
                             go(1)
                             onLanguage(tag)
                         }.padding(vertical = 14.dp, horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Text(label.ifEmpty { stringResource(R.string.lite_phone_language) }, color = if (sel) LAcc else LHi, fontSize = 17.sp, fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal, modifier = Modifier.weight(1f))
-                            if (sel) Text("✓", color = LAcc, fontSize = 17.sp)
+                            Text(label.ifEmpty { stringResource(R.string.lite_phone_language) }, color = if (sel) com.eddyizm.tempus.helper.DriftAccent.composeText else LHi, fontSize = 17.sp, fontWeight = if (sel) FontWeight.Bold else FontWeight.Normal, modifier = Modifier.weight(1f))
+                            if (sel) Text("✓", color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 17.sp)
                         }
                     }
                 }
@@ -497,19 +500,24 @@ class LitePlaylistsFragment : LiteFragment() {
         // saved and downloaded albums and playlists, below your own
         var saved by remember { mutableStateOf<List<DriftSpotify.Followed>>(emptyList()) }
         LaunchedEffect(Unit) { saved = withContext(Dispatchers.IO) { LiteCatalog.followed() } }
-        var editing by remember { mutableStateOf(false) }
         var creating by remember { mutableStateOf(false) }
         var name by remember { mutableStateOf("") }
         val liked = remember { LiteTracks.liked() }
-        if (creating) NameDialog(stringResource(R.string.lite_new_playlist), name, { name = it }, stringResource(R.string.lite_create), { creating = false }) {
+        if (creating) NameDialog(stringResource(R.string.lite_new_playlist), name, { name = it }, stringResource(R.string.lite_create), { creating = false }, taken = { LitePlaylists.nameTaken(it) }) {
             val id = LitePlaylists.create(name); creating = false; name = ""; list = LitePlaylists.all(); openPlaylist(id)
         }
-        LazyColumn(Modifier.fillMaxSize().background(LBg), contentPadding = PaddingValues(bottom = 180.dp)) {
+        // long-press a playlist and drag it to reorder
+        val listState = androidx.compose.foundation.lazy.rememberLazyListState()
+        val reorder = rememberReorderState(listState,
+            canMove = { k -> list.any { it.id == k } },
+            onMove = { a, b ->
+                val from = list.indexOfFirst { it.id == a }; val to = list.indexOfFirst { it.id == b }
+                if (from >= 0 && to >= 0) { LitePlaylists.movePlaylist(from, to); list = LitePlaylists.all() }
+            })
+        LazyColumn(Modifier.fillMaxSize().background(LBg), state = listState, contentPadding = PaddingValues(bottom = 180.dp)) {
             item {
                 Row(Modifier.statusBarsPadding().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                     Text(stringResource(R.string.lite_playlists), color = LHi, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.weight(1f))
-                    if (list.size > 1) Text(stringResource(if (editing) R.string.lite_done else R.string.lite_reorder), color = if (editing) LAcc else LLo, fontSize = 15.sp, fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.clip(RoundedCornerShape(50)).clickable { editing = !editing }.padding(10.dp))
                     Box(Modifier.clip(RoundedCornerShape(50)).background(LAcc).clickable { creating = true }.padding(horizontal = 14.dp, vertical = 8.dp)) {
                         Text(stringResource(R.string.lite_new), color = Color.Black, fontSize = 14.sp, fontWeight = FontWeight.Bold)
                     }
@@ -522,18 +530,15 @@ class LitePlaylistsFragment : LiteFragment() {
                 }
             }
             if (list.isEmpty()) item { Hint(stringResource(R.string.lite_no_playlists)) }
-            itemsIndexed(list, key = { _, p -> p.id }) { i, p ->
+            items(list, key = { p -> p.id }) { p ->
                 val cover = p.tracks.firstNotNullOfOrNull { LiteTracks.get(it)?.cover }
-                PlaylistRow(p.name, pluralStringResource(R.plurals.lite_tracks, p.tracks.size, p.tracks.size), cover, trailing = if (!editing) null else ({
-                    Arrows(i > 0, i < list.lastIndex,
-                        up = { LitePlaylists.movePlaylist(i, i - 1); list = LitePlaylists.all() },
-                        down = { LitePlaylists.movePlaylist(i, i + 1); list = LitePlaylists.all() })
-                })) { if (!editing) openPlaylist(p.id) }
+                PlaylistRow(p.name, pluralStringResource(R.plurals.lite_tracks, p.tracks.size, p.tracks.size), cover,
+                    modifier = Modifier.reorderable(reorder, p.id)) { openPlaylist(p.id) }
             }
             items(saved, key = { "s" + it.entry.id }) { f ->
                 val sub = if (f.entry.id.startsWith("dzalbum:")) stringResource(R.string.lite_album) + " · " + pluralStringResource(R.plurals.lite_tracks, f.entry.count, f.entry.count)
                     else pluralStringResource(R.plurals.lite_tracks, f.entry.count, f.entry.count)
-                PlaylistRow(f.entry.name, sub, f.entry.cover) { if (!editing) open(f.entry.id, f.entry.name, f.entry.cover) }
+                PlaylistRow(f.entry.name, sub, f.entry.cover) { open(f.entry.id, f.entry.name, f.entry.cover) }
             }
         }
     }
@@ -541,12 +546,13 @@ class LitePlaylistsFragment : LiteFragment() {
 
 @kotlin.OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-internal fun PlaylistRow(name: String, sub: String, cover: String?, heart: Boolean = false, trailing: (@Composable () -> Unit)? = null, onClick: () -> Unit) {
-    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(60.dp).clip(RoundedCornerShape(6.dp)).background(if (heart) LAcc else LCard), contentAlignment = Alignment.Center) {
-            if (heart) Text("♥", color = Color.Black, fontSize = 26.sp)
+internal fun PlaylistRow(name: String, sub: String, cover: String?, heart: Boolean = false, trailing: (@Composable () -> Unit)? = null,
+                         modifier: Modifier = Modifier, onClick: () -> Unit) {
+    Row(modifier.fillMaxWidth().background(LBg).clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(60.dp).clip(RoundedCornerShape(6.dp)).then(if (heart) Modifier.background(LikedBrush) else Modifier.background(LCard)), contentAlignment = Alignment.Center) {
+            if (heart) androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(R.drawable.ds_heart), null, tint = Color.White, modifier = Modifier.size(28.dp))
             else if (cover != null) GlideImage(cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-            else Text("♪", color = LLo, fontSize = 24.sp)
+            else androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_playlist), null, tint = LLo, modifier = Modifier.size(28.dp))
         }
         Column(Modifier.weight(1f).padding(start = 12.dp)) {
             Text(name, color = LHi, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -559,9 +565,9 @@ internal fun PlaylistRow(name: String, sub: String, cover: String?, heart: Boole
 @Composable
 internal fun Arrows(canUp: Boolean, canDown: Boolean, up: () -> Unit, down: () -> Unit, remove: (() -> Unit)? = null) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text("↑", color = if (canUp) LHi else Color(0xFF3A3A44), fontSize = 22.sp, modifier = Modifier.clip(CircleShape).clickable(enabled = canUp, onClick = up).padding(10.dp))
-        Text("↓", color = if (canDown) LHi else Color(0xFF3A3A44), fontSize = 22.sp, modifier = Modifier.clip(CircleShape).clickable(enabled = canDown, onClick = down).padding(10.dp))
-        if (remove != null) Text("✕", color = Color(0xFFFF6B6B), fontSize = 18.sp, modifier = Modifier.clip(CircleShape).clickable(onClick = remove).padding(10.dp))
+        Text("↑", color = if (canUp) LHi else DriftColors.textDisabled, fontSize = 22.sp, modifier = Modifier.clip(CircleShape).clickable(enabled = canUp, onClick = up).padding(10.dp))
+        Text("↓", color = if (canDown) LHi else DriftColors.textDisabled, fontSize = 22.sp, modifier = Modifier.clip(CircleShape).clickable(enabled = canDown, onClick = down).padding(10.dp))
+        if (remove != null) Text("✕", color = DriftColors.error, fontSize = 18.sp, modifier = Modifier.clip(CircleShape).clickable(onClick = remove).padding(10.dp))
     }
 }
 
@@ -587,15 +593,24 @@ class LitePlaylistPageFragment : LiteFragment() {
         val scope = rememberCoroutineScope()
         fun reload() { if (isLiked) liked = LiteTracks.liked().map { it.id } else p = LitePlaylists.get(pid) }
 
-        if (renaming) NameDialog(stringResource(R.string.lite_rename), name, { name = it }, stringResource(R.string.lite_save), { renaming = false }) { LitePlaylists.rename(pid, name); renaming = false; reload() }
-        if (confirmDelete) androidx.compose.material3.AlertDialog(onDismissRequest = { confirmDelete = false }, containerColor = Color(0xFF17171C),
+        if (renaming) NameDialog(stringResource(R.string.lite_rename), name, { name = it }, stringResource(R.string.lite_save), { renaming = false }, taken = { LitePlaylists.nameTaken(it, pid) }) { LitePlaylists.rename(pid, name); renaming = false; reload() }
+        if (confirmDelete) androidx.compose.material3.AlertDialog(onDismissRequest = { confirmDelete = false }, containerColor = DriftColors.surface,
             title = { Text(stringResource(R.string.lite_delete_confirm, title), color = LHi) }, text = { Text("", color = LLo) },
             confirmButton = { androidx.compose.material3.TextButton(onClick = { LitePlaylists.delete(pid); confirmDelete = false
-                NavHostFragment.findNavController(this).navigateUp() }) { Text(stringResource(R.string.lite_delete), color = Color(0xFFFF6B6B)) } },
+                NavHostFragment.findNavController(this).navigateUp() }) { Text(stringResource(R.string.lite_delete), color = DriftColors.error) } },
             dismissButton = { androidx.compose.material3.TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.lite_cancel), color = LLo) } })
 
         val missing = ids.count { !LiteTracks.isDownloaded(it) }
-        LazyColumn(Modifier.fillMaxSize().background(LBg), contentPadding = PaddingValues(bottom = 180.dp)) {
+        // your playlists: long-press a song and drag it to reorder
+        val listState = androidx.compose.foundation.lazy.rememberLazyListState()
+        val reorder = rememberReorderState(listState,
+            canMove = { k -> !isLiked && k is String && k in (p?.tracks ?: emptyList()) },
+            onMove = { a, b ->
+                val t = p?.tracks ?: return@rememberReorderState
+                val from = t.indexOf(a); val to = t.indexOf(b)
+                if (from >= 0 && to >= 0) { LitePlaylists.moveTrack(pid, from, to); reload() }
+            })
+        LazyColumn(Modifier.fillMaxSize().background(LBg), state = listState, contentPadding = PaddingValues(bottom = 180.dp)) {
             item {
                 Column(Modifier.statusBarsPadding().padding(16.dp)) {
                     Text("←", color = LHi, fontSize = 26.sp, modifier = Modifier.clip(CircleShape).clickable { NavHostFragment.findNavController(this@LitePlaylistPageFragment).navigateUp() }.padding(8.dp))
@@ -615,7 +630,7 @@ class LitePlaylistPageFragment : LiteFragment() {
                 }
             }
             if (ids.isEmpty()) item { Hint(stringResource(R.string.lite_no_tracks)) }
-            itemsIndexed(ids, key = { i, id -> "$i$id" }) { i, id ->
+            itemsIndexed(ids, key = { _, id -> id }) { i, id ->
                 val t = LiteTracks.get(id) ?: return@itemsIndexed
                 var menu by remember { mutableStateOf(false) }
                 val removeLabel = stringResource(R.string.lite_remove_from_playlist)
@@ -624,11 +639,9 @@ class LitePlaylistPageFragment : LiteFragment() {
                 TrackRow(t.title, t.artist, t.cover, t.duration, offline = LiteTracks.isDownloaded(id),
                     onMenu = if (editing) null else ({ menu = true }),
                     trailing = if (!editing) null else ({
-                        Arrows(i > 0, i < ids.lastIndex,
-                            up = { LitePlaylists.moveTrack(pid, i, i - 1); reload() },
-                            down = { LitePlaylists.moveTrack(pid, i, i + 1); reload() },
-                            remove = { LitePlaylists.removeAt(pid, i); reload() })
-                    })) { if (!editing) play(ids, i) }
+                        Text("✕", color = LLo, fontSize = 20.sp, modifier = Modifier.clip(CircleShape).clickable { LitePlaylists.removeAt(pid, i); reload() }.padding(12.dp))
+                    }),
+                    modifier = if (isLiked) Modifier else Modifier.reorderable(reorder, id)) { if (!editing) play(ids, i) }
             }
         }
     }
@@ -643,9 +656,10 @@ private fun FlowRowButtons(content: @Composable () -> Unit) {
 @Composable
 internal fun Pill(text: String, filled: Boolean = false, enabled: Boolean = true, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
-    Box(Modifier.clip(shape).then(if (filled) Modifier.background(if (enabled) LAcc else Color(0xFF2A2A33)) else Modifier.border(1.dp, if (enabled) LAcc else LLo, shape))
+    val accentText = com.eddyizm.tempus.helper.DriftAccent.composeText
+    Box(Modifier.clip(shape).then(if (filled) Modifier.background(if (enabled) LAcc else DriftColors.cardHi) else Modifier.border(1.dp, if (enabled) accentText else LLo, shape))
         .clickable(enabled = enabled, onClick = onClick).padding(horizontal = 16.dp, vertical = 10.dp)) {
-        Text(text, color = if (filled) (if (enabled) Color.Black else LHi) else (if (enabled) LAcc else LLo), fontSize = 13.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+        Text(text, color = if (filled) (if (enabled) Color(com.eddyizm.tempus.helper.DriftAccent.onAccent()) else LHi) else (if (enabled) accentText else LLo), fontSize = 13.sp, fontWeight = FontWeight.Bold, maxLines = 1)
     }
 }
 
@@ -675,9 +689,9 @@ class LiteOfflineFragment : LiteFragment() {
                 item {
                     Row(Modifier.fillMaxWidth().padding(end = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                         Box(Modifier.weight(1f)) { Section(if (pending.isNotEmpty()) stringResource(R.string.lite_in_progress, pending.size) else stringResource(R.string.lite_failed_count, failed.size)) }
-                        if (pending.isNotEmpty()) Text(stringResource(R.string.lite_cancel_all), color = Color(0xFFFF6B6B), fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
+                        if (pending.isNotEmpty()) Text(stringResource(R.string.lite_cancel_all), color = DriftColors.error, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.clip(RoundedCornerShape(50)).clickable { LiteDownloads.cancelAll() }.padding(10.dp))
-                        if (failed.isNotEmpty()) Text(stringResource(R.string.lite_retry), color = LAcc, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
+                        if (failed.isNotEmpty()) Text(stringResource(R.string.lite_retry), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.clip(RoundedCornerShape(50)).clickable { LiteDownloads.retryFailed() }.padding(10.dp))
                         if (pending.isEmpty()) Text(stringResource(R.string.lite_clear), color = LLo, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.clip(RoundedCornerShape(50)).clickable { LiteDownloads.clearFinished() }.padding(10.dp))
@@ -710,8 +724,8 @@ private fun DownloadRow(q: LiteDownloads.Item) {
                 LiteDownloads.S.QUEUED -> stringResource(R.string.lite_state_queued) to LLo
                 LiteDownloads.S.SEARCHING -> stringResource(R.string.lite_state_searching) to LAcc
                 LiteDownloads.S.DOWNLOADING -> (if (q.progress > 0) stringResource(R.string.lite_state_downloading_pct, q.progress.toInt()) else stringResource(R.string.lite_state_downloading)) to LAcc
-                LiteDownloads.S.NOT_FOUND -> stringResource(R.string.lite_state_not_found) to Color(0xFFFF6B6B)
-                LiteDownloads.S.FAILED -> stringResource(R.string.lite_state_failed) to Color(0xFFFF6B6B)
+                LiteDownloads.S.NOT_FOUND -> stringResource(R.string.lite_state_not_found) to DriftColors.error
+                LiteDownloads.S.FAILED -> stringResource(R.string.lite_state_failed) to DriftColors.error
                 LiteDownloads.S.CANCELLED -> stringResource(R.string.lite_state_cancelled) to LLo
                 LiteDownloads.S.DONE -> stringResource(R.string.lite_state_saved) to LAcc
             }
@@ -719,8 +733,8 @@ private fun DownloadRow(q: LiteDownloads.Item) {
             if (q.pending) {
                 val mod = Modifier.padding(top = 5.dp).fillMaxWidth().height(3.dp).clip(RoundedCornerShape(2.dp))
                 if (q.state == LiteDownloads.S.DOWNLOADING && q.progress > 0)
-                    androidx.compose.material3.LinearProgressIndicator(progress = { q.progress / 100f }, color = LAcc, trackColor = Color(0xFF2A2A33), gapSize = 0.dp, drawStopIndicator = {}, modifier = mod)
-                else androidx.compose.material3.LinearProgressIndicator(color = LLo, trackColor = Color(0xFF2A2A33), gapSize = 0.dp, modifier = mod)
+                    androidx.compose.material3.LinearProgressIndicator(progress = { q.progress / 100f }, color = LAcc, trackColor = DriftColors.cardHi, gapSize = 0.dp, drawStopIndicator = {}, modifier = mod)
+                else androidx.compose.material3.LinearProgressIndicator(color = LLo, trackColor = DriftColors.cardHi, gapSize = 0.dp, modifier = mod)
             }
         }
         if (q.pending) Text("✕", color = LLo, fontSize = 18.sp, modifier = Modifier.clip(CircleShape).clickable { LiteDownloads.cancel(q.id) }.padding(12.dp))
@@ -756,7 +770,7 @@ private fun DiscoverGrid(list: List<LiteCatalog.ArtistHit>, back: () -> Unit, op
             val on = a.id in followed
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 ArtistCircle(a.name, a.picture, on) { open(a) }
-                Text(if (on) "✓ " + stringResource(R.string.lite_follow) else stringResource(R.string.lite_follow), color = if (on) LAcc else LLo, fontSize = 13.sp, fontWeight = FontWeight.Bold,
+                Text(if (on) "✓ " + stringResource(R.string.lite_follow) else stringResource(R.string.lite_follow), color = if (on) com.eddyizm.tempus.helper.DriftAccent.composeText else LLo, fontSize = 13.sp, fontWeight = FontWeight.Bold,
                     modifier = Modifier.clip(RoundedCornerShape(50)).clickable {
                         if (on) followed.remove(a.id) else followed.add(a.id)
                         scope.launch(Dispatchers.IO) { if (!on) LiteCatalog.followArtist(a) else LiteCatalog.unfollow("dzartist:${a.id}") }

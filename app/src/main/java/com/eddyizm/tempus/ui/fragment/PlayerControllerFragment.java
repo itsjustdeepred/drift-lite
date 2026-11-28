@@ -82,6 +82,13 @@ import java.util.Objects;
 
 @UnstableApi
 public class PlayerControllerFragment extends Fragment {
+    // Drift: the player keeps its dark look also when the app is in the light theme
+    @androidx.annotation.NonNull
+    @Override
+    public android.view.LayoutInflater onGetLayoutInflater(@androidx.annotation.Nullable android.os.Bundle savedInstanceState) {
+        return com.eddyizm.tempus.ui.components.DriftColors.playerInflater(super.onGetLayoutInflater(savedInstanceState));
+    }
+
     private static final String TAG = "PlayerCoverFragment";
 
     private InnerFragmentPlayerControllerBinding bind;

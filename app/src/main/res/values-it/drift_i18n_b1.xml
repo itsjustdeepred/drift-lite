@@ -5,7 +5,7 @@
     <string name="drift_eq_output_wired">Cuffie con filo</string>
     <string name="drift_eq_output_car">Auto</string>
     <string name="drift_lib_title">La tua libreria</string>
-    <string name="drift_lib_filter_liked">♥ Mi piace</string>
+    <string name="drift_lib_filter_liked">Mi piace</string>
     <string name="drift_lib_filter_downloaded">Scaricati</string>
     <string name="drift_lib_no_followed">Nessuna playlist seguita</string>
     <string name="drift_lib_followed_in_library">%1$d di %2$d in libreria</string>

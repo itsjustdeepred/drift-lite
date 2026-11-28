@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift: settings section titles (the settings home also uses them to open the right section) -->
+<resources>
+    <string name="ds_account">Cuenta</string>
+    <string name="ds_playback">Reproducción</string>
+    <string name="ds_quality">Calidad de audio</string>
+    <string name="ds_sound">Sonido y ecualizador</string>
+    <string name="ds_devices">Altavoces y otros dispositivos</string>
+    <string name="ds_library">Biblioteca y playlists</string>
+    <string name="ds_offline">Descargas y sin conexión</string>
+    <string name="ds_look">Apariencia</string>
+    <string name="ds_privacy">Privacidad y compartir</string>
+    <string name="ds_advanced">Avanzado</string>
+    <string name="ds_about">Información</string>
+    <string name="ds_servers">Servidor, usuario y contraseña</string>
+    <string name="ds_servers_summary">Edita el servidor en uso o añade otros</string>
+    <string name="ds_switch">Cambiar de servidor o cerrar sesión</string>
+    <string name="ds_switch_summary">Vuelve a la lista de servidores para entrar con otro</string>
+    <string name="ds_lan_open">Controlar otro móvil</string>
+    <string name="ds_undertow">Undertow: descargas, mixes y letras</string>
+    <string name="ds_undertow_url">Dirección</string>
+    <string name="ds_undertow_test">Probar la conexión</string>
+    <string name="ds_undertow_panel">Abrir el panel de Undertow</string>
+    <string name="ds_undertow_panel_summary">Fuentes de descarga, letras, listas, mixes: todo se configura ahí</string>
+</resources>

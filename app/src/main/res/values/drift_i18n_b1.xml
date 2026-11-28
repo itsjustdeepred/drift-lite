@@ -5,7 +5,7 @@
     <string name="drift_eq_output_wired">Wired headphones</string>
     <string name="drift_eq_output_car">Car</string>
     <string name="drift_lib_title">Your library</string>
-    <string name="drift_lib_filter_liked">♥ Liked</string>
+    <string name="drift_lib_filter_liked">Liked</string>
     <string name="drift_lib_filter_downloaded">Downloaded</string>
     <string name="drift_lib_no_followed">No followed playlists</string>
     <string name="drift_lib_followed_in_library">%1$d of %2$d in library</string>

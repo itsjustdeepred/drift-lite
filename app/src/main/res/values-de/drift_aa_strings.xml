@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift: Android Auto auf Deutsch, Tabs wie bei Spotify (Für dich / Zuletzt / Playlists / Mehr) -->
+<resources>
+    <string name="aa_albums">Alben</string>
+    <string name="aa_downloaded">Downloads</string>
+    <string name="aa_album_most_played">Meistgehört</string>
+    <string name="aa_album_recently_added">Neu hinzugefügt</string>
+    <string name="aa_artists">Künstler</string>
+    <string name="aa_home">Home</string>
+    <string name="aa_made_for_you">Für dich</string>
+    <string name="aa_more">Mehr</string>
+    <string name="aa_music_folder">Ordner</string>
+    <string name="aa_playlists">Playlists</string>
+    <string name="aa_podcast">Podcasts</string>
+    <string name="aa_radio">Radio</string>
+    <string name="aa_random">Zufall</string>
+    <string name="aa_genres">Genres</string>
+    <string name="aa_recent_albums">Zuletzt</string>
+    <string name="aa_song_recently_played">Zuletzt gehört</string>
+    <string name="aa_starred">Favoriten</string>
+    <string name="aa_starred_albums">★ Alben</string>
+    <string name="aa_starred_artists">★ Künstler</string>
+    <string name="aa_starred_tracks">★ Songs</string>
+    <string name="aa_instant_mix">Song-Radio</string>
+    <string name="aa_view_by_albums">Nach Alben</string>
+    <string name="aa_tracks">Songs</string>
+    <string name="aa_quick_mix">Drift Radio</string>
+    <string name="aa_my_mix">Dein Mix</string>
+    <string name="aa_discovery_mix">Entdeckungen</string>
+</resources>

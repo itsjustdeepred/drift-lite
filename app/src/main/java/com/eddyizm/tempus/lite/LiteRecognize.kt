@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.lite
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.Manifest
 import android.app.Activity
 import android.content.ComponentName
@@ -177,7 +178,7 @@ private fun RecognizeScreen(onClose: () -> Unit) {
             AnimatedContent(state, transitionSpec = { fadeIn(tween(250)) togetherWith fadeOut(tween(150)) },
                 contentKey = { it::class }, label = "rec", modifier = Modifier.fillMaxSize()) { s ->
                 when (s) {
-                    RState.Listening -> Listening(level, elapsed > 6_000)
+                    RState.Listening -> RecognizeListening(level, elapsed > 6_000)
                     is RState.Found -> Found(s.song, s.id, onPlay = { playNow(ctx, s.id); onClose() }, onAgain = { attempt++ })
                     RState.NotFound -> Message(R.string.lite_rec_not_found, R.string.lite_rec_not_found_sub) { attempt++ }
                     is RState.Error -> Message(R.string.lite_rec_error, s.message) { attempt++ }
@@ -200,20 +201,25 @@ private fun register(s: LiteRecognizer.Song): String {
     else LiteTracks.register(s.title, s.artist, 0, s.cover)
 }
 
-private fun playNow(ctx: Context, id: String) {
-    val c = LiteTracks.child(id) ?: return
+private fun playNow(ctx: Context, id: String) = litePlay(ctx, listOf(id), 0)
+
+/** Starts a queue of Lite songs from any screen (its own short-lived connection to the player). */
+fun litePlay(ctx: Context, ids: List<String>, index: Int) {
+    val songs = ids.mapNotNull { LiteTracks.child(it) }
+    if (songs.isEmpty()) return
     val f = MediaBrowser.Builder(ctx, SessionToken(ctx, ComponentName(ctx, MediaService::class.java))).buildAsync()
     f.addListener({
         if (runCatching { f.get() }.isSuccess) {
-            MediaManager.startQueue(f, listOf(c), 0)
+            MediaManager.startQueue(f, songs, index.coerceIn(0, songs.lastIndex))
             (ctx.activity() as? MainActivity)?.setBottomSheetInPeek(true)
         }
         Handler(Looper.getMainLooper()).postDelayed({ MediaBrowser.releaseFuture(f) }, 5_000)
     }, ContextCompat.getMainExecutor(ctx))
 }
 
+/** The listening screen, shared with the full app. */
 @Composable
-private fun Listening(level: Float, searching: Boolean) {
+internal fun RecognizeListening(level: Float, searching: Boolean) {
     val t = rememberInfiniteTransition(label = "waves")
     val wave by t.animateFloat(0f, 1f, infiniteRepeatable(tween(2200, easing = LinearEasing), RepeatMode.Restart), label = "w")
     val lvl by animateFloatAsState(level, tween(90), label = "lvl")
@@ -275,9 +281,10 @@ private fun Found(s: LiteRecognizer.Song, id: String, onPlay: () -> Unit, onAgai
     var name by remember { mutableStateOf("") }
     fun toast(text: String) = Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
 
-    if (creating) NameDialog(stringResource(R.string.lite_new_playlist), name, { name = it }, confirm = stringResource(R.string.lite_create), onDismiss = { creating = false }) {
+    if (creating) NameDialog(stringResource(R.string.lite_new_playlist), name, { name = it }, confirm = stringResource(R.string.lite_create), onDismiss = { creating = false },
+        taken = { LitePlaylists.nameTaken(it) }) {
         val pid = LitePlaylists.create(name, listOf(id))
-        toast(ctx.getString(R.string.lite_playlist_created, name.trim().ifEmpty { ctx.getString(R.string.lite_default_playlist_name) }))
+        toast(ctx.getString(R.string.lite_playlist_created, LitePlaylists.get(pid)?.name ?: name))
         playlists = LitePlaylists.all(); added.add(pid); creating = false; name = ""
     }
 
@@ -296,13 +303,14 @@ private fun Found(s: LiteRecognizer.Song, id: String, onPlay: () -> Unit, onAgai
                 Box(Modifier.clip(RoundedCornerShape(50)).background(LAcc).clickable(onClick = onPlay).padding(horizontal = 34.dp, vertical = 13.dp)) {
                     Text(stringResource(R.string.lite_play_button), color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
-                Box(Modifier.size(48.dp).clip(CircleShape).border(1.dp, Color(0x55FFFFFF), CircleShape).clickable {
+                Box(Modifier.size(48.dp).clip(CircleShape).border(1.dp, DriftColors.stroke, CircleShape).clickable {
                     liked = !liked
                     LiteTracks.setLiked(id, liked)
                     com.eddyizm.tempus.util.FavoriteRegistry.set(com.eddyizm.tempus.util.FavoriteRegistry.Kind.SONG, id, liked)
                     toast(ctx.getString(if (liked) R.string.lite_liked_done else R.string.lite_unliked))
                 }, contentAlignment = Alignment.Center) {
-                    Text(if (liked) "♥" else "♡", color = if (liked) LAcc else LHi, fontSize = 22.sp)
+                    androidx.compose.material3.Icon(painterResource(if (liked) R.drawable.ds_heart else R.drawable.ic_favorites_outlined), null,
+                        tint = if (liked) LAcc else LHi, modifier = Modifier.size(24.dp))
                 }
             }
             Spacer(Modifier.height(30.dp))
@@ -329,12 +337,12 @@ private fun Found(s: LiteRecognizer.Song, id: String, onPlay: () -> Unit, onAgai
                     Text(p.name, color = LHi, fontSize = 16.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text(pluralStringResource(R.plurals.lite_tracks, p.tracks.size, p.tracks.size), color = LLo, fontSize = 13.sp)
                 }
-                if (isIn) Text("✓", color = LAcc, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(end = 6.dp))
+                if (isIn) Text("✓", color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(end = 6.dp))
             }
         }
         item {
             Spacer(Modifier.height(26.dp))
-            Box(Modifier.clip(RoundedCornerShape(50)).border(1.dp, Color(0x55FFFFFF), RoundedCornerShape(50)).clickable(onClick = onAgain)
+            Box(Modifier.clip(RoundedCornerShape(50)).border(1.dp, DriftColors.stroke, RoundedCornerShape(50)).clickable(onClick = onAgain)
                 .padding(horizontal = 26.dp, vertical = 11.dp)) {
                 Text(stringResource(R.string.lite_rec_again), color = LHi, fontSize = 15.sp, fontWeight = FontWeight.Bold)
             }

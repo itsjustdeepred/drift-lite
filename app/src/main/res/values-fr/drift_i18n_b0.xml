@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Jellyfin/Emby login -->
+    <string name="drift_jf_auth_bad_address">Adresse du serveur invalide</string>
+    <string name="drift_jf_auth_wrong_credentials">Nom d\'utilisateur ou mot de passe incorrect</string>
+    <string name="drift_jf_auth_http_error">Le serveur a répondu HTTP %1$d</string>
+    <string name="drift_jf_auth_bad_response">Réponse invalide : est-ce bien un serveur Jellyfin/Emby ?</string>
+    <string name="drift_jf_auth_no_token">Réponse sans jeton : est-ce bien un serveur Jellyfin/Emby ?</string>
+
+    <!-- Remote album (Deezer) -->
+    <string name="drift_remote_in_library">Dans ta bibliothèque</string>
+    <string name="drift_remote_not_in_library">Pas dans ta bibliothèque</string>
+    <string name="drift_remote_album_requested">Album demandé à Lidarr : il arrivera dans ta bibliothèque une fois téléchargé</string>
+    <string name="drift_remote_requested">Demandé</string>
+    <string name="drift_remote_download_album">Télécharger l\'album</string>
+    <string name="drift_remote_download">Télécharger</string>
+    <string name="drift_remote_track_requested">%1$s : dans ta bibliothèque d\'ici une minute environ</string>
+
+    <!-- Missing releases -->
+    <string name="drift_missing_title">Sorties que tu n\'as pas</string>
+    <string name="drift_missing_subtitle">Les 45 derniers jours, des artistes que tu écoutes</string>
+</resources>

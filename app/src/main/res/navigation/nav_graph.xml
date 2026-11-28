@@ -278,6 +278,11 @@
         android:name="com.eddyizm.tempus.ui.fragment.PlaylistPageFragment"
         android:label="PlaylistPageFragment"
         tools:layout="@layout/fragment_playlist_page" />
+    <!-- Drift Lite: recommendations from the user's Last.fm account -->
+    <fragment
+        android:id="@+id/liteForYouFragment"
+        android:name="com.eddyizm.tempus.lite.LiteForYouFragment"
+        android:label="LiteForYouFragment" />
     <fragment
         android:id="@+id/playlistEditorFragment"
         android:name="com.eddyizm.tempus.ui.fragment.PlaylistEditorFragment"

@@ -2,8 +2,6 @@
 <resources>
     <string name="album_page_tracks_count_and_duration">%1$d pistas  •  %2$d minutos</string>
     <string name="app_name">Drift</string>
-    <string name="aa_starred_tracks">★ Pistas</string>
-    <string name="aa_discovery_mix">Mix de descubrimiento</string>
     <string name="activity_battery_optimizations_conclusion">Si tienes problemas, visita https://dontkillmyapp.com. Ofrece instrucciones detalladas para desactivar características de ahorro de energía que podrían afectar al rendimiento de la app.</string>
     <string name="activity_battery_optimizations_summary">Por favor, desactiva las optimizaciones de batería para continuar la reproducción multimedia mientras la pantalla está apagada.</string>
     <string name="activity_battery_optimizations_title">Optimizaciones de batería</string>
@@ -604,24 +602,6 @@
     <string name="settings_ping_timeout_title">Tiempo de espera de ping al servidor</string>
     <string name="playback_speed_dialog_title">Velocidad de reproducción</string>
     <string name="settings_title_ui_landscape_items_per_row">Elementos por fila en modo horizontal</string>
-    <string name="aa_albums">Álbumes</string>
-    <string name="aa_album_most_played">Álbumes más reproducidos</string>
-    <string name="aa_album_recently_added">Álbumes añadidos</string>
-    <string name="aa_artists">Artistas</string>
-    <string name="aa_home">Inicio</string>
-    <string name="aa_made_for_you">Para ti</string>
-    <string name="aa_more">Más</string>
-    <string name="aa_music_folder">Carpeta</string>
-    <string name="aa_playlists">Listas de reproducción</string>
-    <string name="aa_podcast">Pódcasts</string>
-    <string name="aa_radio">Radio</string>
-    <string name="aa_random">Aleatorio</string>
-    <string name="aa_genres">Géneros</string>
-    <string name="aa_recent_albums">Reciente</string>
-    <string name="aa_song_recently_played">Última canción reproducida</string>
-    <string name="aa_starred">Favoritos</string>
-    <string name="aa_starred_albums">★ Álbumes</string>
-    <string name="aa_starred_artists">★ Artistas</string>
     <string name="playlist_chooser_dialog_toast_remove_success">Canción eliminada de la lista</string>
     <string name="settings_androidauto">Android Auto</string>
     <string name="settings_androidauto_album_view">Vista de cuadrícula para álbumes</string>
@@ -639,11 +619,6 @@
     <string name="search_all_songs">todas las %1$s canciones</string>
     <string name="search_all_songs_play">Reproducir %1$s</string>
     <string name="nav_drawer_index">Índice</string>
-    <string name="aa_instant_mix">Mix instantáneo</string>
-    <string name="aa_view_by_albums">Ver por álbumes</string>
-    <string name="aa_tracks">Pistas</string>
-    <string name="aa_quick_mix">Mix rápido</string>
-    <string name="aa_my_mix">Mi mix</string>
     <string name="artist_page_title_ep_section">EPs</string>
     <string name="artist_page_title_single_section">Singles</string>
     <string name="artist_page_title_compilation_section">Recopilaciones</string>

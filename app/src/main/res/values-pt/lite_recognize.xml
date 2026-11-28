@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_rec_button">Reconhecer música</string>
+    <string name="lite_rec_listening">Ouvindo</string>
+    <string name="lite_rec_listening_sub">Confira se o celular consegue ouvir bem a música</string>
+    <string name="lite_rec_searching">Procurando a música</string>
+    <string name="lite_rec_searching_sub">Só um instante</string>
+    <string name="lite_rec_not_found">Nenhum resultado</string>
+    <string name="lite_rec_not_found_sub">Não foi possível reconhecer. Chegue mais perto da música e tente de novo.</string>
+    <string name="lite_rec_error">Algo deu errado</string>
+    <string name="lite_rec_no_network">Sem conexão. Verifique a internet e tente de novo.</string>
+    <string name="lite_rec_busy">O reconhecimento está ocupado agora. Tente de novo em um minuto.</string>
+    <string name="lite_rec_mic_busy">O microfone está sendo usado por outro app.</string>
+    <string name="lite_rec_mic_denied">O Drift Lite precisa do microfone para reconhecer músicas.</string>
+    <string name="lite_rec_mic_blocked">Permita o microfone para o Drift Lite nas configurações.</string>
+    <string name="lite_rec_save_where">Salvar em uma playlist</string>
+    <string name="lite_rec_again">Reconhecer outra</string>
+</resources>

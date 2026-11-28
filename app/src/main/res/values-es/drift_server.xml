@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_server_type_label">Tipo de servidor</string>
+    <string name="drift_server_pass_keep">Contraseña (vacía = mantener la sesión)</string>
+    <string name="drift_server_authenticating">Iniciando sesión en el servidor…</string>
+    <string name="drift_server_auth_failed">No se ha podido iniciar sesión: %1$s</string>
+</resources>

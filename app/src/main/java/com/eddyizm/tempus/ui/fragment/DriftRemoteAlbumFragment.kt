@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.ui.fragment
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -67,10 +68,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val RBg = Color(0xFF0B0B0F)
+private val RBg get() = DriftColors.bg
 private val RAcc get() = com.eddyizm.tempus.helper.DriftAccent.compose
-private val RHi = Color.White
-private val RLo = Color(0xFFA7A7B3)
+private val RHi get() = DriftColors.text
+private val RLo get() = DriftColors.textLo
 
 /**
  * Drift: page of an album you don't own (from Deezer): cover, tracks, "Download album" (Lidarr)
@@ -186,7 +187,7 @@ private fun RemoteAlbumScreen(id: Long, title0: String?, artist0: String?, cover
                 Box(Modifier.matchParentSize().background(Brush.verticalGradient(listOf(Color.Transparent, RBg))))
                 Column(Modifier.statusBarsPadding().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("←", color = RHi, fontSize = 26.sp, modifier = Modifier.align(Alignment.Start).clip(CircleShape).clickable(onClick = back).padding(8.dp))
-                    Box(Modifier.size(230.dp).clip(RoundedCornerShape(6.dp)).background(Color(0xFF1C1C22))) {
+                    Box(Modifier.size(230.dp).clip(RoundedCornerShape(6.dp)).background(DriftColors.card)) {
                         if (cover != null) GlideImage(cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     }
                     Spacer(Modifier.height(18.dp))
@@ -204,7 +205,7 @@ private fun RemoteAlbumScreen(id: Long, title0: String?, artist0: String?, cover
                             if (aj?.active == true) com.eddyizm.tempus.ui.components.DriftDownloadBar(aj.progress, Modifier.padding(end = 12.dp))
                         }
                         Box(
-                            Modifier.clip(RoundedCornerShape(50)).background(if (albumAsked) Color(0xFF2A2A33) else RAcc)
+                            Modifier.clip(RoundedCornerShape(50)).background(if (albumAsked) DriftColors.cardHi else RAcc)
                                 .clickable(enabled = !albumAsked) {
                                     albumAsked = true
                                     scope.launch {
@@ -294,7 +295,7 @@ private fun MissingScreen(open: (DriftMixes.MissingRelease) -> Unit, back: () ->
         ) {
             items(list.orEmpty()) { r ->
                 Column(Modifier.clickable { open(r) }) {
-                    Box(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(8.dp)).background(Color(0xFF1C1C22))) {
+                    Box(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(8.dp)).background(DriftColors.card)) {
                         if (r.cover != null) GlideImage(r.cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     }
                     Text(r.title, color = RHi, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 6.dp))

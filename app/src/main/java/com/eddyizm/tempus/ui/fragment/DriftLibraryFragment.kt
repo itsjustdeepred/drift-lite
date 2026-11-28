@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.ui.fragment
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -134,12 +135,12 @@ private object LibraryOrder {
 
 private enum class LibFilter(@StringRes val label: Int) { LIKED(R.string.drift_lib_filter_liked), PLAYLIST(R.string.lite_playlists), FOLLOWED(R.string.drift_group_followed), ALBUM(R.string.lite_albums), ARTIST(R.string.lite_artists), OFFLINE(R.string.drift_lib_filter_downloaded) }
 
-private val LBg = Color(0xFF0B0B0F)
+private val LBg get() = DriftColors.bg
 private val LAccent get() = com.eddyizm.tempus.helper.DriftAccent.compose
-private val LHi = Color.White
-private val LLo = Color(0xFFA7A7B3)
-private val LGlass = Color(0x14FFFFFF)
-private val LBorder = Color(0x1FFFFFFF)
+private val LHi get() = DriftColors.text
+private val LLo get() = DriftColors.textLo
+private val LGlass get() = DriftColors.glass
+private val LBorder get() = DriftColors.border
 
 private fun loadPlaylists(): List<Playlist> =
     App.getSubsonicClientInstance(false).playlistClient.playlists.execute().body()?.subsonicResponse?.playlists?.playlists.orEmpty()
@@ -220,7 +221,14 @@ private fun LibraryScreen(
                     Modifier.clip(RoundedCornerShape(50)).background(if (sel) LAccent else LGlass)
                         .border(1.dp, if (sel) Color.Transparent else LBorder, RoundedCornerShape(50))
                         .clickable { filter = f }.padding(horizontal = 16.dp, vertical = 8.dp),
-                ) { Text(stringResource(f.label), color = if (sel) Color.Black else LHi, fontSize = 14.sp, fontWeight = FontWeight.Medium) }
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        // Liked: a drawn heart, not the emoji
+                        if (f == LibFilter.LIKED) androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(R.drawable.ds_heart), null,
+                            tint = if (sel) Color.Black else Color(0xFFFF4D6D), modifier = Modifier.padding(end = 6.dp).size(16.dp))
+                        Text(stringResource(f.label), color = if (sel) Color.Black else LHi, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                    }
+                }
             }
         }
 
@@ -247,7 +255,8 @@ private fun LibraryScreen(
                 items(list.orEmpty()) { f ->
                     Row(Modifier.fillMaxWidth().clickable { openFollowed(f.entry) }.padding(horizontal = 16.dp, vertical = 7.dp),
                         verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.size(64.dp).clip(RoundedCornerShape(4.dp)).background(Color(0xFF1C1C22))) {
+                        Box(Modifier.size(64.dp).clip(RoundedCornerShape(4.dp)).background(DriftColors.card)) {
+                            androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(com.eddyizm.tempus.R.drawable.ic_playlist), null, tint = DriftColors.textLo, modifier = Modifier.align(Alignment.Center).size(28.dp))
                             f.entry.cover?.let { GlideImage(it, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
                         }
                         Column(Modifier.weight(1f).padding(start = 12.dp)) {
@@ -339,7 +348,7 @@ private fun ReorderablePlaylists(
                         scaleX = if (dragging) 1.03f else 1f
                         scaleY = if (dragging) 1.03f else 1f
                     }
-                    .then(if (dragging) Modifier.shadow(16.dp, RoundedCornerShape(8.dp)).background(Color(0xFF22222A), RoundedCornerShape(8.dp)) else Modifier),
+                    .then(if (dragging) Modifier.shadow(16.dp, RoundedCornerShape(8.dp)).background(DriftColors.raised, RoundedCornerShape(8.dp)) else Modifier),
             ) {
                 PlaylistRow(p, p.id in pinned, onClick = { onOpen(p) }, onMenu = { onTogglePin(p) })
             }
@@ -354,7 +363,8 @@ private fun PlaylistRow(p: Playlist, isPinned: Boolean, onClick: () -> Unit, onM
         Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(Modifier.size(64.dp).clip(RoundedCornerShape(4.dp)).background(Color(0xFF1C1C22))) {
+        Box(Modifier.size(64.dp).clip(RoundedCornerShape(4.dp)).background(DriftColors.card)) {
+            androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(com.eddyizm.tempus.R.drawable.ic_playlist), null, tint = DriftColors.textLo, modifier = Modifier.align(Alignment.Center).size(28.dp))
             p.coverArtId?.let {
                 GlideImage(CustomGlideRequest.createUrl(it, 300), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
             }
@@ -383,7 +393,9 @@ private fun Row2(cover: String?, title: String, sub: String, round: Boolean, onC
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val shape = if (round) CircleShape else RoundedCornerShape(4.dp)
-        Box(Modifier.size(64.dp).clip(shape).background(Color(0xFF1C1C22))) {
+        Box(Modifier.size(64.dp).clip(shape).background(DriftColors.card)) {
+            androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(if (round) com.eddyizm.tempus.R.drawable.ds_person else com.eddyizm.tempus.R.drawable.ds_album), null,
+                tint = DriftColors.textLo, modifier = Modifier.align(Alignment.Center).size(28.dp))
             cover?.let { GlideImage(CustomGlideRequest.createUrl(it, 300), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
         }
         Column(Modifier.weight(1f).padding(start = 12.dp)) {

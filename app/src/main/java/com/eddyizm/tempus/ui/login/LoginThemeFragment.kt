@@ -58,6 +58,10 @@ class LoginThemeFragment : Fragment() {
     }
 
     private fun init() {
+        // Drift: the accent is chosen in Appearance → Accent color; Tempus' wallpaper colors and swatches would fight with it
+        binding.defaultDynamicSwitch.visibility = View.GONE
+        binding.chooseAccentColorContainer.visibility = View.GONE
+        if (Preferences.isDynamicColorAccent()) Preferences.setDynamicColorAccent(false)
         initTrueBlackSwitch()
         initDynamicColorsSwitch()
         setupThemeSelector()

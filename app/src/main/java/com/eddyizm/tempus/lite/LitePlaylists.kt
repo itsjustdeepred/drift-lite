@@ -32,9 +32,23 @@ object LitePlaylists {
     @Synchronized fun all(): List<P> = list().toList()
     @Synchronized fun get(id: String): P? = list().firstOrNull { it.id == id }
 
+    /** True when another playlist already has this name (case and spaces ignored). */
+    @Synchronized
+    fun nameTaken(name: String, exceptId: String? = null): Boolean {
+        val n = name.trim()
+        return n.isNotEmpty() && list().any { it.id != exceptId && it.name.trim().equals(n, ignoreCase = true) }
+    }
+
+    /** "My Playlist", then "My Playlist 2", "My Playlist 3"... */
+    @Synchronized
+    fun defaultName(): String {
+        val base = App.getContext().getString(com.eddyizm.tempus.R.string.lite_default_playlist_name)
+        return generateSequence(1) { it + 1 }.map { if (it == 1) base else "$base $it" }.first { !nameTaken(it) }
+    }
+
     @Synchronized
     fun create(name: String, tracks: List<String> = emptyList()): String {
-        val p = P(UUID.randomUUID().toString().take(12), name.trim().ifEmpty { App.getContext().getString(com.eddyizm.tempus.R.string.lite_default_playlist_name) }, tracks.distinct())
+        val p = P(UUID.randomUUID().toString().take(12), name.trim().ifEmpty { defaultName() }, tracks.distinct())
         list().add(0, p); save()
         return p.id
     }

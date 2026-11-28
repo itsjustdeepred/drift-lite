@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_update_title">Drift Lite %s ist verfügbar</string>
+    <string name="lite_update_no_notes">Eine neue Version ist bereit.</string>
+    <string name="lite_update_install">Updaten</string>
+    <string name="lite_update_later">Später</string>
+    <string name="lite_update_skip">Version überspringen</string>
+    <string name="lite_update_downloading">Drift Lite %s wird geladen</string>
+    <string name="lite_update_check">Nach Updates suchen</string>
+    <string name="lite_update_latest">Du hast die neueste Version</string>
+    <string name="lite_update_failed">Suche nach Updates fehlgeschlagen. Versuch es später noch mal.</string>
+    <string name="lite_update_allow">Erlaube Drift Lite, Apps zu installieren, und komm dann zurück: Das Update geht weiter.</string>
+</resources>

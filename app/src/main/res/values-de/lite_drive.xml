@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_drive_backup_title">In Google Drive sichern</string>
+    <string name="lite_drive_backup_summary">Einstellungen, Playlists und Lieblingssongs. Zum Wiederherstellen tippe auf „Backup wiederherstellen“ und wähl die Datei aus Drive.</string>
+</resources>

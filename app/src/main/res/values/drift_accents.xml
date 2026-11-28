@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift: one theme overlay per accent color, applied at activity start (generated, see DriftAccent.kt) -->
+<resources>
+    <style name="DriftAccent.Green" parent="">
+        <item name="colorPrimary">#FF117A37</item>
+        <item name="colorSecondary">#FF117A37</item>
+        <item name="colorAccent">#FF117A37</item>
+        <item name="android:colorAccent">#FF117A37</item>
+        <item name="colorControlActivated">#FF117A37</item>
+        <item name="colorPrimaryContainer">#FFC0F6D3</item>
+        <item name="colorSecondaryContainer">#FFC0F6D3</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF0C5928</item>
+        <item name="colorOnSecondaryContainer">#FF0C5928</item>
+    </style>
+    <style name="DriftAccent.Mint" parent="">
+        <item name="colorPrimary">#FF338074</item>
+        <item name="colorSecondary">#FF338074</item>
+        <item name="colorAccent">#FF338074</item>
+        <item name="android:colorAccent">#FF338074</item>
+        <item name="colorControlActivated">#FF338074</item>
+        <item name="colorPrimaryContainer">#FFD1F9F2</item>
+        <item name="colorSecondaryContainer">#FFD1F9F2</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF255D54</item>
+        <item name="colorOnSecondaryContainer">#FF255D54</item>
+    </style>
+    <style name="DriftAccent.Teal" parent="">
+        <item name="colorPrimary">#FF187469</item>
+        <item name="colorSecondary">#FF187469</item>
+        <item name="colorAccent">#FF187469</item>
+        <item name="android:colorAccent">#FF187469</item>
+        <item name="colorControlActivated">#FF187469</item>
+        <item name="colorPrimaryContainer">#FFC4F2ED</item>
+        <item name="colorSecondaryContainer">#FFC4F2ED</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF12544C</item>
+        <item name="colorOnSecondaryContainer">#FF12544C</item>
+    </style>
+    <style name="DriftAccent.Cyan" parent="">
+        <item name="colorPrimary">#FF127482</item>
+        <item name="colorSecondary">#FF127482</item>
+        <item name="colorAccent">#FF127482</item>
+        <item name="android:colorAccent">#FF127482</item>
+        <item name="colorControlActivated">#FF127482</item>
+        <item name="colorPrimaryContainer">#FFC1F2FA</item>
+        <item name="colorSecondaryContainer">#FFC1F2FA</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF0D545F</item>
+        <item name="colorOnSecondaryContainer">#FF0D545F</item>
+    </style>
+    <style name="DriftAccent.Sky" parent="">
+        <item name="colorPrimary">#FF446B8C</item>
+        <item name="colorSecondary">#FF446B8C</item>
+        <item name="colorAccent">#FF446B8C</item>
+        <item name="android:colorAccent">#FF446B8C</item>
+        <item name="colorControlActivated">#FF446B8C</item>
+        <item name="colorPrimaryContainer">#FFDAEEFF</item>
+        <item name="colorSecondaryContainer">#FFDAEEFF</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF314E66</item>
+        <item name="colorOnSecondaryContainer">#FF314E66</item>
+    </style>
+    <style name="DriftAccent.Blue" parent="">
+        <item name="colorPrimary">#FF3D8BFF</item>
+        <item name="colorSecondary">#FF3D8BFF</item>
+        <item name="colorAccent">#FF3D8BFF</item>
+        <item name="android:colorAccent">#FF3D8BFF</item>
+        <item name="colorControlActivated">#FF3D8BFF</item>
+        <item name="colorPrimaryContainer">#FFC8DEFF</item>
+        <item name="colorSecondaryContainer">#FFC8DEFF</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF183766</item>
+        <item name="colorOnSecondaryContainer">#FF183766</item>
+    </style>
+    <style name="DriftAccent.Indigo" parent="">
+        <item name="colorPrimary">#FF7C7CFF</item>
+        <item name="colorSecondary">#FF7C7CFF</item>
+        <item name="colorAccent">#FF7C7CFF</item>
+        <item name="android:colorAccent">#FF7C7CFF</item>
+        <item name="colorControlActivated">#FF7C7CFF</item>
+        <item name="colorPrimaryContainer">#FFDADAFF</item>
+        <item name="colorSecondaryContainer">#FFDADAFF</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF313166</item>
+        <item name="colorOnSecondaryContainer">#FF313166</item>
+    </style>
+    <style name="DriftAccent.Purple" parent="">
+        <item name="colorPrimary">#FFA970FF</item>
+        <item name="colorSecondary">#FFA970FF</item>
+        <item name="colorAccent">#FFA970FF</item>
+        <item name="android:colorAccent">#FFA970FF</item>
+        <item name="colorControlActivated">#FFA970FF</item>
+        <item name="colorPrimaryContainer">#FFE6D6FF</item>
+        <item name="colorSecondaryContainer">#FFE6D6FF</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF432C66</item>
+        <item name="colorOnSecondaryContainer">#FF432C66</item>
+    </style>
+    <style name="DriftAccent.Lilac" parent="">
+        <item name="colorPrimary">#FF76638B</item>
+        <item name="colorSecondary">#FF76638B</item>
+        <item name="colorAccent">#FF76638B</item>
+        <item name="android:colorAccent">#FF76638B</item>
+        <item name="colorControlActivated">#FF76638B</item>
+        <item name="colorPrimaryContainer">#FFF4EAFE</item>
+        <item name="colorSecondaryContainer">#FFF4EAFE</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF564865</item>
+        <item name="colorOnSecondaryContainer">#FF564865</item>
+    </style>
+    <style name="DriftAccent.Magenta" parent="">
+        <item name="colorPrimary">#FFE040FB</item>
+        <item name="colorSecondary">#FFE040FB</item>
+        <item name="colorAccent">#FFE040FB</item>
+        <item name="android:colorAccent">#FFE040FB</item>
+        <item name="colorControlActivated">#FFE040FB</item>
+        <item name="colorPrimaryContainer">#FFF6C9FD</item>
+        <item name="colorSecondaryContainer">#FFF6C9FD</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF591964</item>
+        <item name="colorOnSecondaryContainer">#FF591964</item>
+    </style>
+    <style name="DriftAccent.Pink" parent="">
+        <item name="colorPrimary">#FFFF5FA2</item>
+        <item name="colorSecondary">#FFFF5FA2</item>
+        <item name="colorAccent">#FFFF5FA2</item>
+        <item name="android:colorAccent">#FFFF5FA2</item>
+        <item name="colorControlActivated">#FFFF5FA2</item>
+        <item name="colorPrimaryContainer">#FFFFD2E4</item>
+        <item name="colorSecondaryContainer">#FFFFD2E4</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF662640</item>
+        <item name="colorOnSecondaryContainer">#FF662640</item>
+    </style>
+    <style name="DriftAccent.Red" parent="">
+        <item name="colorPrimary">#FFFF4D5E</item>
+        <item name="colorSecondary">#FFFF4D5E</item>
+        <item name="colorAccent">#FFFF4D5E</item>
+        <item name="android:colorAccent">#FFFF4D5E</item>
+        <item name="colorControlActivated">#FFFF4D5E</item>
+        <item name="colorPrimaryContainer">#FFFFCDD1</item>
+        <item name="colorSecondaryContainer">#FFFFCDD1</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF661E25</item>
+        <item name="colorOnSecondaryContainer">#FF661E25</item>
+    </style>
+    <style name="DriftAccent.Coral" parent="">
+        <item name="colorPrimary">#FF8C4538</item>
+        <item name="colorSecondary">#FF8C4538</item>
+        <item name="colorAccent">#FF8C4538</item>
+        <item name="android:colorAccent">#FF8C4538</item>
+        <item name="colorControlActivated">#FF8C4538</item>
+        <item name="colorPrimaryContainer">#FFFFDBD4</item>
+        <item name="colorSecondaryContainer">#FFFFDBD4</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF663228</item>
+        <item name="colorOnSecondaryContainer">#FF663228</item>
+    </style>
+    <style name="DriftAccent.Orange" parent="">
+        <item name="colorPrimary">#FF8C570F</item>
+        <item name="colorSecondary">#FF8C570F</item>
+        <item name="colorAccent">#FF8C570F</item>
+        <item name="android:colorAccent">#FF8C570F</item>
+        <item name="colorControlActivated">#FF8C570F</item>
+        <item name="colorPrimaryContainer">#FFFFE4BF</item>
+        <item name="colorSecondaryContainer">#FFFFE4BF</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF663F0B</item>
+        <item name="colorOnSecondaryContainer">#FF663F0B</item>
+    </style>
+    <style name="DriftAccent.Gold" parent="">
+        <item name="colorPrimary">#FF866B2C</item>
+        <item name="colorSecondary">#FF866B2C</item>
+        <item name="colorAccent">#FF866B2C</item>
+        <item name="android:colorAccent">#FF866B2C</item>
+        <item name="colorControlActivated">#FF866B2C</item>
+        <item name="colorPrimaryContainer">#FFFCEECE</item>
+        <item name="colorSecondaryContainer">#FFFCEECE</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF624E20</item>
+        <item name="colorOnSecondaryContainer">#FF624E20</item>
+    </style>
+    <style name="DriftAccent.Yellow" parent="">
+        <item name="colorPrimary">#FF8C7B2A</item>
+        <item name="colorSecondary">#FF8C7B2A</item>
+        <item name="colorAccent">#FF8C7B2A</item>
+        <item name="android:colorAccent">#FF8C7B2A</item>
+        <item name="colorControlActivated">#FF8C7B2A</item>
+        <item name="colorPrimaryContainer">#FFFFF6CD</item>
+        <item name="colorSecondaryContainer">#FFFFF6CD</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF665A1E</item>
+        <item name="colorOnSecondaryContainer">#FF665A1E</item>
+    </style>
+    <style name="DriftAccent.Lime" parent="">
+        <item name="colorPrimary">#FF658528</item>
+        <item name="colorSecondary">#FF658528</item>
+        <item name="colorAccent">#FF658528</item>
+        <item name="android:colorAccent">#FF658528</item>
+        <item name="colorControlActivated">#FF658528</item>
+        <item name="colorPrimaryContainer">#FFEBFBCC</item>
+        <item name="colorSecondaryContainer">#FFEBFBCC</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF49611D</item>
+        <item name="colorOnSecondaryContainer">#FF49611D</item>
+    </style>
+    <style name="DriftAccent.White" parent="">
+        <item name="colorPrimary">#FF858585</item>
+        <item name="colorSecondary">#FF858585</item>
+        <item name="colorAccent">#FF858585</item>
+        <item name="android:colorAccent">#FF858585</item>
+        <item name="colorControlActivated">#FF858585</item>
+        <item name="colorPrimaryContainer">#FFFBFBFB</item>
+        <item name="colorSecondaryContainer">#FFFBFBFB</item>
+        <item name="colorOnPrimary">#FFFFFFFF</item>
+        <item name="colorOnSecondary">#FFFFFFFF</item>
+        <item name="colorOnPrimaryContainer">#FF606060</item>
+        <item name="colorOnSecondaryContainer">#FF606060</item>
+    </style>
+</resources>

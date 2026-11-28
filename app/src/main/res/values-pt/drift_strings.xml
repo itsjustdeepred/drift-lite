@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_menu_search">Buscar</string>
+    <string name="drift_menu_library">Biblioteca</string>
+    <string name="drift_menu_mix">Mix</string>
+    <string name="drift_menu_offline">Offline</string>
+    <string name="drift_devices">Dispositivos</string>
+    <string name="drift_devices_title">Tocar em</string>
+    <string name="drift_devices_bt">Bluetooth e saídas de áudio do celular</string>
+    <!-- Drift: per-output equalizer -->
+    <string name="eq_per_device_title">Equalizador por dispositivo</string>
+    <string name="eq_per_device_summary">Carro, cada fone ou caixa de som Bluetooth, os fones com fio e o alto-falante: cada um lembra o próprio equalizador</string>
+    <string name="eq_profile_label">Perfil: %1$s</string>
+    <string name="eq_profile_separate">Perfil separado para esta saída</string>
+    <string name="eq_profile_separate_on">As alterações valem só para esta saída</string>
+    <string name="eq_profile_separate_off">Usar o perfil padrão, compartilhado com as outras saídas</string>
+    <string name="eq_profile_remote_note">Tocando em %1$s: o equalizador do celular não se aplica aqui</string>
+    <string name="eq_profile_autoeq">AutoEq: %1$s</string>
+    <string name="eq_profile_autoeq_none">AutoEq: nenhum perfil</string>
+    <string name="eq_profile_autoeq_clear">Remover</string>
+    <string name="eq_profiles_saved">Perfis salvos</string>
+    <string name="eq_profile_delete">Excluir perfil</string>
+    <string name="eq_profile_current_suffix">%1$s (em uso)</string>
+</resources>

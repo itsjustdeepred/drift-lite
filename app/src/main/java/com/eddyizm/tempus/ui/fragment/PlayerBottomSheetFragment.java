@@ -49,6 +49,13 @@ import java.util.stream.IntStream;
 
 @OptIn(markerClass = UnstableApi.class)
 public class PlayerBottomSheetFragment extends Fragment {
+    // Drift: the player keeps its dark look also when the app is in the light theme
+    @androidx.annotation.NonNull
+    @Override
+    public android.view.LayoutInflater onGetLayoutInflater(@androidx.annotation.Nullable android.os.Bundle savedInstanceState) {
+        return com.eddyizm.tempus.ui.components.DriftColors.playerInflater(super.onGetLayoutInflater(savedInstanceState));
+    }
+
     private boolean remoteVisible = false;
     private final android.content.SharedPreferences.OnSharedPreferenceChangeListener lanSwitchListener = (prefs, key) -> {
         if (Preferences.LAN_REMOTE_ENABLED.equals(key)) renderRemote(com.eddyizm.tempus.lan.LanRemoteSession.current());

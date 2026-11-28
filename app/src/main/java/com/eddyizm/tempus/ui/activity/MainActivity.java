@@ -53,6 +53,7 @@ import com.eddyizm.tempus.subsonic.models.SubsonicResponse;
 import com.eddyizm.tempus.ui.activity.base.BaseActivity;
 import com.eddyizm.tempus.navigation.BottomSheetController;
 import com.eddyizm.tempus.navigation.BottomSheetHelper;
+import com.eddyizm.tempus.ui.components.DriftColors;
 import com.eddyizm.tempus.ui.dialog.ConnectionAlertDialog;
 import com.eddyizm.tempus.ui.dialog.GithubTempoUpdateDialog;
 import com.eddyizm.tempus.ui.dialog.ServerUnreachableDialog;
@@ -150,6 +151,7 @@ public class MainActivity extends BaseActivity {
         setUpEdgeToEdge(this);
         fixUpEdgeToEdge();
         super.onCreate(savedInstanceState);
+        DriftColors.setFrom(this);
 
         bind = ActivityMainBinding.inflate(getLayoutInflater());
         View view = bind.getRoot();
@@ -301,6 +303,12 @@ public class MainActivity extends BaseActivity {
     // Drift: "Mix" opens "Made for you" (mixes only); Home in the center with a bigger icon
     private void driftCenterHome() {
         com.google.android.material.bottomnavigation.BottomNavigationView nav = bind.bottomNavigation;
+        // Drift: the selected tab takes the accent color picked in Appearance
+        android.content.res.ColorStateList tabs = new android.content.res.ColorStateList(
+                new int[][]{{android.R.attr.state_checked}, {}},
+                new int[]{com.eddyizm.tempus.helper.DriftAccent.textColor(), androidx.core.content.ContextCompat.getColor(this, R.color.drift_text_lo)});
+        nav.setItemIconTintList(tabs);
+        nav.setItemTextColor(tabs);
         // Drift Lite: no mixes (Undertow generates them with AudioMuse): your playlists instead, Home stays in the center
         if (com.eddyizm.tempus.BuildConfig.LITE) {
             android.view.MenuItem mix = nav.getMenu().findItem(R.id.drift_mix_tab);
@@ -588,10 +596,40 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    // Drift: screen to reopen after a theme change recreates the activity (previous + current destination with their arguments)
+    private static int[] recreateDestinations = null;
+    private static Bundle[] recreateArgs = null;
+
+    public void rememberScreenForRecreate() {
+        if (navController == null) return;
+        androidx.navigation.NavBackStackEntry cur = navController.getCurrentBackStackEntry();
+        androidx.navigation.NavBackStackEntry prev = navController.getPreviousBackStackEntry();
+        if (cur == null || cur.getDestination().getId() == R.id.homeFragment) return;
+        if (prev != null && prev.getDestination().getId() != R.id.homeFragment && prev.getDestination() instanceof androidx.navigation.fragment.FragmentNavigator.Destination) {
+            recreateDestinations = new int[]{prev.getDestination().getId(), cur.getDestination().getId()};
+            recreateArgs = new Bundle[]{prev.getArguments(), cur.getArguments()};
+        } else {
+            recreateDestinations = new int[]{cur.getDestination().getId()};
+            recreateArgs = new Bundle[]{cur.getArguments()};
+        }
+    }
+
+    private void reopenRememberedScreen() {
+        int[] ids = recreateDestinations;
+        Bundle[] args = recreateArgs;
+        recreateDestinations = null;
+        recreateArgs = null;
+        if (ids == null || navController == null) return;
+        for (int i = 0; i < ids.length; i++) {
+            try { navController.navigate(ids[i], args[i]); } catch (RuntimeException e) { break; }
+        }
+    }
+
     public void goFromLogin() {
         setBottomSheetInPeek(mainViewModel.isQueueLoaded());
         if (!com.eddyizm.tempus.BuildConfig.LITE) new PlaylistRepository().syncKeptPlaylists(getApplicationContext());
         goToHome();
+        if (recreateDestinations != null) bind.getRoot().post(this::reopenRememberedScreen);
         consumePendingAssetLink();
         consumePendingNowPlayingIntent();
     }

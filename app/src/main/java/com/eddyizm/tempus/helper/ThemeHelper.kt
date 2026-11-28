@@ -108,6 +108,8 @@ object ThemeHelper {
         val colorAccent = getColorAccent()
 
         when {
+            // Drift: the accent picked in Appearance wins over Tempus' dynamic / hex accent
+            DriftAccent.color != DriftAccent.DEFAULT -> Unit
             isDynamicColorAccent() -> {
                     applyToActivityIfAvailable(activity)
             }
@@ -123,7 +125,7 @@ object ThemeHelper {
             else -> Unit
         }
         // Drift: user-chosen accent, when the system dynamic colors are not used
-        if (!isDynamicColorAccent() && !colorAccent.startsWith("HEX:")) DriftAccent.apply(activity)
+        if (DriftAccent.color != DriftAccent.DEFAULT || (!isDynamicColorAccent() && !colorAccent.startsWith("HEX:"))) DriftAccent.apply(activity)
 
         if (isAmoled) {
             @Suppress("DEPRECATION") val amoledOverlayAttrs = mutableListOf(
@@ -174,6 +176,6 @@ object ThemeHelper {
     @JvmStatic
     fun themeSignature(): String {
         val accent = if (isDynamicColorAccent()) "DYNAMIC" else getColorAccent()
-        return "${getTheme()}|${isDarkThemeBlack()}|$accent"
+        return "${getTheme()}|${isDarkThemeBlack()}|$accent|${DriftAccent.color}"
     }
 }

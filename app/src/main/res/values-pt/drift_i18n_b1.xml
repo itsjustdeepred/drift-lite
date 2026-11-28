@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_error_detail">Erro: %s</string>
+    <string name="drift_eq_output_speaker">Alto-falante do celular</string>
+    <string name="drift_eq_output_wired">Fones com fio</string>
+    <string name="drift_eq_output_car">Carro</string>
+    <string name="drift_lib_title">Sua biblioteca</string>
+    <string name="drift_lib_filter_liked">Curtidas</string>
+    <string name="drift_lib_filter_downloaded">Baixadas</string>
+    <string name="drift_lib_no_followed">Nenhuma playlist seguida</string>
+    <string name="drift_lib_followed_in_library">%1$d de %2$d na biblioteca</string>
+    <string name="drift_lib_followed_new">" · %d novas"</string>
+    <string name="drift_search_browse_all">Explorar tudo</string>
+    <string name="drift_search_hint">O que você quer ouvir?</string>
+    <string name="drift_search_nothing_in_library">Nada na sua biblioteca para \"%s\"</string>
+    <string name="drift_search_not_in_library">Fora da sua biblioteca</string>
+    <string name="drift_search_remote_hint">Do Deezer: baixe a música agora, ou o álbum inteiro com o Lidarr</string>
+    <string name="drift_search_albums_to_download">Álbuns para baixar</string>
+    <string name="drift_search_album_requested">Álbum pedido ao Lidarr</string>
+    <string name="drift_search_opt_track">Só esta música</string>
+    <string name="drift_search_opt_track_sub">Pronta em cerca de um minuto pelo YouTube Music; depois troco pelo FLAC/320 do Soulseek, se eu encontrar</string>
+    <string name="drift_search_opt_album">Álbum inteiro · %s</string>
+    <string name="drift_search_opt_album_sub">Peço ao Lidarr: chega completo e com as tags certas, mas pode demorar mais</string>
+    <string name="drift_search_job_queued">Na fila…</string>
+    <string name="drift_search_job_searching">Procurando…</string>
+    <string name="drift_search_job_downloading">Baixando</string>
+    <string name="drift_search_job_upgrading">Na biblioteca (%s) · procurando FLAC/320</string>
+    <string name="drift_search_job_done">Na biblioteca · %s</string>
+    <string name="drift_search_job_failed">Falhou</string>
+</resources>

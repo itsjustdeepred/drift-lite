@@ -79,4 +79,14 @@
     <string name="drift_home_show_all">Mostra tutto ›</string>
     <string name="drift_home_mix_similar">%1$s e altri simili</string>
     <string name="drift_home_requested">Richiesto</string>
+    <string name="drift_accent_mint">Menta</string>
+    <string name="drift_accent_cyan">Ciano</string>
+    <string name="drift_accent_sky">Cielo</string>
+    <string name="drift_accent_indigo">Indaco</string>
+    <string name="drift_accent_lilac">Lilla</string>
+    <string name="drift_accent_magenta">Magenta</string>
+    <string name="drift_accent_coral">Corallo</string>
+    <string name="drift_accent_gold">Oro</string>
+    <string name="drift_accent_lime">Lime</string>
+    <string name="drift_accent_custom_name">Personalizzato</string>
 </resources>

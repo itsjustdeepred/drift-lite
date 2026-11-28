@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.ui.fragment
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -112,10 +114,10 @@ private val liteGroups = listOf(
 
 private const val LITE_ETH = "0x601987B3ACfe5F48a8a8e4958d4949a43d007464"
 
-private val SBgS = Color(0xFF0B0B0F)
-private val SCardS = Color(0xFF17171D)
-private val SHiS = Color.White
-private val SLoS = Color(0xFFA7A7B3)
+private val SBgS get() = DriftColors.bg
+private val SCardS get() = DriftColors.surface
+private val SHiS get() = DriftColors.text
+private val SLoS get() = DriftColors.textLo
 private val SAccS get() = com.eddyizm.tempus.helper.DriftAccent.compose
 
 @Composable
@@ -160,14 +162,35 @@ private fun SettingsHome(open: (Int) -> Unit) {
             }
         }
         if (lite) item {
-            // genres and artists picked at first launch
-            Row(
-                Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp))
-                    .background(SCardS).clickable { com.eddyizm.tempus.lite.LiteApp.onboarded = false; (it_activity())?.recreate() }.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(stringResource(R.string.lite_genres_and_artists), color = SHiS, fontSize = 16.sp, modifier = Modifier.weight(1f))
-                Image(painterResource(R.drawable.ds_chevron), null, colorFilter = ColorFilter.tint(SLoS), modifier = Modifier.size(20.dp))
+            // "Your music": taste picked at first launch, Home sections, Last.fm, as one card like the groups below
+            var sectionsOpen by remember { mutableStateOf(false) }
+            if (sectionsOpen) com.eddyizm.tempus.lite.LiteHomeSectionsDialog { sectionsOpen = false }
+            val fm by com.eddyizm.tempus.lite.LiteLastFm.account.collectAsState()
+            val view = androidx.compose.ui.platform.LocalView.current
+            val rows = buildList<Triple<Int, Pair<String, String>, () -> Unit>> {
+                add(Triple(R.drawable.ds_note, stringResource(R.string.lite_genres_and_artists) to stringResource(R.string.lite_genres_and_artists_sub)) {
+                    com.eddyizm.tempus.lite.LiteApp.onboarded = false; (it_activity())?.recreate(); Unit
+                })
+                add(Triple(R.drawable.ds_grid, stringResource(R.string.lite_home_sections) to stringResource(R.string.lite_home_sections_sub)) { sectionsOpen = true })
+                if (com.eddyizm.tempus.lite.LiteLastFm.available) add(Triple(R.drawable.ds_radio,
+                    "Last.fm" to (if (fm != null) stringResource(R.string.lite_fy_connected_as, fm!!) else stringResource(R.string.lite_lastfm_sub))) {
+                    runCatching { androidx.navigation.Navigation.findNavController(view).navigate(R.id.liteForYouFragment) }; Unit
+                })
+            }
+            Text(stringResource(R.string.lite_your_music), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 14.sp, fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 20.dp, top = 14.dp, bottom = 8.dp))
+            Column(Modifier.padding(horizontal = 16.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(SCardS)) {
+                rows.forEachIndexed { i, (icon, texts, action) ->
+                    if (i > 0) Box(Modifier.padding(start = 58.dp).fillMaxWidth().height(1.dp).background(DriftColors.divider))
+                    Row(Modifier.fillMaxWidth().clickable(onClick = action).padding(horizontal = 16.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Image(painterResource(icon), null, colorFilter = ColorFilter.tint(SHiS), modifier = Modifier.size(24.dp))
+                        Column(Modifier.padding(start = 18.dp).weight(1f)) {
+                            Text(texts.first, color = SHiS, fontSize = 16.sp)
+                            Text(texts.second, color = SLoS, fontSize = 12.5.sp, modifier = Modifier.padding(top = 2.dp))
+                        }
+                        Image(painterResource(R.drawable.ds_chevron), null, colorFilter = ColorFilter.tint(SLoS), modifier = Modifier.size(20.dp))
+                    }
+                }
             }
         }
         if (!lite) item {
@@ -182,13 +205,13 @@ private fun SettingsHome(open: (Int) -> Unit) {
         }
         (if (lite) liteGroups else groups).forEach { g ->
             item {
-                Text(stringResource(g.labelRes), color = SAccS, fontSize = 14.sp, fontWeight = FontWeight.Bold,
+                Text(stringResource(g.labelRes), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 14.sp, fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 20.dp, top = 14.dp, bottom = 8.dp))
             }
             item {
                 Column(Modifier.padding(horizontal = 16.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(SCardS)) {
                     g.cats.forEachIndexed { i, c ->
-                        if (i > 0) Box(Modifier.padding(start = 58.dp).fillMaxWidth().height(1.dp).background(Color(0x14FFFFFF)))
+                        if (i > 0) Box(Modifier.padding(start = 58.dp).fillMaxWidth().height(1.dp).background(DriftColors.divider))
                         Row(
                             Modifier.fillMaxWidth().clickable { open(c.titleRes) }.padding(horizontal = 16.dp, vertical = 14.dp),
                             verticalAlignment = Alignment.CenterVertically,
@@ -205,7 +228,7 @@ private fun SettingsHome(open: (Int) -> Unit) {
             }
         }
         if (lite) item {
-            Text(stringResource(R.string.lite_info), color = SAccS, fontSize = 14.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 20.dp, top = 14.dp, bottom = 8.dp))
+            Text(stringResource(R.string.lite_info), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 14.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 20.dp, top = 14.dp, bottom = 8.dp))
             Column(Modifier.padding(horizontal = 16.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(SCardS).padding(16.dp)) {
                 Text("Drift Lite " + BuildConfig.VERSION_NAME, color = SHiS, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))
@@ -223,7 +246,7 @@ private fun SettingsHome(open: (Int) -> Unit) {
                 }
                 val act = androidx.compose.ui.platform.LocalContext.current as? android.app.Activity
                 Spacer(Modifier.height(10.dp))
-                Text(stringResource(R.string.lite_update_check), color = SAccS, fontSize = 14.sp, fontWeight = FontWeight.Bold,
+                Text(stringResource(R.string.lite_update_check), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 14.sp, fontWeight = FontWeight.Bold,
                     modifier = Modifier.clip(RoundedCornerShape(50)).clickable { act?.let { com.eddyizm.tempus.lite.LiteUpdater.check(it, manual = true) } }
                         .padding(vertical = 6.dp))
             }
@@ -237,7 +260,7 @@ private fun SettingsHome(open: (Int) -> Unit) {
                 }.padding(16.dp)) {
                 Text(stringResource(R.string.lite_support), color = SHiS, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Text(stringResource(R.string.lite_support_text), color = SLoS, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp, bottom = 8.dp))
-                Text("ETH", color = SAccS, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Text("ETH", color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 Text(LITE_ETH, color = SHiS, fontSize = 11.sp, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace)
             }
         }
@@ -251,13 +274,13 @@ private fun SettingsHome(open: (Int) -> Unit) {
 @Composable
 private fun QuickTile(title: String, state: String, on: Boolean, icon: Int, modifier: Modifier, onClick: () -> Unit) {
     Column(
-        modifier.height(86.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFF1E1E25))
-            .border(1.dp, if (on) SAccS else Color(0x1FFFFFFF), RoundedCornerShape(8.dp))
+        modifier.height(86.dp).clip(RoundedCornerShape(8.dp)).background(DriftColors.card)
+            .border(1.dp, if (on) SAccS else DriftColors.border, RoundedCornerShape(8.dp))
             .clickable(onClick = onClick).padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
     ) {
         Image(painterResource(icon), null, colorFilter = ColorFilter.tint(if (on) SAccS else SHiS), modifier = Modifier.size(22.dp))
         Text(title, color = SHiS, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 6.dp))
-        Text(state, color = if (on) SAccS else SLoS, fontSize = 11.sp, maxLines = 1)
+        Text(state, color = if (on) com.eddyizm.tempus.helper.DriftAccent.composeText else SLoS, fontSize = 11.sp, maxLines = 1)
     }
 }

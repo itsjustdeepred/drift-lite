@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_server_type_label">Tipo de servidor</string>
+    <string name="drift_server_pass_keep">Senha (vazia = manter o login)</string>
+    <string name="drift_server_authenticating">Entrando no servidor…</string>
+    <string name="drift_server_auth_failed">Falha no login: %1$s</string>
+</resources>

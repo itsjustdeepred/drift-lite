@@ -657,6 +657,12 @@ public class MediaManager {
     }
 
     public static void scrobble(MediaItem mediaItem, boolean submission) {
+        // Drift Lite: no server, plays go to the user's Last.fm account (when connected)
+        if (com.eddyizm.tempus.BuildConfig.LITE) {
+            com.eddyizm.tempus.lite.LiteLastFm.scrobble(mediaItem, submission);
+            if (submission && mediaItem != null) com.eddyizm.tempus.lite.LiteTracks.countPlay(mediaItem.mediaId);
+            return;
+        }
         if (mediaItem != null && mediaItem.mediaMetadata.extras != null && Preferences.isScrobblingEnabled()) {
             getSongRepository().scrobble(mediaItem.mediaMetadata.extras.getString("id"), submission);
         }

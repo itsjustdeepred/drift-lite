@@ -139,7 +139,7 @@
     <string name="lite_unfollowed_artist">You no longer follow %s</string>
     <string name="lite_removed_from_library">Removed from your library</string>
     <string name="lite_following_artist">Following %s</string>
-    <string name="lite_saved_to_library">Saved to your library</string>
+    <string name="lite_saved_to_library">Added to your library</string>
     <string name="drift_save_failed">Couldn\'t save</string>
     <string name="drift_followed">Following</string>
     <string name="drift_downloads_new">downloads new ones</string>
@@ -206,4 +206,16 @@
         <item quantity="one">%d song</item>
         <item quantity="other">%d songs</item>
     </plurals>
+    <string name="lite_add_to_library">Add</string>
+    <string name="lite_in_library">In library</string>
+    <string name="lite_name_taken">A playlist with this name already exists</string>
+    <string name="lite_home_top">Most played</string>
+    <string name="lite_home_playlists">Your playlists</string>
+    <string name="lite_home_sections">Home sections</string>
+    <string name="drift_true_black">true black</string>
+    <string name="lite_your_music">Your music</string>
+    <string name="lite_genres_and_artists_sub">Genres and artists you like</string>
+    <string name="lite_home_sections_sub">Choose what Home shows</string>
+    <string name="lite_lastfm_sub">Recommendations and scrobbling</string>
+    <string name="lite_group_saved">Saved</string>
 </resources>

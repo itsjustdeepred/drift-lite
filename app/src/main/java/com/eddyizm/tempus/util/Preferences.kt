@@ -1309,7 +1309,7 @@ object Preferences {
 
     @JvmStatic
     fun getTheme(): String {
-        return App.getInstance().preferences.getString(THEME, "dark") ?: "dark"
+        return App.getInstance().preferences.getString(THEME, "default") ?: "default"  // Drift: follow the system unless chosen
     }
 
     @JvmStatic

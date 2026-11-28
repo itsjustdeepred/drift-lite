@@ -138,7 +138,7 @@
     <string name="lite_unfollowed_artist">Non segui più %s</string>
     <string name="lite_removed_from_library">Rimossa dalla libreria</string>
     <string name="lite_following_artist">Segui %s</string>
-    <string name="lite_saved_to_library">Salvata in libreria</string>
+    <string name="lite_saved_to_library">Aggiunta alla libreria</string>
     <string name="drift_save_failed">Salvataggio non riuscito</string>
     <string name="drift_followed">Seguita</string>
     <string name="drift_downloads_new">scarica i nuovi</string>
@@ -205,4 +205,16 @@
         <item quantity="one">%d brano</item>
         <item quantity="other">%d brani</item>
     </plurals>
+    <string name="lite_add_to_library">Aggiungi</string>
+    <string name="lite_in_library">In libreria</string>
+    <string name="lite_name_taken">Esiste già una playlist con questo nome</string>
+    <string name="lite_home_top">I più ascoltati</string>
+    <string name="lite_home_playlists">Le tue playlist</string>
+    <string name="lite_home_sections">Sezioni della Home</string>
+    <string name="drift_true_black">nero vero</string>
+    <string name="lite_your_music">La tua musica</string>
+    <string name="lite_genres_and_artists_sub">Generi e artisti che ti piacciono</string>
+    <string name="lite_home_sections_sub">Scegli cosa mostra la Home</string>
+    <string name="lite_lastfm_sub">Consigli e scrobbling</string>
+    <string name="lite_group_saved">Salvate</string>
 </resources>

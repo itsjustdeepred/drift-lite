@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.ui.fragment
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.content.Context
 import android.media.MediaRecorder
 import android.os.Build
@@ -37,6 +38,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -72,12 +74,12 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 /*
- * Drift: Shazam-style "Recognize song". The microphone records ~10 s (mono AAC 44.1 kHz in cache), the file goes
- * to Undertow (POST /recognize), which returns title/artist with the Navidrome id if the song is in the library,
- * or the Deezer id to download it. RECORD_AUDIO is requested on first tap, after a short explanation.
+ * Drift: "Recognize song". Listening starts on tap and runs on the phone (same engine as Drift Lite): a fingerprint
+ * of what was heard is sent after 3 s and twice more while listening, cancel at any time. A match is looked up in
+ * the library (play, queue, save to a playlist) and on Deezer (download through Undertow when it is set up).
+ * RECORD_AUDIO is requested on first tap, after a short explanation.
  */
 
-private const val CLIP_MS = 10_000L
 
 /** What recognition needs from the hosting fragment. */
 class RecognizeHooks(
@@ -91,34 +93,6 @@ class RecognizeHooks(
     val search: (String) -> Unit,
     val toast: (String) -> Unit,
 )
-
-/** Clip recorder: AAC in an MPEG-4 container, mono, 44.1 kHz. */
-private class ClipRecorder(private val ctx: Context) {
-    private var rec: MediaRecorder? = null
-
-    fun start(out: File) {
-        val r = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MediaRecorder(ctx) else @Suppress("DEPRECATION") MediaRecorder()
-        rec = r
-        r.setAudioSource(MediaRecorder.AudioSource.MIC)
-        r.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        r.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        r.setAudioChannels(1)
-        r.setAudioSamplingRate(44_100)
-        r.setAudioEncodingBitRate(96_000)
-        r.setOutputFile(out.absolutePath)
-        r.prepare()
-        r.start()
-    }
-
-    /** true if the file is valid. */
-    fun stop(): Boolean = try { rec?.stop(); true } catch (e: RuntimeException) { false } finally { release() }
-
-    fun release() {
-        runCatching { rec?.reset() }
-        runCatching { rec?.release() }
-        rec = null
-    }
-}
 
 /**
  * Button + full flow: permission, full-screen listening, result.
@@ -170,53 +144,40 @@ fun RecognizeMicButton(tint: Color, onClick: () -> Unit) {
 
 private enum class Phase { LISTENING, SEARCHING, RESULT }
 
-private val RBg = Color(0xFF0B0B0F)
+private val RBg get() = DriftColors.bg
 private val RAccent get() = com.eddyizm.tempus.helper.DriftAccent.compose
-private val RHi = Color.White
-private val RLo = Color(0xFFA7A7B3)
+private val RHi get() = DriftColors.text
+private val RLo get() = DriftColors.textLo
 
 @Composable
 private fun RecognizeScreen(hooks: RecognizeHooks, onClose: () -> Unit) {
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
     var attempt by remember { mutableIntStateOf(0) }
     var phase by remember { mutableStateOf(Phase.LISTENING) }
-    var progress by remember { mutableFloatStateOf(0f) }
+    var elapsed by remember { mutableLongStateOf(0L) }
+    var level by remember { mutableFloatStateOf(0f) }
     var result by remember { mutableStateOf<DriftRecognition.Result?>(null) }
     var downloaded by remember { mutableStateOf(false) }
 
     LaunchedEffect(attempt) {
-        phase = Phase.LISTENING; progress = 0f; result = null; downloaded = false
-        val file = File(ctx.cacheDir, "drift_recognize.m4a")
-        val rec = ClipRecorder(ctx)
-        try {
-            try {
-                rec.start(file)
-            } catch (e: Exception) {
-                rec.release()
-                result = DriftRecognition.Result.Failed(ctx.getString(R.string.drift_recog_mic_busy)); phase = Phase.RESULT
-                return@LaunchedEffect
-            }
-            val t0 = SystemClock.elapsedRealtime()
-            while (true) {
-                val el = SystemClock.elapsedRealtime() - t0
-                progress = (el.toFloat() / CLIP_MS).coerceIn(0f, 1f)
-                if (el >= CLIP_MS) break
-                delay(100)
-            }
-            if (!rec.stop()) {
-                result = DriftRecognition.Result.Failed(ctx.getString(R.string.drift_recog_mic_busy)); phase = Phase.RESULT
-                return@LaunchedEffect
-            }
-            phase = Phase.SEARCHING
-            result = withContext(Dispatchers.IO) { DriftRecognition.recognize(file) }
-            phase = Phase.RESULT
+        phase = Phase.LISTENING; elapsed = 0; level = 0f; result = null; downloaded = false
+        result = try {
+            val heard = com.eddyizm.tempus.lite.LiteRecognizer.listen { p -> elapsed = p.elapsedMs; level = p.level }
+            if (heard == null) DriftRecognition.Result.NotFound
+            else DriftRecognition.Result.Found(withContext(Dispatchers.IO) { DriftRecognition.resolve(heard) })
+                .also { haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress) }
         } catch (e: CancellationException) {
-            rec.release()
             throw e
-        } finally {
-            file.delete()
+        } catch (e: com.eddyizm.tempus.lite.LiteRecognizer.NoNetwork) {
+            DriftRecognition.Result.Failed(ctx.getString(R.string.lite_rec_no_network))
+        } catch (e: com.eddyizm.tempus.lite.LiteRecognizer.Busy) {
+            DriftRecognition.Result.Failed(ctx.getString(R.string.lite_rec_busy))
+        } catch (e: Exception) {
+            DriftRecognition.Result.Failed(ctx.getString(R.string.drift_recog_mic_busy))
         }
+        phase = Phase.RESULT
     }
 
     fun withSong(id: String, block: (Child) -> Unit) {
@@ -228,10 +189,10 @@ private fun RecognizeScreen(hooks: RecognizeHooks, onClose: () -> Unit) {
         }
     }
 
-    Dialog(onDismissRequest = onClose, properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = false)) {
-        Box(Modifier.fillMaxSize().background(RBg).statusBarsPadding().navigationBarsPadding()) {
+    Dialog(onDismissRequest = onClose, properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = false, decorFitsSystemWindows = false)) {
+        Box(Modifier.fillMaxSize().background(RBg)) {
             when (phase) {
-                Phase.LISTENING, Phase.SEARCHING -> Listening(phase == Phase.SEARCHING, progress)
+                Phase.LISTENING, Phase.SEARCHING -> com.eddyizm.tempus.lite.RecognizeListening(level, elapsed > 6_000)
                 Phase.RESULT -> when (val r = result) {
                     is DriftRecognition.Result.Found -> FoundCard(
                         r.song, downloaded,
@@ -240,6 +201,7 @@ private fun RecognizeScreen(hooks: RecognizeHooks, onClose: () -> Unit) {
                         onDownload = { id -> hooks.download(id); downloaded = true },
                         onSearch = { hooks.search("${r.song.artist} ${r.song.title}".trim()); onClose() },
                         onRetry = { attempt++ },
+                        toast = hooks.toast,
                     )
                     DriftRecognition.Result.NotFound -> Message(stringResource(R.string.drift_recog_not_found), stringResource(R.string.drift_recog_not_found_sub), onRetry = { attempt++ })
                     DriftRecognition.Result.Disabled -> Message(stringResource(R.string.drift_recog_disabled), null, onRetry = null)
@@ -247,36 +209,8 @@ private fun RecognizeScreen(hooks: RecognizeHooks, onClose: () -> Unit) {
                     null -> Unit
                 }
             }
-            // Cancel / Close always top left
-            Text(stringResource(if (phase == Phase.RESULT) R.string.drift_recog_close else R.string.lite_cancel), color = RHi, fontSize = 15.sp, fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.align(Alignment.TopStart).padding(8.dp).clip(RoundedCornerShape(50)).clickable(onClick = onClose)
-                    .padding(horizontal = 14.dp, vertical = 10.dp))
-        }
-    }
-}
-
-@Composable
-private fun Listening(searching: Boolean, progress: Float) {
-    val t = rememberInfiniteTransition(label = "pulse")
-    val p by t.animateFloat(0f, 1f, infiniteRepeatable(tween(1800, easing = LinearEasing), RepeatMode.Restart), label = "p")
-    Column(Modifier.fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(260.dp), contentAlignment = Alignment.Center) {
-            // three waves that expand and fade, offset by a third
-            for (k in 0 until 3) {
-                val f = (p + k / 3f) % 1f
-                Box(Modifier.size(120.dp).graphicsLayer { scaleX = 1f + f * 1.15f; scaleY = 1f + f * 1.15f; alpha = (1f - f) * 0.45f }
-                    .clip(CircleShape).background(RAccent))
-            }
-            Box(Modifier.size(120.dp).clip(CircleShape).background(RAccent), contentAlignment = Alignment.Center) {
-                Image(painterResource(R.drawable.ic_drift_mic), null, colorFilter = ColorFilter.tint(Color.Black), modifier = Modifier.size(52.dp))
-            }
-        }
-        Spacer(Modifier.height(28.dp))
-        Text(stringResource(if (searching) R.string.drift_recog_searching else R.string.drift_recog_listening), color = RHi, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold)
-        if (!searching) {
-            Text(stringResource(R.string.drift_recog_listening_sub), color = RLo, fontSize = 14.sp, modifier = Modifier.padding(top = 6.dp))
-            Box(Modifier.padding(top = 22.dp).width(180.dp).height(4.dp).clip(RoundedCornerShape(2.dp)).background(Color(0x33FFFFFF))) {
-                Box(Modifier.fillMaxWidth(progress).height(4.dp).background(RAccent))
+            Box(Modifier.statusBarsPadding().padding(8.dp).size(48.dp).clip(CircleShape).clickable(onClick = onClose), contentAlignment = Alignment.Center) {
+                Text("✕", color = RHi, fontSize = 22.sp)
             }
         }
     }
@@ -287,30 +221,94 @@ private fun Listening(searching: Boolean, progress: Float) {
 private fun FoundCard(
     s: DriftRecognition.Song, downloaded: Boolean,
     onPlay: (String) -> Unit, onEnqueue: (String) -> Unit, onDownload: (Long) -> Unit, onSearch: () -> Unit, onRetry: () -> Unit,
+    toast: (String) -> Unit,
 ) {
-    Column(Modifier.fillMaxSize().padding(horizontal = 28.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Box(Modifier.size(240.dp).clip(RoundedCornerShape(10.dp)).background(Color(0xFF1C1C22))) {
-            if (s.cover != null) GlideImage(s.cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-        }
-        Spacer(Modifier.height(22.dp))
-        Text(s.title, color = RHi, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
-        Text(s.artist, color = RHi, fontSize = 16.sp, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 4.dp))
-        s.album?.let { Text(it, color = RLo, fontSize = 14.sp, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 2.dp)) }
-        Text(stringResource(if (s.songId != null) R.string.drift_dl_in_library else R.string.drift_recog_not_in_library), color = if (s.songId != null) RAccent else RLo,
-            fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 10.dp))
-        Spacer(Modifier.height(22.dp))
-        when {
-            s.songId != null -> {
-                Pill(stringResource(R.string.drift_recog_play), primary = true) { onPlay(s.songId) }
-                Pill(stringResource(R.string.drift_recog_enqueue)) { onEnqueue(s.songId) }
+    val ctx = LocalContext.current
+    var playlists by remember { mutableStateOf<List<com.eddyizm.tempus.subsonic.models.Playlist>>(emptyList()) }
+    val added = remember { androidx.compose.runtime.mutableStateListOf<String>() }
+    var creating by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf("") }
+    val repo = remember { com.eddyizm.tempus.repository.PlaylistRepository() }
+    val main = remember { android.os.Handler(android.os.Looper.getMainLooper()) }
+    fun reload() {
+        Thread {
+            val l = runCatching { App.getSubsonicClientInstance(false).playlistClient.getPlaylists().execute().body()?.subsonicResponse?.playlists?.playlists }.getOrNull()
+            if (l != null) main.post { playlists = l }
+        }.start()
+    }
+    LaunchedEffect(s.songId) { if (s.songId != null) reload() }
+    fun say(msg: String) { main.post { toast(msg) } }
+
+    if (creating && s.songId != null) com.eddyizm.tempus.lite.NameDialog(stringResource(R.string.lite_new_playlist), name, { name = it },
+        confirm = stringResource(R.string.lite_create), onDismiss = { creating = false }) {
+        val n = name.trim().ifEmpty { ctx.getString(R.string.lite_default_playlist_name) }
+        repo.createPlaylist(null, n, arrayListOf(s.songId), object : com.eddyizm.tempus.repository.PlaylistRepository.PlaylistActionCallback {
+            override fun onSuccess() { say(ctx.getString(R.string.lite_playlist_created, n)); reload() }
+            override fun onFailure() { say(ctx.getString(R.string.drift_recog_error)) }
+        })
+        creating = false; name = ""
+    }
+
+    androidx.compose.foundation.lazy.LazyColumn(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = androidx.compose.foundation.layout.PaddingValues(start = 28.dp, end = 28.dp, top = 72.dp, bottom = 40.dp)) {
+        item {
+            Box(Modifier.statusBarsPadding().size(240.dp).clip(RoundedCornerShape(10.dp)).background(DriftColors.card)) {
+                if (s.cover != null) GlideImage(s.cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
             }
-            s.deezerId != null ->
-                if (downloaded) Text(stringResource(R.string.lite_download_started), color = RAccent, fontSize = 15.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(12.dp))
-                else Pill(stringResource(R.string.lite_download), primary = true) { onDownload(s.deezerId) }
+            Spacer(Modifier.height(22.dp))
+            Text(s.title, color = RHi, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text(s.artist, color = RHi, fontSize = 16.sp, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 4.dp))
+            s.album?.let { Text(it, color = RLo, fontSize = 14.sp, textAlign = TextAlign.Center, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 2.dp)) }
+            Text(stringResource(if (s.songId != null) R.string.drift_dl_in_library else R.string.drift_recog_not_in_library), color = if (s.songId != null) com.eddyizm.tempus.helper.DriftAccent.composeText else RLo,
+                fontSize = 12.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 10.dp))
+            Spacer(Modifier.height(18.dp))
+            when {
+                s.songId != null -> Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Pill(stringResource(R.string.drift_recog_play), primary = true) { onPlay(s.songId) }
+                    Pill(stringResource(R.string.drift_recog_enqueue)) { onEnqueue(s.songId) }
+                }
+                s.deezerId != null && com.eddyizm.tempus.helper.Undertow.enabled ->
+                    if (downloaded) Text(stringResource(R.string.lite_download_started), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 15.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(12.dp))
+                    else Pill(stringResource(R.string.lite_download), primary = true) { onDownload(s.deezerId) }
+            }
+            if (s.songId != null) {
+                Spacer(Modifier.height(22.dp))
+                Text(stringResource(R.string.lite_rec_save_where), color = RHi, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth())
+                Spacer(Modifier.height(6.dp))
+                Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).clickable { creating = true }.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(44.dp).clip(RoundedCornerShape(8.dp)).background(RAccent), contentAlignment = Alignment.Center) {
+                        Text("+", color = Color.Black, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    }
+                    Text(stringResource(R.string.lite_new_playlist), color = RHi, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 14.dp))
+                }
+            }
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            Pill(stringResource(R.string.lite_search), onClick = onSearch)
-            Pill(stringResource(R.string.lite_retry), onClick = onRetry)
+        if (s.songId != null) items(playlists.size) { i ->
+            val p = playlists[i]
+            val isIn = p.id in added
+            Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).clickable(enabled = !isIn) {
+                added.add(p.id)
+                repo.addSongToPlaylist(p.id, arrayListOf(s.songId), null, object : com.eddyizm.tempus.repository.PlaylistRepository.AddToPlaylistCallback {
+                    override fun onSuccess() = say(ctx.getString(R.string.lite_added_to, p.name ?: ""))
+                    override fun onFailure() { main.post { added.remove(p.id) }; say(ctx.getString(R.string.drift_recog_error)) }
+                    override fun onAllSkipped() = say(ctx.getString(R.string.lite_already_in, p.name ?: ""))
+                })
+            }.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(44.dp).clip(RoundedCornerShape(8.dp)).background(DriftColors.card))
+                Column(Modifier.weight(1f).padding(start = 14.dp)) {
+                    Text(p.name ?: "", color = RHi, fontSize = 16.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(androidx.compose.ui.res.pluralStringResource(R.plurals.lite_tracks, p.songCount, p.songCount), color = RLo, fontSize = 13.sp)
+                }
+                if (isIn) Text("✓", color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(end = 6.dp))
+            }
+        }
+        item {
+            Spacer(Modifier.height(22.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Pill(stringResource(R.string.lite_search), onClick = onSearch)
+                Pill(stringResource(R.string.lite_rec_again), onClick = onRetry)
+            }
+            Spacer(Modifier.navigationBarsPadding())
         }
     }
 }
@@ -332,7 +330,7 @@ private fun Pill(text: String, primary: Boolean = false, onClick: () -> Unit) {
     Box(
         Modifier.padding(vertical = 5.dp).clip(RoundedCornerShape(50))
             .background(if (primary) RAccent else Color.Transparent)
-            .border(1.dp, if (primary) Color.Transparent else Color(0x66FFFFFF), RoundedCornerShape(50))
+            .border(1.dp, if (primary) Color.Transparent else DriftColors.stroke, RoundedCornerShape(50))
             .clickable(onClick = onClick).padding(horizontal = 26.dp, vertical = 11.dp),
         contentAlignment = Alignment.Center,
     ) { Text(text, color = if (primary) Color.Black else RHi, fontSize = 15.sp, fontWeight = FontWeight.Bold) }

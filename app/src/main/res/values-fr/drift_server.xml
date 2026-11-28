@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_server_type_label">Type de serveur</string>
+    <string name="drift_server_pass_keep">Mot de passe (vide = garder la connexion)</string>
+    <string name="drift_server_authenticating">Connexion au serveur…</string>
+    <string name="drift_server_auth_failed">Échec de la connexion : %1$s</string>
+</resources>

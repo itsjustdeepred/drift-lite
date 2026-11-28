@@ -22,7 +22,7 @@ object LiteTracks {
 
     data class T(val id: String, val title: String, val artist: String, val duration: Int, val cover: String?,
                  @Volatile var videoId: String? = null, @Volatile var file: String? = null, @Volatile var algo: Int = 0,
-                 @Volatile var liked: Long = 0)
+                 @Volatile var liked: Long = 0, @Volatile var plays: Int = 0, @Volatile var lastPlay: Long = 0)
 
     private val ctx get() = App.getContext()
     private val dir get() = File(ctx.filesDir, "lite").apply { mkdirs() }
@@ -96,6 +96,17 @@ object LiteTracks {
     }
 
     @JvmStatic fun isLiked(id: String) = (map[id]?.liked ?: 0) > 0
+
+    /** A play that counted (past half the song): feeds "Most played" on Home. */
+    @JvmStatic
+    fun countPlay(id: String?) {
+        val t = map[id ?: return] ?: return
+        t.plays += 1; t.lastPlay = System.currentTimeMillis(); persist()
+    }
+
+    /** Most played songs, most recent first among equals. */
+    fun mostPlayed(limit: Int = 20): List<T> = map.values.filter { it.plays > 0 }
+        .sortedWith(compareByDescending<T> { it.plays }.thenByDescending { it.lastPlay }).take(limit)
 
     fun liked(): List<T> = map.values.filter { it.liked > 0 }.sortedByDescending { it.liked }
 

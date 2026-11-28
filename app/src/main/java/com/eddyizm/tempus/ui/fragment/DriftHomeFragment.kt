@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.ui.fragment
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.content.ComponentName
 import android.os.Build
 import android.os.Bundle
@@ -249,14 +250,16 @@ class HomeActions(
 
 // ---------------------------------------------------------------- palette
 
-private val Bg = Color(0xFF0B0B0F)
+private val Bg get() = DriftColors.bg
 private val Accent get() = com.eddyizm.tempus.helper.DriftAccent.compose
 private val Cyan = Color(0xFF22D3EE)
 private val Violet = Color(0xFF8B5CF6)
-private val TextHi = Color(0xFFFFFFFF)
-private val TextLo = Color(0xFFA7A7B3)
-private val Glass = Color(0x14FFFFFF)
-private val GlassBorder = Color(0x1FFFFFFF)
+private val TextHi get() = DriftColors.text
+private val TextLo get() = DriftColors.textLo
+private val Glass get() = DriftColors.glass
+private val GlassBorder get() = DriftColors.border
+/** Secondary text over a dark image overlay: stays light in both themes. */
+private val OnImageLo = Color(0xFFA7A7B3)
 
 private val Display = FontFamily.Default
 
@@ -306,7 +309,7 @@ private fun DriftHome(
             item {
                 Column(Modifier.statusBarsPadding().padding(top = 8.dp)) {
                     TopBar(filter, onFilter = { filter = it }, onAvatar = actions.openSettings,
-                        onRecognize = if (com.eddyizm.tempus.helper.Undertow.enabled) actions.recognize else null)
+                        onRecognize = actions.recognize)  // recognition runs on the phone, Undertow only for downloads
                     Greeting()
                 }
             }
@@ -547,10 +550,10 @@ private fun HeroRadio(seed: Child, onPlay: () -> Unit) {
         Column(Modifier.padding(20.dp).align(Alignment.CenterStart)) {
             Text("DRIFT RADIO", color = Accent, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 3.sp)
             Spacer(Modifier.height(6.dp))
-            Text(stringResource(R.string.drift_home_start_radio), color = TextHi, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 28.sp)
+            Text(stringResource(R.string.drift_home_start_radio), color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 28.sp)
             Spacer(Modifier.height(6.dp))
             Text(
-                stringResource(R.string.drift_home_radio_from, seed.title ?: "?", seed.artist ?: ""), color = TextLo, fontSize = 13.sp,
+                stringResource(R.string.drift_home_radio_from, seed.title ?: "?", seed.artist ?: ""), color = OnImageLo, fontSize = 13.sp,
                 maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.width(220.dp),
             )
         }
@@ -595,7 +598,10 @@ private fun Section(title: String, subtitle: String?, onMore: (() -> Unit)? = nu
 @kotlin.OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun Cover(id: String?, modifier: Modifier) {
-    Box(modifier.background(Color(0xFF1C1C22))) {
+    Box(modifier.background(DriftColors.card)) {
+        // shown until (or instead of) the cover: empty playlists have none
+        androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(com.eddyizm.tempus.R.drawable.ds_note), null, tint = DriftColors.textLo,
+            modifier = Modifier.align(Alignment.Center).fillMaxSize(0.35f))
         if (id != null) GlideImage(
             model = CustomGlideRequest.createUrl(id, 300),
             contentDescription = null,
@@ -629,7 +635,7 @@ private fun MixCard(a: ArtistID3, index: Int, onClick: () -> Unit) {
             Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, c.copy(alpha = .85f)))))
             Box(Modifier.fillMaxWidth().height(4.dp).align(Alignment.BottomCenter).background(c))
             Text(
-                "Mix", color = TextHi, fontSize = 20.sp, fontWeight = FontWeight.ExtraBold,
+                "Mix", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.align(Alignment.BottomStart).padding(10.dp),
             )
         }
@@ -676,7 +682,7 @@ private fun MadeForYouCard(p: Playlist, index: Int, onClick: () -> Unit) {
             Box(Modifier.fillMaxSize().background(Brush.linearGradient(listOf(c.copy(alpha = .55f), Color(0xCC0B0B0F)))))
             Box(Modifier.fillMaxWidth().height(4.dp).align(Alignment.BottomCenter).background(c))
             PlayGlyphSmall(Modifier.align(Alignment.TopStart).padding(10.dp))
-            Text(title, color = TextHi, fontSize = 19.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 21.sp,
+            Text(title, color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.ExtraBold, lineHeight = 21.sp,
                 modifier = Modifier.align(Alignment.BottomStart).padding(10.dp))
         }
         Spacer(Modifier.height(8.dp))
@@ -686,7 +692,7 @@ private fun MadeForYouCard(p: Playlist, index: Int, onClick: () -> Unit) {
 
 @Composable
 private fun PlayGlyphSmall(modifier: Modifier) {
-    Text("d", color = TextHi, fontSize = 16.sp, fontWeight = FontWeight.Black, modifier = modifier)
+    Text("d", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Black, modifier = modifier)
 }
 
 @kotlin.OptIn(ExperimentalGlideComposeApi::class)
@@ -694,7 +700,7 @@ private fun PlayGlyphSmall(modifier: Modifier) {
 private fun MissingCard(rel: com.eddyizm.tempus.helper.DriftMixes.MissingRelease, onOpen: () -> Unit, onDownload: () -> Unit) {
     var asked by remember { mutableStateOf(false) }
     Column(Modifier.width(148.dp).clickable(onClick = onOpen)) {
-        Box(Modifier.size(148.dp).clip(RoundedCornerShape(8.dp)).background(Color(0xFF1C1C22))) {
+        Box(Modifier.size(148.dp).clip(RoundedCornerShape(8.dp)).background(DriftColors.card)) {
             if (rel.cover != null) GlideImage(rel.cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
             Box(
                 Modifier.align(Alignment.BottomEnd).padding(6.dp).clip(RoundedCornerShape(50))

@@ -98,7 +98,7 @@ fun DriftLoader(modifier: Modifier = Modifier.fillMaxSize()) {
                 Image(painterResource(R.drawable.ic_launcher_foreground), null, Modifier.size(144.dp))
             }
             Spacer(Modifier.height(10.dp))
-            Text(stringResource(R.string.app_name), color = androidx.compose.ui.graphics.Color.White, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold)
+            Text(stringResource(R.string.app_name), color = DriftColors.text, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold)
         }
     }
 }

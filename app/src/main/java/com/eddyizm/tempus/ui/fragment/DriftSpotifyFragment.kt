@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.ui.fragment
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -67,11 +68,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private val SBg = Color(0xFF0B0B0F)
+private val SBg get() = DriftColors.bg
 private val SAcc get() = com.eddyizm.tempus.helper.DriftAccent.compose
-private val SHi = Color.White
-private val SLo = Color(0xFFA7A7B3)
-private val SCard = Color(0xFF1C1C22)
+private val SHi get() = DriftColors.text
+private val SLo get() = DriftColors.textLo
+private val SCard get() = DriftColors.card
 
 /** Drift: catalog of Spotify playlists, by group, with a field to add one from a link. */
 class DriftSpotifyFragment : Fragment() {
@@ -133,9 +134,11 @@ fun SpotifyCard(e: DriftSpotify.Entry, modifier: Modifier = Modifier.width(150.d
     Column(modifier.clickable(onClick = onClick)) {
         Box(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(8.dp)).background(SCard)) {
             if (e.cover != null) GlideImage(e.cover, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+            else androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(R.drawable.ic_playlist), null, tint = SLo,
+                modifier = Modifier.align(Alignment.Center).size(44.dp))
             // Drift: "new tracks" dot on followed playlists
             if (hasNew) Box(Modifier.align(Alignment.TopEnd).padding(8.dp).size(14.dp).clip(CircleShape)
-                .background(Color(0xFF0B0B0F)).padding(2.dp).clip(CircleShape).background(SAcc))
+                .background(DriftColors.bg).padding(2.dp).clip(CircleShape).background(SAcc))
         }
         Text(e.name, color = SHi, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(top = 6.dp))
@@ -185,10 +188,16 @@ private fun SpotifyCatalogScreen(openGroup: String?, setGroup: (String?) -> Unit
                 // Drift Lite: greeting with the name picked at first launch
                 val n = com.eddyizm.tempus.lite.LiteApp.name
                 Row(Modifier.statusBarsPadding().padding(start = 16.dp, top = 12.dp, end = 6.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(if (n.isEmpty()) stringResource(R.string.lite_hello) else stringResource(R.string.lite_hello_name, n), color = SHi, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.weight(1f))
+                    Text(if (n.isEmpty()) stringResource(R.string.lite_hello) else stringResource(R.string.lite_hello_name, n), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, modifier = Modifier.weight(1f))
                     com.eddyizm.tempus.lite.RecognizeButton()
                     com.eddyizm.tempus.lite.SettingsButton()
                 }
+                val navView = androidx.compose.ui.platform.LocalView.current
+                if (com.eddyizm.tempus.lite.LiteHome.shown(com.eddyizm.tempus.lite.LiteHome.LASTFM)) com.eddyizm.tempus.lite.LiteForYouCard {
+                    runCatching { androidx.navigation.Navigation.findNavController(navView).navigate(R.id.liteForYouFragment) }
+                }
+                com.eddyizm.tempus.lite.LiteMostPlayedRow()
+                com.eddyizm.tempus.lite.LitePlaylistsRow()
             } else Row(Modifier.statusBarsPadding().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text("←", color = SHi, fontSize = 26.sp, modifier = Modifier.clip(CircleShape).clickable(onClick = back).padding(8.dp))
                 Column(Modifier.padding(start = 4.dp)) {
@@ -205,7 +214,7 @@ private fun SpotifyCatalogScreen(openGroup: String?, setGroup: (String?) -> Unit
                         cursorBrush = SolidColor(SAcc), modifier = Modifier.fillMaxWidth())
                 }
                 Spacer(Modifier.width(8.dp))
-                Box(Modifier.clip(RoundedCornerShape(50)).background(if (link.isBlank() || adding) Color(0xFF2A2A33) else SAcc)
+                Box(Modifier.clip(RoundedCornerShape(50)).background(if (link.isBlank() || adding) DriftColors.cardHi else SAcc)
                     .clickable(enabled = link.isNotBlank() && !adding) {
                         adding = true
                         scope.launch {
@@ -222,11 +231,12 @@ private fun SpotifyCatalogScreen(openGroup: String?, setGroup: (String?) -> Unit
         val l = list
         if (l == null || (l.isEmpty() && why.isEmpty())) item { com.eddyizm.tempus.ui.components.DriftLoader(Modifier.fillMaxWidth().height(520.dp)) }
         else if (l.isEmpty()) item { Text(why, color = SLo, modifier = Modifier.padding(16.dp)) }
-        l.orEmpty().groupBy { it.group }.forEach { (group, entries) ->
+        // Drift Lite: sections can be hidden from Settings
+        l.orEmpty().filter { !com.eddyizm.tempus.BuildConfig.LITE || com.eddyizm.tempus.lite.LiteHome.shown(it.group) }.groupBy { it.group }.forEach { (group, entries) ->
             item {
                 Row(Modifier.fillMaxWidth().clickable { setGroup(group) }.padding(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 10.dp),
                     verticalAlignment = Alignment.CenterVertically) {
-                    Text(DriftSpotify.groupLabel(ctx, entries.first()), color = SHi, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                    Text(DriftSpotify.groupLabel(ctx, entries.first()), color = if (com.eddyizm.tempus.BuildConfig.LITE) com.eddyizm.tempus.helper.DriftAccent.composeText else SHi, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
                     Text(stringResource(R.string.lite_see_all, entries.size), color = SLo, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
                 }
                 LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -422,11 +432,11 @@ private fun SpotifyPlaylistScreen(id: String, name0: String?, cover0: String?, p
                         val nf = if (b.failed > 0) " · " + stringResource(R.string.drift_not_found_count, b.failed) else ""
                         val txt = if (b.active) stringResource(R.string.drift_download_progress, b.downloaded, b.total) + nf
                                   else stringResource(R.string.drift_downloaded_count, b.downloaded) + nf
-                        Text(txt, color = SAcc, fontSize = 13.sp, modifier = Modifier.fillMaxWidth().padding(top = 6.dp))
+                        Text(txt, color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 13.sp, modifier = Modifier.fillMaxWidth().padding(top = 6.dp))
                         if (b.active) {
                             val frac by androidx.compose.animation.core.animateFloatAsState(b.progress / 100f, label = "bulk")
                             androidx.compose.material3.LinearProgressIndicator(
-                                progress = { frac }, color = SAcc, trackColor = Color(0xFF2A2A33), gapSize = 0.dp, drawStopIndicator = {},
+                                progress = { frac }, color = SAcc, trackColor = DriftColors.cardHi, gapSize = 0.dp, drawStopIndicator = {},
                                 modifier = Modifier.fillMaxWidth().padding(top = 6.dp).height(4.dp).clip(RoundedCornerShape(2.dp)))
                         }
                     }
@@ -435,8 +445,8 @@ private fun SpotifyPlaylistScreen(id: String, name0: String?, cover0: String?, p
                         val playable = if (com.eddyizm.tempus.BuildConfig.LITE) p.tracks.isNotEmpty() else p.inLibrary > 0
                         Pill(if (busy) "…" else stringResource(R.string.lite_play_button), filled = true, enabled = playable && !busy) { playFrom(null) }
                         val artistPage = com.eddyizm.tempus.BuildConfig.LITE && id.startsWith("dzartist:")
-                        Pill(if (saving) "…" else if (p.followed && com.eddyizm.tempus.BuildConfig.LITE) "✓ " + stringResource(if (artistPage) R.string.lite_follow else R.string.lite_saved)
-                             else stringResource(if (artistPage) R.string.lite_follow else R.string.lite_save),
+                        Pill(if (saving) "…" else if (p.followed && com.eddyizm.tempus.BuildConfig.LITE) "✓ " + stringResource(if (artistPage) R.string.lite_follow else R.string.lite_in_library)
+                             else if (artistPage) stringResource(R.string.lite_follow) else "+ " + stringResource(R.string.lite_add_to_library),
                              filled = false, enabled = playable && !saving) {
                             if (com.eddyizm.tempus.BuildConfig.LITE && p.followed) {
                                 scope.launch { withContext(Dispatchers.IO) { DriftSpotify.unfollow(id) }; pl = p.copy(followed = false)
@@ -521,10 +531,10 @@ private fun SpotifyPlaylistScreen(id: String, name0: String?, cover0: String?, p
             Row(Modifier.fillMaxWidth().then(if (current) Modifier.background(SAcc.copy(alpha = 0.13f)) else Modifier)
                 .clickable(enabled = mine) { playFrom(t.songId) }
                 .padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(if (current) "♪" else if (mine) "▶" else "${i + 1}", color = if (mine) SAcc else SLo,
+                Text(if (current) "♪" else if (mine) "▶" else "${i + 1}", color = if (mine) com.eddyizm.tempus.helper.DriftAccent.composeText else SLo,
                     fontSize = if (current) 18.sp else 14.sp, modifier = Modifier.width(32.dp))
                 Column(Modifier.weight(1f)) {
-                    Text(t.title, color = if (current) SAcc else if (mine) SHi else SLo, fontWeight = if (current) FontWeight.Bold else null, fontSize = 15.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(t.title, color = if (current) com.eddyizm.tempus.helper.DriftAccent.composeText else if (mine) SHi else SLo, fontWeight = if (current) FontWeight.Bold else null, fontSize = 15.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text("${t.artist} · ${t.duration / 60}:${"%02d".format(t.duration % 60)}", color = SLo, fontSize = 13.sp,
                         maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
@@ -563,8 +573,8 @@ private fun SpotifyPlaylistScreen(id: String, name0: String?, cover0: String?, p
                             val f by androidx.compose.animation.core.animateFloatAsState(st.progress / 100f, label = "track")
                             val mod = Modifier.padding(top = 4.dp).fillMaxWidth().height(3.dp).clip(RoundedCornerShape(2.dp))
                             if (st.state == "downloading" && st.progress > 0)
-                                androidx.compose.material3.LinearProgressIndicator(progress = { f }, color = SAcc, trackColor = Color(0xFF2A2A33), gapSize = 0.dp, drawStopIndicator = {}, modifier = mod)
-                            else androidx.compose.material3.LinearProgressIndicator(color = SLo, trackColor = Color(0xFF2A2A33), gapSize = 0.dp, modifier = mod)
+                                androidx.compose.material3.LinearProgressIndicator(progress = { f }, color = SAcc, trackColor = DriftColors.cardHi, gapSize = 0.dp, drawStopIndicator = {}, modifier = mod)
+                            else androidx.compose.material3.LinearProgressIndicator(color = SLo, trackColor = DriftColors.cardHi, gapSize = 0.dp, modifier = mod)
                         }
                     }
                 }
@@ -580,8 +590,9 @@ private fun SpotifyPlaylistScreen(id: String, name0: String?, cover0: String?, p
 @Composable
 private fun Pill(text: String, filled: Boolean, enabled: Boolean, onClick: () -> Unit) {
     val shape = RoundedCornerShape(50)
-    Box(Modifier.clip(shape).then(if (filled) Modifier.background(if (enabled) SAcc else Color(0xFF2A2A33)) else Modifier.border(1.dp, if (enabled) SAcc else SLo, shape))
+    val accentText = com.eddyizm.tempus.helper.DriftAccent.composeText
+    Box(Modifier.clip(shape).then(if (filled) Modifier.background(if (enabled) SAcc else DriftColors.cardHi) else Modifier.border(1.dp, if (enabled) accentText else SLo, shape))
         .clickable(enabled = enabled, onClick = onClick).padding(horizontal = 16.dp, vertical = 10.dp)) {
-        Text(text, color = if (filled) (if (enabled) Color.Black else SHi) else (if (enabled) SAcc else SLo), fontSize = 13.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+        Text(text, color = if (filled) (if (enabled) Color(com.eddyizm.tempus.helper.DriftAccent.onAccent()) else SHi) else (if (enabled) accentText else SLo), fontSize = 13.sp, fontWeight = FontWeight.Bold, maxLines = 1)
     }
 }

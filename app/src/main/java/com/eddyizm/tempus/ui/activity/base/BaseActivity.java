@@ -43,6 +43,8 @@ public class BaseActivity extends AppCompatActivity {
         ThemeHelper.enableThemeSwitch(this);
         themeSignature = generateThemeSignature();
         super.onCreate(savedInstanceState);
+        // Drift: AppCompat rebuilds the theme in super.onCreate (night mode), so the accent overlay goes on again here, before any view
+        com.eddyizm.tempus.helper.DriftAccent.apply(this);
         Flavors.initializeCastContext(this);
         initializeDownloader();
         checkBatteryOptimization();
@@ -62,6 +64,9 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!ThemeHelper.themeSignature().equals(themeSignature)) {
+            // Drift: the recreated activity reopens the same screen (e.g. Settings → Appearance), not Home
+            if (this instanceof com.eddyizm.tempus.ui.activity.MainActivity)
+                ((com.eddyizm.tempus.ui.activity.MainActivity) this).rememberScreenForRecreate();
             ActivityCompat.recreate(this);
         }
     }
@@ -72,8 +77,14 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    // Drift: asked at most once per app start, and in Lite not on top of the first-launch questions
+    private static boolean batteryAsked = false;
+
     private void checkBatteryOptimization() {
+        if (batteryAsked) return;
+        if (com.eddyizm.tempus.BuildConfig.LITE && !com.eddyizm.tempus.lite.LiteApp.INSTANCE.getOnboarded()) return;
         if (detectBatteryOptimization() && Preferences.askForOptimization()) {
+            batteryAsked = true;
             showBatteryOptimizationDialog();
         }
     }
@@ -148,12 +159,9 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    // Same string ThemeHelper compares in onResume, so the two can never drift apart (a mismatch recreates the activity forever)
     private String generateThemeSignature() {
-        String accent = (Preferences.isDynamicColorAccent())
-                ? "DYNAMIC"
-                : Preferences.getColorAccent();
-        String theme = Preferences.getTheme();
-        String black = String.valueOf(Preferences.isDarkThemeBlack());
-        return theme + "|" + black + "|" + accent;
+        return ThemeHelper.themeSignature();
     }
+
 }

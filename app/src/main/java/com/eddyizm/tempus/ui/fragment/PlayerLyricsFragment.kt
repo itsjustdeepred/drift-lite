@@ -116,6 +116,10 @@ import kotlinx.coroutines.launch
  */
 @OptIn(UnstableApi::class)
 class PlayerLyricsFragment : Fragment() {
+    // Drift: the player keeps its dark look also when the app is in the light theme
+    override fun onGetLayoutInflater(savedInstanceState: android.os.Bundle?): android.view.LayoutInflater =
+        com.eddyizm.tempus.ui.components.DriftColors.playerInflater(super.onGetLayoutInflater(savedInstanceState))
+
 
     private lateinit var viewModel: PlayerBottomSheetViewModel
     private var browserFuture: ListenableFuture<MediaBrowser>? = null

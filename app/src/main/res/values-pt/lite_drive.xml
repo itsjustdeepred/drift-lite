@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_drive_backup_title">Salvar no Google Drive</string>
+    <string name="lite_drive_backup_summary">Configurações, playlists e músicas curtidas. Para restaurar, use Restaurar backup e escolha o arquivo no Drive.</string>
+</resources>

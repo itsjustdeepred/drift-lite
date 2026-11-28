@@ -44,6 +44,10 @@ import java.util.ArrayList
 
 @OptIn(markerClass = [UnstableApi::class])
 class PlayerCoverFragment : Fragment() {
+    // Drift: the player keeps its dark look also when the app is in the light theme
+    override fun onGetLayoutInflater(savedInstanceState: android.os.Bundle?): android.view.LayoutInflater =
+        com.eddyizm.tempus.ui.components.DriftColors.playerInflater(super.onGetLayoutInflater(savedInstanceState))
+
 
     private var bind: InnerFragmentPlayerCoverBinding? = null
     private lateinit var playerBottomSheetViewModel: PlayerBottomSheetViewModel

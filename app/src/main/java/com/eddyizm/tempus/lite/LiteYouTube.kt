@@ -83,7 +83,11 @@ object LiteYouTube {
                 score to i
             }.maxByOrNull { it.first }
         }
-        val hit = best("$title $artist")?.takeIf { it.first >= 6 } ?: best("$artist $title")
+        // one failed request (network, YouTube hiccup) must not lose the song: each query is tried on its own,
+        // and the plain title is a last try (the artist check above still applies)
+        fun safe(q: String) = runCatching { best(q) }.onFailure { Log.w(TAG, "query $q", it) }.getOrNull()
+        val hit = safe("$title $artist")?.takeIf { it.first >= 6 } ?: safe("$artist $title") ?: safe(title)
+            ?: run { Thread.sleep(800); safe("$title $artist") }
         hit?.second?.let { VIDEO_ID.find(it.url)?.groupValues?.get(1) }
     } catch (e: Exception) { Log.w(TAG, "find $artist - $title", e); null }
 

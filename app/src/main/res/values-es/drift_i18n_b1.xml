@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_error_detail">Error: %s</string>
+    <string name="drift_eq_output_speaker">Altavoz del móvil</string>
+    <string name="drift_eq_output_wired">Auriculares con cable</string>
+    <string name="drift_eq_output_car">Coche</string>
+    <string name="drift_lib_title">Tu biblioteca</string>
+    <string name="drift_lib_filter_liked">Me gusta</string>
+    <string name="drift_lib_filter_downloaded">Descargado</string>
+    <string name="drift_lib_no_followed">No sigues ninguna playlist</string>
+    <string name="drift_lib_followed_in_library">%1$d de %2$d en la biblioteca</string>
+    <string name="drift_lib_followed_new">" · %d nuevas"</string>
+    <string name="drift_search_browse_all">Explorar todo</string>
+    <string name="drift_search_hint">¿Qué te apetece escuchar?</string>
+    <string name="drift_search_nothing_in_library">No hay nada en tu biblioteca para \"%s\"</string>
+    <string name="drift_search_not_in_library">No está en tu biblioteca</string>
+    <string name="drift_search_remote_hint">De Deezer: descarga ya la canción o el álbum entero con Lidarr</string>
+    <string name="drift_search_albums_to_download">Álbumes para descargar</string>
+    <string name="drift_search_album_requested">Álbum pedido a Lidarr</string>
+    <string name="drift_search_opt_track">Solo esta canción</string>
+    <string name="drift_search_opt_track_sub">Lista en un minuto desde YouTube Music; luego la cambio por la versión FLAC/320 de Soulseek si la encuentro</string>
+    <string name="drift_search_opt_album">Álbum entero · %s</string>
+    <string name="drift_search_opt_album_sub">Se lo pido a Lidarr: llega completo y bien etiquetado, pero puede tardar más</string>
+    <string name="drift_search_job_queued">En cola…</string>
+    <string name="drift_search_job_searching">Buscando…</string>
+    <string name="drift_search_job_downloading">Descargando</string>
+    <string name="drift_search_job_upgrading">En la biblioteca (%s) · buscando FLAC/320</string>
+    <string name="drift_search_job_done">En la biblioteca · %s</string>
+    <string name="drift_search_job_failed">Error</string>
+</resources>

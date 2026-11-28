@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.ui.fragment
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.Manifest
 import android.content.ComponentName
 import android.content.Context
@@ -268,10 +269,10 @@ private fun libGenres(): List<Genre> {
 
 // ------------------------------------------------------------------ ui
 
-private val SBg = Color(0xFF0B0B0F)
+private val SBg get() = DriftColors.bg
 private val SAccent get() = com.eddyizm.tempus.helper.DriftAccent.compose
-private val SHi = Color.White
-private val SLo = Color(0xFFA7A7B3)
+private val SHi get() = DriftColors.text
+private val SLo get() = DriftColors.textLo
 private val genreColors = listOf(
     0xFFE13300, 0xFF1E3264, 0xFF8D67AB, 0xFF148A08, 0xFFBA5D07, 0xFF503750, 0xFF0D73EC, 0xFFE8115B,
     0xFF27856A, 0xFF8C1932, 0xFF477D95, 0xFFAF2896, 0xFF509BF5, 0xFF7358FF, 0xFFD84000, 0xFF283EA8,
@@ -359,7 +360,7 @@ private fun SearchScreen(actions: SearchActions) {
                     Text(stringResource(R.string.lite_search), color = SHi, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold,
                         modifier = Modifier.padding(top = 16.dp, bottom = 14.dp))
                     SearchField(query, onChange = { query = it }, onClear = { query = ""; focus.clearFocus() },
-                        onMic = if (Sidecar.enabled) ({ focus.clearFocus(); recognizeRequests++ }) else null)
+                        onMic = { focus.clearFocus(); recognizeRequests++ })
                 }
             }
 
@@ -477,7 +478,7 @@ private fun SearchScreen(actions: SearchActions) {
     ))
 
     sheetFor?.let { t ->
-        ModalBottomSheet(onDismissRequest = { sheetFor = null }, containerColor = Color(0xFF1C1C22)) {
+        ModalBottomSheet(onDismissRequest = { sheetFor = null }, containerColor = DriftColors.sheet) {
             Column(Modifier.padding(horizontal = 20.dp).navigationBarsPadding().padding(bottom = 16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RemoteCover(t.cover, Modifier.size(56.dp).clip(RoundedCornerShape(4.dp)))
@@ -512,7 +513,7 @@ private fun statusText(ctx: Context, j: Job): String =
 @Composable
 private fun SearchField(value: String, onChange: (String) -> Unit, onClear: () -> Unit, onMic: (() -> Unit)? = null) {
     Row(
-        Modifier.fillMaxWidth().height(48.dp).clip(RoundedCornerShape(8.dp)).background(Color.White).padding(horizontal = 12.dp),
+        Modifier.fillMaxWidth().height(48.dp).clip(RoundedCornerShape(8.dp)).background(if (DriftColors.dark) Color.White else DriftColors.cardHi).padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(painterResource(R.drawable.ic_search), null, colorFilter = ColorFilter.tint(Color(0xFF121212)), modifier = Modifier.size(24.dp))
@@ -538,7 +539,7 @@ private fun GenreTile(g: Genre, color: Color, modifier: Modifier, onClick: () ->
             .background(Brush.linearGradient(listOf(color, color.copy(alpha = 0.75f))))
             .clickable(onClick = onClick),
     ) {
-        Text(g.genre ?: "", color = SHi, fontSize = 17.sp, fontWeight = FontWeight.ExtraBold, maxLines = 2,
+        Text(g.genre ?: "", color = Color.White, fontSize = 17.sp, fontWeight = FontWeight.ExtraBold, maxLines = 2,
             overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(12.dp).fillMaxWidth(0.75f))
         Box(
             Modifier.align(Alignment.BottomEnd).padding(end = 4.dp, bottom = 4.dp).size(56.dp).rotate(25f)
@@ -587,7 +588,7 @@ private fun DownloadPill(small: Boolean = false, onClick: () -> Unit) {
 private fun SheetOption(title: String, sub: String, onClick: () -> Unit) {
     Column(
         Modifier.fillMaxWidth().padding(vertical = 6.dp).clip(RoundedCornerShape(12.dp))
-            .background(Color(0x14FFFFFF)).border(1.dp, Color(0x1FFFFFFF), RoundedCornerShape(12.dp))
+            .background(DriftColors.glass).border(1.dp, DriftColors.border, RoundedCornerShape(12.dp))
             .clickable(onClick = onClick).padding(16.dp),
     ) {
         Text(title, color = SHi, fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -598,7 +599,7 @@ private fun SheetOption(title: String, sub: String, onClick: () -> Unit) {
 @kotlin.OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun LibCover(id: String?, modifier: Modifier) {
-    Box(modifier.background(Color(0xFF1C1C22))) {
+    Box(modifier.background(DriftColors.card)) {
         if (id != null) GlideImage(CustomGlideRequest.createUrl(id, 300), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
     }
 }
@@ -606,7 +607,7 @@ private fun LibCover(id: String?, modifier: Modifier) {
 @kotlin.OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun RemoteCover(url: String?, modifier: Modifier) {
-    Box(modifier.background(Color(0xFF1C1C22))) {
+    Box(modifier.background(DriftColors.card)) {
         if (url != null) GlideImage(url, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
     }
 }

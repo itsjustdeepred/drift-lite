@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift: base colors of the custom screens, dark variant -->
+<resources>
+    <color name="drift_bg">#FF0B0B0F</color>
+    <color name="drift_text_lo">#FFA7A7B3</color>
+</resources>

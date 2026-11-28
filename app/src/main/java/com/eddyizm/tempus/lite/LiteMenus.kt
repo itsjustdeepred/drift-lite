@@ -1,5 +1,6 @@
 package com.eddyizm.tempus.lite
 
+import com.eddyizm.tempus.ui.components.DriftColors
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -64,7 +65,7 @@ fun LiteTrackMenu(id: String, actions: TrackActions, onDismiss: () -> Unit, extr
     fun toast(id: Int) = Toast.makeText(ctx, res.getString(id), Toast.LENGTH_SHORT).show()
     if (picker) { LitePlaylistPicker(listOf(id)) { picker = false; onDismiss() }; return }
 
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = state, containerColor = Color(0xFF17171C)) {
+    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = state, containerColor = DriftColors.surface) {
         Column(Modifier.navigationBarsPadding().padding(bottom = 12.dp)) {
             Text(t.title, color = LHi, fontSize = 17.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(horizontal = 20.dp))
@@ -107,15 +108,16 @@ fun LitePlaylistPicker(ids: List<String>, onDone: () -> Unit) {
     val res = LocalContext.current
     fun toast(s: String) = Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show()
     if (creating) {
-        NameDialog(stringResource(R.string.lite_new_playlist), name, { name = it }, confirm = stringResource(R.string.lite_create), onDismiss = onDone) {
-            LitePlaylists.create(name, ids)
-            toast(res.getString(R.string.lite_playlist_created, name.trim().ifEmpty { res.getString(R.string.lite_default_playlist_name) }))
+        NameDialog(stringResource(R.string.lite_new_playlist), name, { name = it }, confirm = stringResource(R.string.lite_create), onDismiss = onDone,
+            taken = { LitePlaylists.nameTaken(it) }) {
+            val pid = LitePlaylists.create(name, ids)
+            toast(res.getString(R.string.lite_playlist_created, LitePlaylists.get(pid)?.name ?: name))
             onDone()
         }
         return
     }
     AlertDialog(
-        onDismissRequest = onDone, containerColor = Color(0xFF17171C),
+        onDismissRequest = onDone, containerColor = DriftColors.surface,
         title = { Text(stringResource(R.string.lite_add_to_playlist), color = LHi) },
         text = {
             LazyColumn(Modifier.heightIn(max = 380.dp)) {
@@ -147,18 +149,23 @@ fun LitePlaylistPicker(ids: List<String>, onDone: () -> Unit) {
 }
 
 @Composable
-fun NameDialog(title: String, value: String, onValue: (String) -> Unit, confirm: String, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+fun NameDialog(title: String, value: String, onValue: (String) -> Unit, confirm: String, onDismiss: () -> Unit,
+               taken: (String) -> Boolean = { false }, onConfirm: () -> Unit) {
+    val clash = taken(value)
     AlertDialog(
-        onDismissRequest = onDismiss, containerColor = Color(0xFF17171C),
+        onDismissRequest = onDismiss, containerColor = DriftColors.surface,
         title = { Text(title, color = LHi) },
         text = {
-            Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(LCard).padding(14.dp)) {
-                if (value.isEmpty()) Text(stringResource(R.string.lite_playlist_name), color = LLo, fontSize = 16.sp)
-                BasicTextField(value, { onValue(it.take(60)) }, singleLine = true, textStyle = TextStyle(color = LHi, fontSize = 16.sp),
-                    cursorBrush = SolidColor(LAcc), modifier = Modifier.fillMaxWidth())
+            Column {
+                Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(LCard).padding(14.dp)) {
+                    if (value.isEmpty()) Text(stringResource(R.string.lite_playlist_name), color = LLo, fontSize = 16.sp)
+                    BasicTextField(value, { onValue(it.take(60)) }, singleLine = true, textStyle = TextStyle(color = LHi, fontSize = 16.sp),
+                        cursorBrush = SolidColor(LAcc), modifier = Modifier.fillMaxWidth())
+                }
+                if (clash) Text(stringResource(R.string.lite_name_taken), color = DriftColors.error, fontSize = 13.sp, modifier = Modifier.padding(top = 8.dp))
             }
         },
-        confirmButton = { TextButton(onClick = onConfirm) { Text(confirm, color = LAcc, fontWeight = FontWeight.Bold) } },
+        confirmButton = { TextButton(onClick = onConfirm, enabled = !clash) { Text(confirm, color = if (clash) LLo else com.eddyizm.tempus.helper.DriftAccent.composeText, fontWeight = FontWeight.Bold) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.lite_cancel), color = LLo) } },
     )
 }

@@ -223,7 +223,18 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
             list.setClipToPadding(false);
             list.setPadding(list.getPaddingLeft(), list.getPaddingTop(), list.getPaddingRight(),
                     Math.round(180 * getResources().getDisplayMetrics().density));
+            // hidden until the section filter has run, otherwise every inherited setting flashes for a frame
+            list.setAlpha(0f);
+            // safety net: never leave the page blank if no filter pass comes
+            list.postDelayed(() -> { if (list.getAlpha() < 1f) list.animate().alpha(1f).setDuration(120).start(); }, 700);
         }
+    }
+
+    // Drift: shows the list once the filtered items have been laid out
+    private void revealList() {
+        androidx.recyclerview.widget.RecyclerView list = getListView();
+        if (list == null || list.getAlpha() == 1f) return;
+        list.postDelayed(() -> list.animate().alpha(1f).setDuration(120).start(), 80);
     }
 
     @Override
@@ -496,12 +507,15 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
         if (getListView() != null && getListView().getAdapter() != null) {
             getListView().getAdapter().notifyDataSetChanged();
         }
+        revealList();
     }
 
     // Drift: one icon per item, uniform tint; descriptive items without a key stay aligned with the text
     private static final java.util.Map<String, Integer> ICONS = new java.util.HashMap<>();
     static {
         ICONS.put("logout", R.drawable.ds_logout);
+        ICONS.put("drift_accent_pick", R.drawable.ds_palette);
+        ICONS.put("drift_chart_country", R.drawable.ds_globe);
         ICONS.put("manage_servers", R.drawable.ds_server);
         ICONS.put("continuous_play", R.drawable.ds_infinite);
         ICONS.put("number_tracks_keep_in_queue", R.drawable.ds_queue);
@@ -609,7 +623,8 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
                 android.graphics.drawable.Drawable d = androidx.appcompat.content.res.AppCompatResources.getDrawable(requireContext(), id);
                 if (d != null) {
                     d = d.mutate();
-                    d.setTint(0xFFDADAE0);
+                    // Drift: light grey on dark, dark grey on light
+                    d.setTint(com.eddyizm.tempus.ui.components.DriftColors.getDark() ? 0xFFDADAE0 : 0xFF4A4A55);
                     p.setIcon(d);
                 }
             }
@@ -995,6 +1010,15 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
     }
 
     private void actionTheme() {
+        // Drift: the current choice under the title (System default / Light / Dark, plus true black)
+        Preference themePref = findPreference("theme");
+        if (themePref != null) {
+            String[] titles = getResources().getStringArray(R.array.theme_list_titles);
+            int idx = java.util.Arrays.asList(getResources().getStringArray(R.array.theme_list_values)).indexOf(Preferences.getTheme());
+            String summary = idx >= 0 ? titles[idx] : titles[titles.length - 1];
+            if (Preferences.isDarkThemeBlack() && !"light".equals(Preferences.getTheme())) summary += " · " + getString(R.string.drift_true_black);
+            themePref.setSummary(summary);
+        }
         findPreference("theme").setOnPreferenceClickListener( preference -> {
             Intent tempus = new Intent(requireActivity(), LoginActivity.class);
             tempus.putExtra("HIDE_TAB_LAYOUT", true);
@@ -1571,30 +1595,62 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
         requireActivity().recreate();
     }
 
+    private View scrollOf(View v) {
+        android.widget.ScrollView sv = new android.widget.ScrollView(requireContext());
+        sv.addView(v);
+        return sv;
+    }
+
     private void showAccentDialog() {
         android.content.Context ctx = requireContext();
         float d = getResources().getDisplayMetrics().density;
         android.widget.GridLayout grid = new android.widget.GridLayout(ctx);
-        grid.setColumnCount(3);
+        grid.setColumnCount(4);
         grid.setPadding((int) (16 * d), (int) (8 * d), (int) (16 * d), 0);
         androidx.appcompat.app.AlertDialog[] dialog = new androidx.appcompat.app.AlertDialog[1];
         int current = com.eddyizm.tempus.helper.DriftAccent.getColor();
+        int nearest = com.eddyizm.tempus.helper.DriftAccent.nearestPreset(current);
+        android.util.TypedValue tv = new android.util.TypedValue();
+        ctx.getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, tv, true);
+        int textColor = tv.data;
         for (com.eddyizm.tempus.helper.DriftAccent.Preset preset : com.eddyizm.tempus.helper.DriftAccent.PRESETS) {
             android.widget.LinearLayout cell = new android.widget.LinearLayout(ctx);
             cell.setOrientation(android.widget.LinearLayout.VERTICAL);
             cell.setGravity(android.view.Gravity.CENTER_HORIZONTAL);
-            cell.setPadding((int) (8 * d), (int) (10 * d), (int) (8 * d), (int) (10 * d));
-            View dot = new View(ctx);
-            android.graphics.drawable.GradientDrawable g = new android.graphics.drawable.GradientDrawable();
-            g.setShape(android.graphics.drawable.GradientDrawable.OVAL);
-            g.setColor(preset.getColor());
-            if (preset.getColor() == current) g.setStroke((int) (3 * d), android.graphics.Color.WHITE);
-            dot.setBackground(g);
-            cell.addView(dot, new android.widget.LinearLayout.LayoutParams((int) (44 * d), (int) (44 * d)));
+            cell.setPadding((int) (4 * d), (int) (8 * d), (int) (4 * d), (int) (8 * d));
+            boolean selected = preset.getColor() == nearest;
+            // the dot; the selected one gets a ring with a gap around it and a check mark in the middle
+            android.widget.FrameLayout dot = new android.widget.FrameLayout(ctx);
+            android.graphics.drawable.GradientDrawable fill = new android.graphics.drawable.GradientDrawable();
+            fill.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+            fill.setColor(preset.getColor());
+            if (selected) {
+                android.graphics.drawable.GradientDrawable ring = new android.graphics.drawable.GradientDrawable();
+                ring.setShape(android.graphics.drawable.GradientDrawable.OVAL);
+                ring.setStroke((int) (2.5f * d), textColor);
+                int gap = (int) (5 * d);
+                android.graphics.drawable.LayerDrawable both = new android.graphics.drawable.LayerDrawable(new android.graphics.drawable.Drawable[]{ring, fill});
+                both.setLayerInset(1, gap, gap, gap, gap);
+                dot.setBackground(both);
+                android.widget.TextView check = new android.widget.TextView(ctx);
+                check.setText("✓");
+                check.setTextSize(20);
+                check.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
+                check.setTextColor(com.eddyizm.tempus.helper.DriftAccent.onAccent(preset.getColor()));
+                check.setGravity(android.view.Gravity.CENTER);
+                dot.addView(check, new android.widget.FrameLayout.LayoutParams(-1, -1));
+            } else {
+                int inset = (int) (5 * d);
+                dot.setBackground(new android.graphics.drawable.InsetDrawable(fill, inset));
+            }
+            cell.addView(dot, new android.widget.LinearLayout.LayoutParams((int) (50 * d), (int) (50 * d)));
             android.widget.TextView label = new android.widget.TextView(ctx);
             label.setText(preset.getName());
+            if (selected) label.setTypeface(android.graphics.Typeface.DEFAULT_BOLD);
             label.setGravity(android.view.Gravity.CENTER);
             label.setPadding(0, (int) (6 * d), 0, 0);
+            label.setTextSize(12);
+            label.setMaxLines(1);
             cell.addView(label);
             cell.setOnClickListener(v -> { dialog[0].dismiss(); applyAccent(preset.getColor()); });
             android.widget.GridLayout.LayoutParams lp = new android.widget.GridLayout.LayoutParams(
@@ -1605,7 +1661,7 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
         }
         dialog[0] = new com.google.android.material.dialog.MaterialAlertDialogBuilder(ctx)
                 .setTitle(R.string.drift_accent_color)
-                .setView(grid)
+                .setView(scrollOf(grid))
                 .setNeutralButton(R.string.drift_accent_custom, (di, w) ->
                         com.eddyizm.tempus.ui.dialog.ColorPickerDialog.newInstance(getString(R.string.drift_accent_color))
                                 .show(getChildFragmentManager(), "drift_accent_picker"))

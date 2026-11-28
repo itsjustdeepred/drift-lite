@@ -13,6 +13,19 @@
         android:fullBackupContent="@xml/lite_backup_rules"
         android:dataExtractionRules="@xml/lite_data_extraction_rules"
         tools:replace="android:allowBackup">
+        <!-- Last.fm sign-in comes back here (driftlite://lastfm?token=...) -->
+        <activity
+            android:name="com.eddyizm.tempus.lite.LiteLastFmCallbackActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="driftlite" android:host="lastfm" />
+            </intent-filter>
+        </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.updates"

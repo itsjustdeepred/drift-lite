@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift Lite: recommendations and scrobbling with the user's Last.fm account (French) -->
+<resources>
+    <string name="lite_fy_title">Recommandé pour toi</string>
+    <string name="lite_fy_from">D\'après tes écoutes sur Last.fm · %s</string>
+    <string name="lite_fy_card_connect">Connecte un compte Last.fm gratuit pour recevoir des suggestions selon tes goûts</string>
+    <string name="lite_fy_card_connected">Nouveaux titres et artistes choisis d\'après ce que tu écoutes</string>
+    <string name="lite_fy_pitch">Avec un compte Last.fm gratuit, Drift Lite apprend ce que tu aimes à partir de tes écoutes et te trouve de la nouvelle musique.</string>
+    <string name="lite_fy_point_tracks">Des titres que tu ne connais pas encore, proches de ceux que tu écoutes le plus</string>
+    <string name="lite_fy_point_artists">De nouveaux artistes proches de tes favoris</string>
+    <string name="lite_fy_point_history">Ton historique d\'écoute enregistré sur ton profil Last.fm (scrobbling), avec celui des autres applis que tu utilises</string>
+    <string name="lite_fy_connect">Connecter Last.fm</string>
+    <string name="lite_fy_join">Pas de compte ? Crée-le gratuitement</string>
+    <string name="lite_fy_privacy">Tu te connectes sur le site de Last.fm : Drift Lite ne voit jamais ton mot de passe. Tu peux te déconnecter à tout moment.</string>
+    <string name="lite_fy_tracks">Titres pour toi</string>
+    <string name="lite_fy_artists">Artistes pour toi</string>
+    <string name="lite_fy_empty">Écoute d\'abord quelques titres : les recommandations apparaissent après tes premières écoutes.</string>
+    <string name="lite_fy_failed">Impossible de joindre Last.fm. Réessaie plus tard.</string>
+    <string name="lite_fy_refresh">Actualiser</string>
+    <string name="lite_fy_disconnect">Déconnecter Last.fm</string>
+    <string name="lite_fy_scrobble_on">Activer le scrobbling</string>
+    <string name="lite_fy_scrobble_off">Désactiver le scrobbling</string>
+    <string name="lite_fy_scrobble_now_on">Les écoutes sont enregistrées sur Last.fm</string>
+    <string name="lite_fy_scrobble_now_off">Les écoutes ne sont plus enregistrées sur Last.fm</string>
+    <string name="lite_fy_connected_as">Connecté à Last.fm en tant que %s</string>
+    <string name="lite_fy_login_failed">Connexion à Last.fm impossible. Réessaie.</string>
+</resources>

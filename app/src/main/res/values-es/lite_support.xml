@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lite_support">Apoya Drift Lite</string>
+    <string name="lite_support_text">Gratis y sin anuncios. Toca para copiar la dirección.</string>
+    <string name="lite_support_copied">Dirección copiada</string>
+    <string name="lite_album">Álbum</string>
+</resources>

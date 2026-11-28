@@ -34,8 +34,9 @@ playlists for those genres and new releases from the artists you follow.
 <tr><td align="center" width="33%"><img src="docs/features/play.svg" width="48" alt=""/><br/><b>Play anything</b><br/><sub>Any song, streamed from YouTube Music.</sub></td><td align="center" width="33%"><img src="docs/features/charts.svg" width="48" alt=""/><br/><b>Local charts</b><br/><sub>Your country's Top 50 and Top 100, plus global.</sub></td><td align="center" width="33%"><img src="docs/features/foryou.svg" width="48" alt=""/><br/><b>For you</b><br/><sub>Playlists for the genres you picked.</sub></td></tr>
 <tr><td align="center" width="33%"><img src="docs/features/discover.svg" width="48" alt=""/><br/><b>Discover</b><br/><sub>Similar artists to the ones you follow.</sub></td><td align="center" width="33%"><img src="docs/features/releases.svg" width="48" alt=""/><br/><b>New releases</b><br/><sub>A notification when a followed artist releases something.</sub></td><td align="center" width="33%"><img src="docs/features/offline.svg" width="48" alt=""/><br/><b>Offline</b><br/><sub>Save songs, albums and playlists. Cancel and retry downloads.</sub></td></tr>
 <tr><td align="center" width="33%"><img src="docs/features/lyrics.svg" width="48" alt=""/><br/><b>Synced lyrics</b><br/><sub>Line by line, also full screen. Tap a line to jump.</sub></td><td align="center" width="33%"><img src="docs/features/playlists.svg" width="48" alt=""/><br/><b>Your playlists</b><br/><sub>Create, rename, reorder. Liked songs included.</sub></td><td align="center" width="33%"><img src="docs/features/speakers.svg" width="48" alt=""/><br/><b>Network speakers</b><br/><sub>Play on Sonos and DLNA speakers on your Wi-Fi.</sub></td></tr>
-<tr><td align="center" width="33%"><img src="docs/features/auto.svg" width="48" alt=""/><br/><b>Android Auto</b><br/><sub>Home, playlists, Liked and Offline in the car.</sub></td><td align="center" width="33%"><img src="docs/features/backup.svg" width="48" alt=""/><br/><b>Backup</b><br/><sub>To a file or Google Drive, restore in one tap.</sub></td><td align="center" width="33%"><img src="docs/features/private.svg" width="48" alt=""/><br/><b>No account</b><br/><sub>Nothing to sign up for. Your data stays on the phone.</sub></td></tr>
-<tr><td align="center" width="33%"><img src="docs/features/recognize.svg" width="48" alt=""/><br/><b>Recognize songs</b><br/><sub>Hear something you like? Tap the mic, then save it to a playlist.</sub></td><td align="center" width="33%"><img src="docs/features/updates.svg" width="48" alt=""/><br/><b>Updates in the app</b><br/><sub>New versions show up with a short changelog.</sub></td><td align="center" width="33%"><img src="docs/features/languages.svg" width="48" alt=""/><br/><b>English and Italian</b><br/><sub>Follows your phone, or pick it at first launch.</sub></td></tr>
+<tr><td align="center" width="33%"><img src="docs/features/auto.svg" width="48" alt=""/><br/><b>Android Auto</b><br/><sub>Home, playlists, Liked and Offline in the car.</sub></td><td align="center" width="33%"><img src="docs/features/backup.svg" width="48" alt=""/><br/><b>Backup</b><br/><sub>To a file or Google Drive, restore in one tap.</sub></td><td align="center" width="33%"><img src="docs/features/private.svg" width="48" alt=""/><br/><b>No account needed</b><br/><sub>Nothing to sign up for. Your data stays on the phone.</sub></td></tr>
+<tr><td align="center" width="33%"><img src="docs/features/recognize.svg" width="48" alt=""/><br/><b>Recognize songs</b><br/><sub>Hear something you like? Tap the mic, then save it to a playlist.</sub></td><td align="center" width="33%"><img src="docs/features/updates.svg" width="48" alt=""/><br/><b>Updates in the app</b><br/><sub>New versions show up with a short changelog.</sub></td><td align="center" width="33%"><img src="docs/features/languages.svg" width="48" alt=""/><br/><b>Six languages</b><br/><sub>English, Italian, Spanish, French, German, Portuguese.</sub></td></tr>
+<tr><td align="center" width="33%"><img src="docs/features/lastfm.svg" width="48" alt=""/><br/><b>Recommended for you</b><br/><sub>Connect your free Last.fm account for picks based on your taste.</sub></td><td align="center" width="33%"><img src="docs/features/themes.svg" width="48" alt=""/><br/><b>Light, dark, true black</b><br/><sub>Follows your phone. Pick from 18 accent colors.</sub></td><td align="center" width="33%"><img src="docs/features/reorder.svg" width="48" alt=""/><br/><b>Drag to reorder</b><br/><sub>Long-press a playlist or a song and move it.</sub></td></tr>
 </table>
 
 <br/><br/>
@@ -50,8 +51,10 @@ playlists for those genres and new releases from the artists you follow.
 | <img src="docs/screenshots/library.jpg" width="200"/> | <img src="docs/screenshots/artist.jpg" width="200"/> | <img src="docs/screenshots/search.jpg" width="200"/> | <img src="docs/screenshots/player.jpg" width="200"/> |
 | **Lyrics** | **Playlists** | **Offline** | **First run** |
 | <img src="docs/screenshots/lyrics.jpg" width="200"/> | <img src="docs/screenshots/playlists.jpg" width="200"/> | <img src="docs/screenshots/offline.jpg" width="200"/> | <img src="docs/screenshots/onboarding.jpg" width="200"/> |
-| **Recognize a song** | **Save it to a playlist** | | |
-| <img src="docs/screenshots/recognize.jpg" width="200"/> | <img src="docs/screenshots/recognized.jpg" width="200"/> | | |
+| **Recognize a song** | **Save it to a playlist** | **Home** | **Light theme** |
+| <img src="docs/screenshots/recognize.jpg" width="200"/> | <img src="docs/screenshots/recognized.jpg" width="200"/> | <img src="docs/screenshots/home.jpg" width="200"/> | <img src="docs/screenshots/home-light.jpg" width="200"/> |
+| **Recommended for you** | **Your playlist** | **Your colors** | |
+| <img src="docs/screenshots/lastfm.jpg" width="200"/> | <img src="docs/screenshots/playlist.jpg" width="200"/> | <img src="docs/screenshots/colors.jpg" width="200"/> | |
 
 <sub>The music in the screenshots is from <a href="https://ncs.io">NCS</a> (royalty-free).</sub>
 
@@ -68,6 +71,8 @@ Drift Lite doesn't host any music. It works like this:
 2. When you press play, it looks for the same song on YouTube Music, by the same artist and with about the same length, and streams it.
 3. Lyrics come from LRCLIB, matched by artist, title and length.
 4. Your playlists, liked songs, followed artists and downloads stay on your phone.
+5. To recognize a song, the phone turns a few seconds of sound into an audio fingerprint and asks an online recognition service what it is.
+6. Optional: connect your Last.fm account. Drift Lite then scrobbles what you play and builds recommendations from your listening history.
 
 <br/><br/>
 
@@ -105,7 +110,8 @@ the other flavors build the original Subsonic client.
 <a name="privacy"></a>
 <img src="docs/sections/privacy.svg" width="100%" alt="Privacy"/>
 
-- No account, no analytics, no ads.
+- No account needed, no analytics, no ads.
+- Last.fm is optional. If you connect it, you sign in on the Last.fm website (the app never sees your password) and your plays are saved to your Last.fm profile. Scrobbling can be turned off, and you can disconnect at any time.
 - The microphone is used only while you recognize a song. What leaves the phone is an audio fingerprint, not the recording.
 - The app only connects to the services listed above.
 - Everything you create in the app is stored on your phone.

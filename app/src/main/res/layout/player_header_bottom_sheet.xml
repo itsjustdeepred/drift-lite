@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_peek_height"
-    android:background="#FF0B0B0F"
+    android:background="@color/drift_bg"
     android:clipChildren="false">
 
     <!-- Drift: mini player card (color from the cover art, set by DriftColors) -->

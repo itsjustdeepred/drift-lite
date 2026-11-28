@@ -10,8 +10,9 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 /**
- * Drift: "Recognize song". Sends the seconds recorded from the microphone to Undertow (POST /recognize);
- * Undertow has Shazam recognize them and says whether the song is in the library (song_id) or downloadable (deezer_id).
+ * Drift: "Recognize song". Recognition runs on the phone ([com.eddyizm.tempus.lite.LiteRecognizer]); [resolve] then
+ * looks the song up in the library (song id) and on Deezer (id Undertow can download).
+ * [recognize] is the older Undertow path (POST /recognize), kept for servers that still expose it.
  */
 object DriftRecognition {
 
@@ -66,6 +67,29 @@ object DriftRecognition {
                 else -> parse(r.body.string())
             }
         }
+    }
+
+    /** Library id and Deezer id for a song recognized on the phone. Call off the main thread. */
+    @JvmStatic
+    fun resolve(s: com.eddyizm.tempus.lite.LiteRecognizer.Song): Song {
+        val norm = com.eddyizm.tempus.lite.LiteMatch::norm
+        val title = norm(s.title)
+        val artistWords = norm(s.artist).split(' ').filter { it.length > 1 }.toSet()
+        fun sameArtist(a: String?) = a != null && norm(a).split(' ').any { it in artistWords }
+        val songId = runCatching {
+            com.eddyizm.tempus.App.getSubsonicClientInstance(false).searchingClient.search3(s.title, 20, 0, 0, 0, 0, 0)
+                .execute().body()?.subsonicResponse?.searchResult3?.songs
+                ?.firstOrNull { norm(it.title ?: "") == title && sameArtist(it.artist) }?.id
+        }.getOrNull()
+        val deezerId = runCatching {
+            val q = okhttp3.HttpUrl.Builder().scheme("https").host("api.deezer.com").addPathSegments("search/track")
+                .addQueryParameter("q", "artist:\"${s.artist}\" track:\"${s.title}\"").addQueryParameter("limit", "5").build()
+            http.newCall(okhttp3.Request.Builder().url(q).build()).execute().use { r ->
+                JsonParser.parseString(r.body.string()).asJsonObject.getAsJsonArray("data")?.map { it.asJsonObject }
+                    ?.firstOrNull { norm(it.str("title") ?: "") == title }?.get("id")?.asLong
+            }
+        }.getOrNull()
+        return Song(s.title, s.artist, s.album, s.cover, s.isrc, songId, deezerId)
     }
 
     internal fun parse(json: String): Result {
