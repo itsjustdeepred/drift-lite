@@ -46,15 +46,8 @@ class DynamicMediaSourceFactory(
             DownloadUtil.getCacheDataSourceFactory(context)
         }
 
-        // Drift Lite: YouTube stream; the real URL is resolved only when the player opens the track
-        if (mediaItem.localConfiguration?.uri?.scheme == com.eddyizm.tempus.lite.LiteTracks.SCHEME) {
-            val http = androidx.media3.datasource.DefaultHttpDataSource.Factory()
-                .setUserAgent(com.eddyizm.tempus.lite.LiteYouTube.UA).setAllowCrossProtocolRedirects(true)
-            val resolving = androidx.media3.datasource.ResolvingDataSource.Factory(http) { spec ->
-                spec.withUri(com.eddyizm.tempus.lite.LiteTracks.resolve(spec.uri))
-            }
-            return ProgressiveMediaSource.Factory(resolving, DefaultExtractorsFactory()).createMediaSource(mediaItem)
-        }
+        // Drift Lite: YouTube songs have their own source
+        com.eddyizm.tempus.flavor.FlavorHooks.mediaSource(mediaItem)?.let { return it }
 
         return when {
             mediaItem.localConfiguration?.mimeType == MimeTypes.APPLICATION_M3U8 ||

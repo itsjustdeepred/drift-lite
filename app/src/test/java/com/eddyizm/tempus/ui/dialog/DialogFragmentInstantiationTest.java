@@ -14,27 +14,19 @@ import static org.junit.Assert.assertTrue;
 public class DialogFragmentInstantiationTest {
 
     private final List<Class<? extends DialogFragment>> dialogClasses = Arrays.asList(
-            RadioEditorDialog.class,
-            PodcastChannelEditorDialog.class,
-            PlaylistEditorDialog.class,
-            DownloadDirectoryDialog.class,
             DownloadStorageDialog.class,
             StreamingCacheStorageDialog.class,
             TrackInfoDialog.class,
-            GithubTempoUpdateDialog.class,
             StarredSyncDialog.class,
             StarredAlbumSyncDialog.class,
             StarredArtistSyncDialog.class,
             ConnectionAlertDialog.class,
             BatteryOptimizationDialog.class,
             DeleteDownloadStorageDialog.class,
-            HomeRearrangementDialog.class,
             ServerUnreachableDialog.class,
-            ShareUpdateDialog.class,
             PlaybackSpeedDialog.class,
             SleepTimerDialog.class,
-            RatingDialog.class,
-            PlaylistChooserDialog.class
+            RatingDialog.class
     );
 
     @Test

@@ -31,7 +31,6 @@ import com.eddyizm.tempus.lan.LanRemoteSession
 import com.eddyizm.tempus.service.MediaService
 import com.eddyizm.tempus.subsonic.models.Child
 import com.eddyizm.tempus.ui.components.NowPlayingArtworkPager
-import com.eddyizm.tempus.ui.dialog.PlaylistChooserDialog
 import com.eddyizm.tempus.util.Constants
 import com.eddyizm.tempus.util.DownloadUtil
 import com.eddyizm.tempus.util.ExternalAudioWriter
@@ -209,19 +208,7 @@ class PlayerCoverFragment : Fragment() {
                 }
 
                 binding.innerButtonTopRight.setOnClickListener {
-                    // Drift Lite: playlists live on the phone
-                    if (com.eddyizm.tempus.BuildConfig.LITE) {
-                        com.eddyizm.tempus.lite.LitePlaylistPickerDialog.show(requireActivity(), arrayListOf(song.id))
-                        return@setOnClickListener
-                    }
-                    val tracks = ArrayList<Child>().apply { add(song) }
-                    val bundle = Bundle().apply {
-                        putParcelableArrayList(Constants.TRACKS_OBJECT, tracks)
-                    }
-                    val dialog = PlaylistChooserDialog().apply {
-                        arguments = bundle
-                    }
-                    dialog.show(requireActivity().supportFragmentManager, null)
+                    com.eddyizm.tempus.flavor.FlavorHooks.showPlaylistPicker(requireActivity(), listOf(song))
                 }
 
                 // Drift Lite: no instant mix (it needs the server's similar songs)

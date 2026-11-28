@@ -85,11 +85,12 @@ private val groups = listOf(
         add(Cat(R.string.ds_quality, R.string.ds_sum_quality, R.drawable.ds_hq))
         add(Cat(R.string.ds_sound, R.string.ds_sum_sound, R.drawable.ds_sound))
         add(Cat(R.string.ds_devices, R.string.ds_sum_devices, R.drawable.ic_drift_speaker))
-        if (BuildConfig.FLAVOR == "tempus") add(Cat(R.string.ds_auto, R.string.ds_sum_auto, R.drawable.ds_car))
+        if (!BuildConfig.LITE) add(Cat(R.string.ds_auto, R.string.ds_sum_auto, R.drawable.ds_car))
     }),
     Group(R.string.ds_group_library, listOf(
         Cat(R.string.ds_library, R.string.ds_sum_library, R.drawable.ds_library),
         Cat(R.string.ds_offline, R.string.ds_sum_offline, R.drawable.ds_download),
+        Cat(R.string.ds_undertow_title, R.string.ds_sum_undertow, R.drawable.ds_server),
     )),
     Group(R.string.ds_group_app, listOf(
         Cat(R.string.ds_look, R.string.ds_sum_look, R.drawable.ds_palette),
@@ -129,12 +130,12 @@ private fun SettingsHome(open: (Int) -> Unit) {
     // "Private session" = no scrobbling to Navidrome/Last.fm
     var privateSession by remember { mutableStateOf(!Preferences.isScrobblingEnabled()) }
     val lite = BuildConfig.LITE
-    var liteName by remember { mutableStateOf(com.eddyizm.tempus.lite.LiteApp.name) }
+    var liteName by remember { mutableStateOf(com.eddyizm.tempus.flavor.FlavorHooks.profileName.orEmpty()) }
     var editName by remember { mutableStateOf(false) }
     var draft by remember { mutableStateOf(liteName) }
     val user = if (lite) liteName else Preferences.getUser().orEmpty()
-    if (editName) com.eddyizm.tempus.lite.NameDialog(stringResource(R.string.lite_your_name), draft, { draft = it }, stringResource(R.string.lite_save), { editName = false }) {
-        com.eddyizm.tempus.lite.LiteApp.name = draft; liteName = draft.trim(); editName = false
+    if (editName) com.eddyizm.tempus.ui.components.NameDialog(stringResource(R.string.lite_your_name), draft, { draft = it }, stringResource(R.string.lite_save), { editName = false }) {
+        com.eddyizm.tempus.flavor.FlavorHooks.profileName = draft; liteName = draft.trim(); editName = false
     }
 
     LazyColumn(Modifier.fillMaxSize().background(SBgS).navigationBarsPadding(), contentPadding = PaddingValues(bottom = 180.dp)) {
@@ -161,38 +162,8 @@ private fun SettingsHome(open: (Int) -> Unit) {
                 Image(painterResource(R.drawable.ds_chevron), null, colorFilter = ColorFilter.tint(SLoS), modifier = Modifier.size(22.dp))
             }
         }
-        if (lite) item {
-            // "Your music": taste picked at first launch, Home sections, Last.fm, as one card like the groups below
-            var sectionsOpen by remember { mutableStateOf(false) }
-            if (sectionsOpen) com.eddyizm.tempus.lite.LiteHomeSectionsDialog { sectionsOpen = false }
-            val fm by com.eddyizm.tempus.lite.LiteLastFm.account.collectAsState()
-            val view = androidx.compose.ui.platform.LocalView.current
-            val rows = buildList<Triple<Int, Pair<String, String>, () -> Unit>> {
-                add(Triple(R.drawable.ds_note, stringResource(R.string.lite_genres_and_artists) to stringResource(R.string.lite_genres_and_artists_sub)) {
-                    com.eddyizm.tempus.lite.LiteApp.onboarded = false; (it_activity())?.recreate(); Unit
-                })
-                add(Triple(R.drawable.ds_grid, stringResource(R.string.lite_home_sections) to stringResource(R.string.lite_home_sections_sub)) { sectionsOpen = true })
-                if (com.eddyizm.tempus.lite.LiteLastFm.available) add(Triple(R.drawable.ds_radio,
-                    "Last.fm" to (if (fm != null) stringResource(R.string.lite_fy_connected_as, fm!!) else stringResource(R.string.lite_lastfm_sub))) {
-                    runCatching { androidx.navigation.Navigation.findNavController(view).navigate(R.id.liteForYouFragment) }; Unit
-                })
-            }
-            Text(stringResource(R.string.lite_your_music), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 14.sp, fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 20.dp, top = 14.dp, bottom = 8.dp))
-            Column(Modifier.padding(horizontal = 16.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(SCardS)) {
-                rows.forEachIndexed { i, (icon, texts, action) ->
-                    if (i > 0) Box(Modifier.padding(start = 58.dp).fillMaxWidth().height(1.dp).background(DriftColors.divider))
-                    Row(Modifier.fillMaxWidth().clickable(onClick = action).padding(horizontal = 16.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Image(painterResource(icon), null, colorFilter = ColorFilter.tint(SHiS), modifier = Modifier.size(24.dp))
-                        Column(Modifier.padding(start = 18.dp).weight(1f)) {
-                            Text(texts.first, color = SHiS, fontSize = 16.sp)
-                            Text(texts.second, color = SLoS, fontSize = 12.5.sp, modifier = Modifier.padding(top = 2.dp))
-                        }
-                        Image(painterResource(R.drawable.ds_chevron), null, colorFilter = ColorFilter.tint(SLoS), modifier = Modifier.size(20.dp))
-                    }
-                }
-            }
-        }
+        // Drift Lite: "Your music" (taste, Home sections, Last.fm)
+        item { com.eddyizm.tempus.flavor.FlavorHooks.SettingsMusicCard() }
         if (!lite) item {
             Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 QuickTile(stringResource(R.string.ds_data_saver), stringResource(if (saver) R.string.ds_data_saver_on else R.string.ds_off), saver, R.drawable.ds_datasaver, Modifier.weight(1f)) {
@@ -247,10 +218,12 @@ private fun SettingsHome(open: (Int) -> Unit) {
                 val act = androidx.compose.ui.platform.LocalContext.current as? android.app.Activity
                 Spacer(Modifier.height(10.dp))
                 Text(stringResource(R.string.lite_update_check), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 14.sp, fontWeight = FontWeight.Bold,
-                    modifier = Modifier.clip(RoundedCornerShape(50)).clickable { act?.let { com.eddyizm.tempus.lite.LiteUpdater.check(it, manual = true) } }
+                    modifier = Modifier.clip(RoundedCornerShape(50)).clickable { act?.let { com.eddyizm.tempus.helper.AppUpdater.check(it, manual = true) } }
                         .padding(vertical = 6.dp))
             }
-            // Donations: one ETH address, copied with a tap
+        }
+        item {
+            // Donations (both apps): one ETH address, copied with a tap
             val ctx = androidx.compose.ui.platform.LocalContext.current
             Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp).fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(SCardS)
                 .clickable {
@@ -266,7 +239,13 @@ private fun SettingsHome(open: (Int) -> Unit) {
         }
         if (!lite) item {
             Spacer(Modifier.height(16.dp))
-            Text((if (lite) "Drift Lite " else "Drift ") + BuildConfig.VERSION_NAME, color = SLoS, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 20.dp))
+            val act = androidx.compose.ui.platform.LocalContext.current as? android.app.Activity
+            Row(Modifier.padding(horizontal = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text("Drift " + BuildConfig.VERSION_NAME, color = SLoS, fontSize = 12.sp, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.lite_update_check), color = com.eddyizm.tempus.helper.DriftAccent.composeText, fontSize = 13.sp, fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clip(RoundedCornerShape(50)).clickable { act?.let { com.eddyizm.tempus.helper.AppUpdater.check(it, manual = true) } }
+                        .padding(horizontal = 8.dp, vertical = 6.dp))
+            }
         }
     }
 }

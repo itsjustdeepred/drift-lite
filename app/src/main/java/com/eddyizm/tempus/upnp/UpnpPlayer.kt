@@ -176,7 +176,7 @@ class UpnpPlayer(
         val url = entry.url ?: return null
         if (entry.item.mediaMetadata.extras?.getString("type") != Constants.MEDIA_TYPE_MUSIC) return url
         // Drift Lite: YouTube songs are relayed as AAC, nothing to ask a server
-        if (com.eddyizm.tempus.lite.LiteTracks.isLite(entry.item.mediaId)) return url
+        if (com.eddyizm.tempus.flavor.FlavorHooks.isPhoneTrack(entry.item.mediaId)) return url
         val known = entry.item.mediaMetadata.extras?.getInt("samplingRate", 0) ?: 0
         val rate = if (known > 0) known else try {
             App.getSubsonicClientInstance(false).browsingClient.getSong(entry.item.mediaId).execute()
@@ -1200,8 +1200,8 @@ class UpnpPlayer(
         @JvmStatic
         fun streamUrlFor(item: MediaItem): String? =
             // Drift Lite: YouTube songs are relayed by the phone, in a format speakers play
-            if (com.eddyizm.tempus.lite.LiteTracks.isLite(item.mediaId)) {
-                com.eddyizm.tempus.lite.LiteStreamServer.urlFor(item.mediaId)
+            if (com.eddyizm.tempus.flavor.FlavorHooks.isPhoneTrack(item.mediaId)) {
+                com.eddyizm.tempus.flavor.FlavorHooks.speakerUrl(item.mediaId)
             } else if (item.mediaMetadata.extras?.getString("type") == Constants.MEDIA_TYPE_MUSIC) {
                 MusicUtil.getStreamUri(item.mediaId).toString()
             } else {

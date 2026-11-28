@@ -93,9 +93,9 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
 
     public void setFavorite(Context context, Child media) {
         // Drift Lite: no server, the "Like" stays on the phone
-        if (media != null && com.eddyizm.tempus.lite.LiteTracks.isLite(media.getId())) {
-            boolean now = !com.eddyizm.tempus.lite.LiteTracks.isLiked(media.getId());
-            com.eddyizm.tempus.lite.LiteTracks.setLiked(media.getId(), now);
+        if (media != null && com.eddyizm.tempus.flavor.FlavorHooks.isPhoneTrack(media.getId())) {
+            boolean now = !com.eddyizm.tempus.flavor.FlavorHooks.isPhoneTrackLiked(media.getId());
+            com.eddyizm.tempus.flavor.FlavorHooks.setPhoneTrackLiked(media.getId(), now);
             media.setStarred(now ? new java.util.Date() : null);
             FavoriteRegistry.set(FavoriteRegistry.Kind.SONG, media.getId(), now);
             return;
@@ -190,7 +190,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         }
 
         // Drift Lite: YouTube track, lyrics come only from LRCLIB
-        if (com.eddyizm.tempus.lite.LiteTracks.isLite(media.getId())) {
+        if (com.eddyizm.tempus.flavor.FlavorHooks.isPhoneTrack(media.getId())) {
             if (cachedLyrics == null) fetchLyricsDirect(media);
             return;
         }
@@ -237,9 +237,9 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         if (mediaType != null) {
             switch (mediaType) {
                 case Constants.MEDIA_TYPE_MUSIC:
-                    if (com.eddyizm.tempus.lite.LiteTracks.isLite(mediaId)) {
+                    if (com.eddyizm.tempus.flavor.FlavorHooks.isPhoneTrack(mediaId)) {
                         // Drift Lite: YouTube track, it does not exist on Navidrome
-                        Child lite = com.eddyizm.tempus.lite.LiteTracks.child(mediaId);
+                        Child lite = com.eddyizm.tempus.flavor.FlavorHooks.phoneTrack(mediaId);
                         postLiveMedia(lite != null ? lite : queuedSong);
                     }
                     else if (!TextUtils.isEmpty(mediaId)) {
@@ -462,7 +462,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
     private void fetchLyricsDirect(Child media) {
         String id = media.getId();
         new Thread(() -> {
-            String lrc = com.eddyizm.tempus.lite.LiteLyrics.fetch(id, media.getTitle(), media.getArtist(),
+            String lrc = com.eddyizm.tempus.flavor.FlavorHooks.fetchLyrics(id, media.getTitle(), media.getArtist(),
                     media.getDuration() != null ? media.getDuration() : 0);
             if (lrc == null || !id.equals(currentSongId)) return;
             lyricsLiveData.postValue(lrc);
@@ -474,7 +474,7 @@ public class PlayerBottomSheetViewModel extends AndroidViewModel {
         if (com.eddyizm.tempus.BuildConfig.LITE) { fetchLyricsDirect(media); return; }
         String id = media.getId();
         new Thread(() -> {
-            if (!com.eddyizm.tempus.helper.Undertow.fetchLyrics(id)) return;
+            if (!com.eddyizm.tempus.flavor.FlavorHooks.fetchServerLyrics(id)) return;
             new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
                 if (!id.equals(currentSongId)) return;
                 openRepository.getLyricsBySongId(id).observe(owner, list -> {

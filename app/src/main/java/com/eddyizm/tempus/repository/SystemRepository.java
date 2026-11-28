@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.eddyizm.tempus.App;
-import com.eddyizm.tempus.github.models.LatestRelease;
 import com.eddyizm.tempus.interfaces.SystemCallback;
 import com.eddyizm.tempus.subsonic.Subsonic;
 import com.eddyizm.tempus.subsonic.base.ApiResponse;
@@ -122,26 +121,4 @@ public class SystemRepository {
         return extensionsResult;
     }
 
-    public MutableLiveData<LatestRelease> checkTempusUpdate() {
-        MutableLiveData<LatestRelease> latestRelease = new MutableLiveData<>();
-
-        App.getGithubClientInstance()
-                .getReleaseClient()
-                .getLatestRelease()
-                .enqueue(new Callback<LatestRelease>() {
-                    @Override
-                    public void onResponse(@NonNull Call<LatestRelease> call, @NonNull Response<LatestRelease> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            latestRelease.postValue(response.body());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<LatestRelease> call, @NonNull Throwable t) {
-                        latestRelease.postValue(null);
-                    }
-                });
-
-        return latestRelease;
-    }
 }

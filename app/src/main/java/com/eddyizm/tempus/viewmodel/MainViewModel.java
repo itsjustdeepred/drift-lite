@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.eddyizm.tempus.github.models.LatestRelease;
 import com.eddyizm.tempus.repository.QueueRepository;
 import com.eddyizm.tempus.repository.SystemRepository;
 import com.eddyizm.tempus.subsonic.models.OpenSubsonicExtension;
@@ -67,7 +66,4 @@ public class MainViewModel extends AndroidViewModel {
         return systemRepository.getOpenSubsonicExtensions();
     }
 
-    public LiveData<LatestRelease> checkTempusUpdate() {
-        return systemRepository.checkTempusUpdate();
-    }
 }

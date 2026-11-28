@@ -44,7 +44,6 @@ import com.eddyizm.tempus.BuildConfig;
 import com.eddyizm.tempus.R;
 import com.eddyizm.tempus.broadcast.receiver.ConnectivityStatusBroadcastReceiver;
 import com.eddyizm.tempus.databinding.ActivityMainBinding;
-import com.eddyizm.tempus.github.utils.UpdateUtil;
 import com.eddyizm.tempus.helper.ThemeHelper;
 import com.eddyizm.tempus.navigation.NavigationController;
 import com.eddyizm.tempus.navigation.NavigationHelper;
@@ -55,12 +54,10 @@ import com.eddyizm.tempus.navigation.BottomSheetController;
 import com.eddyizm.tempus.navigation.BottomSheetHelper;
 import com.eddyizm.tempus.ui.components.DriftColors;
 import com.eddyizm.tempus.ui.dialog.ConnectionAlertDialog;
-import com.eddyizm.tempus.ui.dialog.GithubTempoUpdateDialog;
 import com.eddyizm.tempus.ui.dialog.ServerUnreachableDialog;
 import com.eddyizm.tempus.ui.fragment.PlayerBottomSheetFragment;
 import com.eddyizm.tempus.ui.fragment.SettingsFragment;
 import com.eddyizm.tempus.ui.login.LoginActivity;
-import com.eddyizm.tempus.util.AssetLinkNavigator;
 import com.eddyizm.tempus.util.AssetLinkUtil;
 import com.eddyizm.tempus.util.Constants;
 import com.eddyizm.tempus.util.DownloadUtil;
@@ -100,7 +97,6 @@ public class MainActivity extends BaseActivity {
     private BottomSheetController bottomSheetController;
     public BottomSheetBehavior bottomSheetBehavior;
     private boolean isLandscape = false;
-    private AssetLinkNavigator assetLinkNavigator;
     private AssetLinkUtil.AssetLink pendingAssetLink;
 
     ConnectivityStatusBroadcastReceiver connectivityStatusBroadcastReceiver;
@@ -158,7 +154,6 @@ public class MainActivity extends BaseActivity {
         setContentView(view);
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        assetLinkNavigator = new AssetLinkNavigator(this);
 
         connectivityStatusBroadcastReceiver = new ConnectivityStatusBroadcastReceiver(this);
         connectivityStatusReceiverManager(true);
@@ -168,7 +163,6 @@ public class MainActivity extends BaseActivity {
         init();
         checkConnectionType();
         getOpenSubsonicExtensions();
-        checkTempusUpdate();
 
         DownloadRepair.repairIfNeeded(this);
         AlbumArtistBackfill.backfillIfNeeded();
@@ -199,8 +193,7 @@ public class MainActivity extends BaseActivity {
             try {
                 int n = com.eddyizm.tempus.helper.DriftSpotify.syncSaved();
                 int d = com.eddyizm.tempus.helper.DriftSpotify.downloadFollowed(getApplicationContext(), null);
-                if (!com.eddyizm.tempus.BuildConfig.LITE && com.eddyizm.tempus.helper.Undertow.getEnabled())
-                    com.eddyizm.tempus.helper.DriftReleases.check(getApplicationContext());
+                com.eddyizm.tempus.flavor.FlavorHooks.afterDailySync(getApplicationContext());
                 android.util.Log.i("DriftFollow", "saved playlists updated: " + n + ", songs to keep offline: " + d);
             } catch (Exception e) {
                 android.util.Log.w("DriftFollow", "sync", e);
@@ -211,7 +204,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (com.eddyizm.tempus.BuildConfig.LITE) com.eddyizm.tempus.lite.LiteUpdater.resumePending(this);
+        com.eddyizm.tempus.flavor.FlavorHooks.onResume(this);
         pingServer();
         toggleNavigationDrawerLockOnOrientationChange();
     }
@@ -256,10 +249,8 @@ public class MainActivity extends BaseActivity {
         initBackPressedDispatcher();
 
         // Drift Lite: online only, no server and no login
-        if (com.eddyizm.tempus.BuildConfig.LITE) {
-            com.eddyizm.tempus.lite.LiteApp.prepare();
+        if (com.eddyizm.tempus.flavor.FlavorHooks.startWithoutLogin(this)) {
             goFromLogin();
-            com.eddyizm.tempus.lite.LiteUpdater.check(this);
         } else if (Preferences.getPassword() != null || (Preferences.getToken() != null && Preferences.getSalt() != null)) {
             goFromLogin();
         } else {
@@ -276,8 +267,6 @@ public class MainActivity extends BaseActivity {
                 .getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
-        // Drift Lite: Home, Search and Library have their own screens (no server library)
-        if (com.eddyizm.tempus.BuildConfig.LITE) com.eddyizm.tempus.lite.LiteApp.swapDestinations(navController);
         /*
         navController is currently global since some legacy code still invokes it directly
         the MainActivity methods that use it must be converted to NavigationHelper methods
@@ -327,6 +316,14 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
             return androidx.navigation.ui.NavigationUI.onNavDestinationSelected(item, navController);
+        });
+        // The Mix tab (Playlists in Drift Lite) is not a menu destination: keep the bar on it when its page shows,
+        // also when coming back to it, otherwise the previous tab stays highlighted.
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            boolean mixPage = destination.getId() == R.id.playlistCatalogueFragment && (com.eddyizm.tempus.BuildConfig.LITE
+                    || (arguments != null && arguments.getBoolean(com.eddyizm.tempus.util.Constants.PLAYLIST_MIXES, false)));
+            android.view.MenuItem mixItem = nav.getMenu().findItem(R.id.drift_mix_tab);
+            if (mixPage && mixItem != null) mixItem.setChecked(true);
         });
         nav.post(() -> {
             View home = nav.findViewById(R.id.homeFragment);
@@ -574,13 +571,8 @@ public class MainActivity extends BaseActivity {
         NavController nc = navigationController.getNavController();
         int id = nc.getCurrentDestination().getId();
 
-        if (id == R.id.landingFragment) {
-           nc.navigate(R.id.action_landingFragment_to_loginFragment);
-        } else if (id == R.id.settingsFragment) {
-            nc.navigate(R.id.action_settingsFragment_to_loginFragment);
-        } else if (id == R.id.homeFragment) {
-            nc.navigate(R.id.action_homeFragment_to_loginFragment);
-        }
+        int action = com.eddyizm.tempus.flavor.FlavorHooks.loginActionFrom(id);
+        if (action != 0) nc.navigate(action);
     }
 
     private void goToHome() {
@@ -589,11 +581,8 @@ public class MainActivity extends BaseActivity {
         NavController nc = navigationController.getNavController();
         int id = nc.getCurrentDestination().getId();
 
-        if (id == R.id.landingFragment) {
-            nc.navigate(R.id.action_landingFragment_to_homeFragment);
-        } else if (id == R.id.loginFragment) {
-            nc.navigate(R.id.action_loginFragment_to_homeFragment);
-        }
+        int action = com.eddyizm.tempus.flavor.FlavorHooks.homeActionFrom(id);
+        if (action != 0) nc.navigate(action);
     }
 
     // Drift: screen to reopen after a theme change recreates the activity (previous + current destination with their arguments)
@@ -627,6 +616,10 @@ public class MainActivity extends BaseActivity {
 
     public void goFromLogin() {
         setBottomSheetInPeek(mainViewModel.isQueueLoaded());
+        // right after the first sign-in too, not only at startup: synced lyrics and the other OpenSubsonic features
+        // depend on the server's OpenSubsonic flag (ping) and on its list of extensions
+        pingServer();
+        getOpenSubsonicExtensions();
         if (!com.eddyizm.tempus.BuildConfig.LITE) new PlaylistRepository().syncKeptPlaylists(getApplicationContext());
         goToHome();
         if (recreateDestinations != null) bind.getRoot().post(this::reopenRememberedScreen);
@@ -646,8 +639,8 @@ public class MainActivity extends BaseActivity {
         if (collapsePlayer) {
             setBottomSheetInPeek(true);
         }
-        if (assetLinkNavigator != null) {
-            assetLinkNavigator.open(assetLink);
+        if (navigationController != null) {
+            com.eddyizm.tempus.flavor.FlavorHooks.openAssetLink(this, assetLink);
         }
     }
 
@@ -813,16 +806,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void checkTempusUpdate() {
-        if (false && BuildConfig.FLAVOR.equals("tempus") && Preferences.isGithubUpdateEnabled() && Preferences.showTempusUpdateDialog()) {
-            mainViewModel.checkTempusUpdate().observe(this, latestRelease -> {
-                if (latestRelease != null && UpdateUtil.showUpdateDialog(latestRelease)) {
-                    GithubTempoUpdateDialog dialog = new GithubTempoUpdateDialog(latestRelease);
-                    dialog.show(getSupportFragmentManager(), null);
-                }
-            });
-        }
-    }
 
     private void checkConnectionType() {
         if (Preferences.isWifiOnly()) {
@@ -859,8 +842,8 @@ public class MainActivity extends BaseActivity {
      * the same path Android Auto uses (MediaLibraryServiceCallback.resolveVoiceQuery).
      */
     private void playVoiceQuery(String query) {
-        // voice search is resolved only by the session callback of the tempus flavor
-        if (!"tempus".equals(com.eddyizm.tempus.BuildConfig.FLAVOR)) return;
+        // voice search from the phone: Drift only
+        if (com.eddyizm.tempus.BuildConfig.LITE) return;
         com.google.common.util.concurrent.ListenableFuture<androidx.media3.session.MediaController> future =
                 new androidx.media3.session.MediaController.Builder(this,
                         new androidx.media3.session.SessionToken(this,
@@ -925,8 +908,8 @@ public class MainActivity extends BaseActivity {
             intent.setData(null);
             return;
         }
-        if (assetLinkNavigator != null) {
-            assetLinkNavigator.open(assetLink);
+        if (navigationController != null) {
+            com.eddyizm.tempus.flavor.FlavorHooks.openAssetLink(this, assetLink);
         }
         intent.setData(null);
     }
@@ -937,10 +920,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void consumePendingAssetLink() {
-        if (pendingAssetLink == null || assetLinkNavigator == null) {
+        if (pendingAssetLink == null || navigationController == null) {
             return;
         }
-        assetLinkNavigator.open(pendingAssetLink);
+        com.eddyizm.tempus.flavor.FlavorHooks.openAssetLink(this, pendingAssetLink);
         pendingAssetLink = null;
     }
 
@@ -1027,6 +1010,11 @@ public class MainActivity extends BaseActivity {
         new Thread(() -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+                // Drift Lite has no server to sign in to: no "Login" shortcut (and drop the one older versions added)
+                if (com.eddyizm.tempus.BuildConfig.LITE) {
+                    if (shortcutManager != null) shortcutManager.removeAllDynamicShortcuts();
+                    return;
+                }
 
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setAction(Intent.ACTION_VIEW);

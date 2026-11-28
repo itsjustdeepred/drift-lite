@@ -12,7 +12,6 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.TimeBar
-import com.eddyizm.tempus.helper.DriftMixes
 import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.Executors
 import kotlin.math.roundToInt
@@ -73,7 +72,7 @@ class WaveformTimeBar @JvmOverloads constructor(ctx: Context, attrs: AttributeSe
         invalidate()
         if (id == null) return
         io.execute {
-            val w = DriftMixes.wave(id)
+            val w = com.eddyizm.tempus.flavor.FlavorHooks.waveform(id)
             main.post { if (songId == id) { bars = w; invalidate() } }
         }
     }

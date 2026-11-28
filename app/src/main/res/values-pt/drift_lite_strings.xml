@@ -36,7 +36,6 @@
     <string name="drift_diag_server_error">O Undertow está com um problema (%s): veja os logs do servidor</string>
     <string name="drift_diag_http">O Undertow respondeu %s: confira o endereço em Configurações → Undertow</string>
     <string name="drift_diag_unreachable">O Undertow não responde (%s): servidor desligado ou endereço errado</string>
-    <string name="drift_what_recognition">o reconhecimento</string>
     <string name="drift_what_download_results">os resultados para baixar</string>
     <string name="drift_what_album">o álbum</string>
     <string name="drift_what_playlists">as playlists</string>
@@ -219,4 +218,5 @@
     <string name="lite_home_sections_sub">Escolha o que o Início mostra</string>
     <string name="lite_lastfm_sub">Recomendações e scrobbling</string>
     <string name="lite_group_saved">Salvas</string>
+    <string name="drift_rebuilt_prefix">Recriada</string>
 </resources>

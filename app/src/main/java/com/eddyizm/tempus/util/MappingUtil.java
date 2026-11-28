@@ -550,7 +550,7 @@ public class MappingUtil {
 
     private static Uri getUri(Child media) {
         // Drift Lite: YouTube track, offline file or stream resolved at playback start (ytm://)
-        if (com.eddyizm.tempus.lite.LiteTracks.isLite(media.getId())) return com.eddyizm.tempus.lite.LiteTracks.uri(media.getId());
+        if (com.eddyizm.tempus.flavor.FlavorHooks.isPhoneTrack(media.getId())) return com.eddyizm.tempus.flavor.FlavorHooks.phoneTrackUri(media.getId());
         String localUri = getDownloadUris().get(media.getId());
         if (localUri != null) {
             return Uri.parse(localUri);

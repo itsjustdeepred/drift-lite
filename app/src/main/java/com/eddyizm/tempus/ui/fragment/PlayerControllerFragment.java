@@ -52,7 +52,6 @@ import com.eddyizm.tempus.databinding.InnerFragmentPlayerControllerBinding;
 import com.eddyizm.tempus.service.MediaService;
 import com.eddyizm.tempus.ui.activity.MainActivity;
 import com.eddyizm.tempus.ui.dialog.PlaybackSpeedDialog;
-import com.eddyizm.tempus.ui.dialog.PlaylistChooserDialog;
 import com.eddyizm.tempus.ui.dialog.SleepTimerDialog;
 import com.eddyizm.tempus.util.SleepTimerManager;
 
@@ -950,11 +949,12 @@ public class PlayerControllerFragment extends Fragment {
 
     private void initMediaLabelButton() {
         playerBottomSheetViewModel.getLiveAlbum().observe(getViewLifecycleOwner(), album -> {
-            if (album != null) {
+            // Drift Lite has no server album page
+            if (album != null && com.eddyizm.tempus.flavor.FlavorHooks.getAlbumPageId() != 0) {
                 playerMediaTitleLabel.setOnClickListener(view -> {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ALBUM_OBJECT, album);
-                    NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
+                    NavHostFragment.findNavController(this).navigate(com.eddyizm.tempus.flavor.FlavorHooks.getAlbumPageId(), bundle);
                     activity.collapseBottomSheetDelayed();
                 });
                 setupCopyTextOnLongTap(playerMediaTitleLabel);
@@ -980,7 +980,7 @@ public class PlayerControllerFragment extends Fragment {
         if (!com.eddyizm.tempus.BuildConfig.LITE && known != null) {
             Bundle bundle = new Bundle();
             bundle.putParcelable(Constants.ARTIST_OBJECT, known);
-            NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+            NavHostFragment.findNavController(this).navigate(com.eddyizm.tempus.flavor.FlavorHooks.getArtistPageId(), bundle);
             activity.collapseBottomSheetDelayed();
             return;
         }
@@ -989,9 +989,9 @@ public class PlayerControllerFragment extends Fragment {
             Bundle bundle = null;
             int dest;
             if (com.eddyizm.tempus.BuildConfig.LITE) {
-                kotlin.Pair<String, com.eddyizm.tempus.lite.LiteCatalog.ArtistHit> hit = com.eddyizm.tempus.lite.LiteCatalog.artistRefByName(name);
-                if (hit != null) bundle = DriftSpotifyPlaylistFragment.args(hit.getFirst(), hit.getSecond().getName(), hit.getSecond().getPicture());
-                dest = R.id.driftSpotifyPlaylistFragment;
+                kotlin.Pair<Integer, Bundle> page = com.eddyizm.tempus.flavor.FlavorHooks.artistPageByName(name);
+                if (page != null) bundle = page.getSecond();
+                dest = page != null ? page.getFirst() : com.eddyizm.tempus.flavor.FlavorHooks.getArtistPageId();
             } else {
                 com.eddyizm.tempus.subsonic.models.ArtistID3 found = null;
                 try {
@@ -1005,7 +1005,7 @@ public class PlayerControllerFragment extends Fragment {
                     }
                 } catch (Exception ignored) { }
                 if (found != null) { bundle = new Bundle(); bundle.putParcelable(Constants.ARTIST_OBJECT, found); }
-                dest = R.id.artistPageFragment;
+                dest = com.eddyizm.tempus.flavor.FlavorHooks.getArtistPageId();
             }
             Bundle b = bundle;
             if (!isAdded()) return;
@@ -1048,13 +1048,8 @@ public class PlayerControllerFragment extends Fragment {
 
     private void openAddToPlaylistDialog() {
         var song = playerBottomSheetViewModel.getLiveMedia().getValue();
-        if (song != null) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(Collections.singletonList(song)));
-            PlaylistChooserDialog dialog = new PlaylistChooserDialog();
-            dialog.setArguments(bundle);
-            dialog.show(requireActivity().getSupportFragmentManager(), null);
-        }
+        // Drift Lite: playlists on the phone; Drift: playlists on the server
+        if (song != null) com.eddyizm.tempus.flavor.FlavorHooks.showPlaylistPicker(requireActivity(), Collections.singletonList(song));
     }
 
     private void navigateToEqualizerFragment() {

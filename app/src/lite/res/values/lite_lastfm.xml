@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift Lite: recommendations and scrobbling with the user's Last.fm account -->
+<resources>
+    <string name="lite_fy_title">Recommended for you</string>
+    <string name="lite_fy_from">From your Last.fm listening · %s</string>
+    <string name="lite_fy_card_connect">Connect a free Last.fm account to get picks based on your taste</string>
+    <string name="lite_fy_pitch">With a free Last.fm account, Drift Lite learns what you like from what you play and finds new music for you.</string>
+    <string name="lite_fy_point_tracks">Songs you don\'t know yet, close to the ones you play most</string>
+    <string name="lite_fy_point_artists">New artists similar to your favorites</string>
+    <string name="lite_fy_point_history">Your listening history saved on your Last.fm profile (scrobbling), together with the other apps you use</string>
+    <string name="lite_fy_connect">Connect Last.fm</string>
+    <string name="lite_fy_join">No account? Create one for free</string>
+    <string name="lite_fy_privacy">You sign in on the Last.fm website: Drift Lite never sees your password. You can disconnect at any time.</string>
+    <string name="lite_fy_tracks">Songs for you</string>
+    <string name="lite_fy_artists">Artists for you</string>
+    <string name="lite_fy_empty">Listen to a few songs first: recommendations show up after your first plays.</string>
+    <string name="lite_fy_failed">Couldn\'t reach Last.fm. Try again later.</string>
+    <string name="lite_fy_refresh">Refresh</string>
+    <string name="lite_fy_disconnect">Disconnect Last.fm</string>
+    <string name="lite_fy_scrobble_on">Turn scrobbling on</string>
+    <string name="lite_fy_scrobble_off">Turn scrobbling off</string>
+    <string name="lite_fy_scrobble_now_on">Plays are saved to Last.fm</string>
+    <string name="lite_fy_scrobble_now_off">Plays are no longer saved to Last.fm</string>
+    <string name="lite_fy_connected_as">Connected to Last.fm as %s</string>
+    <string name="lite_fy_login_failed">Couldn\'t connect to Last.fm. Try again.</string>
+    <string name="lite_fy_mix_sub">Based on what you listen to</string>
+</resources>

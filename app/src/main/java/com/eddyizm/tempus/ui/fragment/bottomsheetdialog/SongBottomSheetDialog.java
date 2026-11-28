@@ -30,7 +30,6 @@ import com.eddyizm.tempus.service.MediaManager;
 import com.eddyizm.tempus.service.MediaService;
 import com.eddyizm.tempus.subsonic.models.Child;
 import com.eddyizm.tempus.ui.activity.MainActivity;
-import com.eddyizm.tempus.ui.dialog.PlaylistChooserDialog;
 import com.eddyizm.tempus.ui.dialog.RatingDialog;
 import com.eddyizm.tempus.util.AssetLinkUtil;
 import com.eddyizm.tempus.util.Constants;
@@ -307,18 +306,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
 
         TextView addToPlaylist = view.findViewById(R.id.add_to_playlist_text_view);
         addToPlaylist.setOnClickListener(v -> {
-            if (com.eddyizm.tempus.BuildConfig.LITE) {
-                // Drift Lite: playlists on the phone
-                com.eddyizm.tempus.lite.LitePlaylistPickerDialog.show(requireActivity(), new ArrayList<>(Collections.singletonList(song.getId())));
-                dismissBottomSheet();
-                return;
-            }
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(Constants.TRACKS_OBJECT, new ArrayList<>(Collections.singletonList(song)));
-
-            PlaylistChooserDialog dialog = new PlaylistChooserDialog();
-            dialog.setArguments(bundle);
-            dialog.show(requireActivity().getSupportFragmentManager(), null);
+            com.eddyizm.tempus.flavor.FlavorHooks.showPlaylistPicker(requireActivity(), Collections.singletonList(song));
 
             dismissBottomSheet();
         });
@@ -328,7 +316,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             if (album != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.ALBUM_OBJECT, album);
-                NavHostFragment.findNavController(this).navigate(R.id.albumPageFragment, bundle);
+                NavHostFragment.findNavController(this).navigate(com.eddyizm.tempus.flavor.FlavorHooks.getAlbumPageId(), bundle);
             } else
                 Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_album), Toast.LENGTH_SHORT).show();
 
@@ -343,13 +331,12 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             goToArtist.setOnClickListener(v -> {
                 String name = songBottomSheetViewModel.getSong().getArtist();
                 new Thread(() -> {
-                    kotlin.Pair<String, com.eddyizm.tempus.lite.LiteCatalog.ArtistHit> hit = com.eddyizm.tempus.lite.LiteCatalog.artistRefByName(name);
+                    kotlin.Pair<Integer, Bundle> page = com.eddyizm.tempus.flavor.FlavorHooks.artistPageByName(name);
                     if (!isAdded()) return;
                     requireActivity().runOnUiThread(() -> {
                         if (!isAdded()) return;
-                        if (hit == null) Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_artist), Toast.LENGTH_SHORT).show();
-                        else NavHostFragment.findNavController(this).navigate(R.id.driftSpotifyPlaylistFragment,
-                                com.eddyizm.tempus.ui.fragment.DriftSpotifyPlaylistFragment.args(hit.getFirst(), hit.getSecond().getName(), hit.getSecond().getPicture()));
+                        if (page == null) Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_artist), Toast.LENGTH_SHORT).show();
+                        else NavHostFragment.findNavController(this).navigate(page.getFirst(), page.getSecond());
                         dismissBottomSheet();
                     });
                 }).start();
@@ -359,7 +346,7 @@ public class SongBottomSheetDialog extends BottomSheetDialogFragment implements 
             if (artist != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.ARTIST_OBJECT, artist);
-                NavHostFragment.findNavController(this).navigate(R.id.artistPageFragment, bundle);
+                NavHostFragment.findNavController(this).navigate(com.eddyizm.tempus.flavor.FlavorHooks.getArtistPageId(), bundle);
             } else
                 Toast.makeText(requireContext(), getString(R.string.song_bottom_sheet_error_retrieving_artist), Toast.LENGTH_SHORT).show();
 

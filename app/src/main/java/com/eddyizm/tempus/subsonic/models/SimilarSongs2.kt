@@ -7,5 +7,5 @@ import com.google.gson.annotations.SerializedName
 class SimilarSongs2 {
     @SerializedName("song")
     var songs: List<Child>? = null
-        get() = com.eddyizm.tempus.helper.DriftKids.filter(field)  // Drift: no kids' music in mixes
+        get() = com.eddyizm.tempus.flavor.FlavorHooks.filterSongs(field)  // Drift: content exclusions (Undertow) apply to mixes
 }

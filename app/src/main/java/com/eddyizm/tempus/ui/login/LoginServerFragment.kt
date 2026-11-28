@@ -77,6 +77,31 @@ class LoginServerFragment : Fragment() {
         initClientCertSwitch()
         initCustomHeadersSwitch()
         initServerTypeSelector()
+        initAdvancedSection()
+    }
+
+    // Drift: local address, certificate, headers and plain password are rarely needed: folded away
+    private fun initAdvancedSection() {
+        binding.advancedHeader.setOnClickListener { setAdvancedOpen(binding.advancedContainer.visibility != View.VISIBLE) }
+    }
+
+    private fun setAdvancedOpen(open: Boolean) {
+        val binding = _binding ?: return
+        binding.advancedContainer.visibility = if (open) View.VISIBLE else View.GONE
+        binding.advancedChevron.animate().rotation(if (open) 270f else 90f).setDuration(150).start()
+    }
+
+    /** Drift: Save, then Test and (for a saved server) Delete; the saved-servers menu only when there are some. */
+    private fun updateActions() {
+        val binding = _binding ?: return
+        // a server picked from the menu starts clean: no errors left from the previous one
+        listOf(binding.serverPublicUrlField, binding.serverUserField, binding.serverPasswordField, binding.serverNameField,
+            binding.serverLocalUrlField, binding.serverHeadersField).forEach { it.error = null }
+        val editing = selectedServerPosition != 0
+        binding.deleteButton.visibility = if (editing) View.VISIBLE else View.GONE
+        binding.editorTitle.setText(if (editing) R.string.drift_editor_title_edit else R.string.drift_editor_title)
+        binding.serversListContainer.visibility =
+            if (::serverList.isInitialized && serverList.size > 1) View.VISIBLE else View.GONE
     }
 
     // Drift: Subsonic/Navidrome, Jellyfin or Emby
@@ -172,11 +197,9 @@ class LoginServerFragment : Fragment() {
             // Don't start dropdown with blank item, use the first dummy item
             if (!isInitialSyncDone && serverList.isNotEmpty()) {
                 binding.serversList.setText(serverList[0].serverName, false)
-                binding.createOrUpdateButton.text = getString(R.string.la_server_button_create)
-                binding.deleteButton.isEnabled = false
-                binding.testButton.isEnabled = false
                 isInitialSyncDone = true
             }
+            updateActions()
         }
     }
 
@@ -195,9 +218,8 @@ class LoginServerFragment : Fragment() {
     }
 
     private fun onFirstServerSelected() {
-        binding.createOrUpdateButton.text = getString(R.string.la_server_button_create)
-        binding.deleteButton.isEnabled = false
-        binding.testButton.isEnabled = false
+        updateActions()
+        setAdvancedOpen(false)
         binding.serverNameField.setText("")
         binding.serverUserField.setText("")
         binding.serverPasswordField.setText("")
@@ -211,9 +233,7 @@ class LoginServerFragment : Fragment() {
     }
 
     private fun onNonFirstServerSelected(position: Int) {
-        binding.createOrUpdateButton.text = getString(R.string.la_server_button_update)
-        binding.deleteButton.isEnabled = true
-        binding.testButton.isEnabled = true
+        updateActions()
         binding.serverNameField.setText(serverList[position].serverName)
         binding.serverUserField.setText(serverList[position].username)
         binding.serverPublicUrlField.setText(serverList[position].address)
@@ -253,6 +273,10 @@ class LoginServerFragment : Fragment() {
             binding.serverHeadersFieldContainer.visibility = View.GONE
             binding.serverHeadersField.setText("")
         }
+        // a saved server that uses any advanced option shows them right away
+        setAdvancedOpen(binding.serverLocalUrlSwitch.isChecked || binding.serverCertSwitch.isChecked
+            || binding.serverHeadersSwitch.isChecked || serverList[position].isLowSecurity)
+        binding.serverPlaintextPassowrd.isChecked = serverList[position].isLowSecurity
     }
 
     private fun updateSelectedServer(position: Int) {
@@ -374,6 +398,11 @@ class LoginServerFragment : Fragment() {
 
         binding.createOrUpdateButton.setOnClickListener {
 
+            // Drift: the name is optional, the server's address stands in for it
+            if (binding.serverNameField.text.isNullOrBlank()) {
+                val host = binding.serverPublicUrlField.text.toString().trim().toHttpUrlOrNull()?.host
+                if (host != null) binding.serverNameField.setText(host)
+            }
             if (!inputSanitization()) return@setOnClickListener
 
             var serverId: String
@@ -477,14 +506,20 @@ class LoginServerFragment : Fragment() {
                 updateSelectedServer(0)
             }
         }
+        // Drift: saved: back to the server list, where a tap signs in
+        binding.goToLoginButton.performClick()
     }
 
     private fun inputSanitization(): Boolean {
 
         val errMsgEmpty: String = getString(R.string.la_server_field_server_empty_error)
         val errMsgUrl: String = getString(R.string.la_server_field_server_url_error)
-        if (binding.serverNameField.text.toString().isEmpty()) {
-            binding.serverNameField.error = errMsgEmpty
+        // Drift: in the order of the form (the name is optional and comes from the address)
+        if (binding.serverPublicUrlField.text.toString().isEmpty()) {
+            binding.serverPublicUrlField.error = errMsgEmpty
+            return false
+        } else if (!urlSanitization(binding.serverPublicUrlField.text.toString().trim())) {
+            binding.serverPublicUrlField.error = errMsgUrl
             return false
         } else if (binding.serverUserField.text.toString().isEmpty()) {
             binding.serverUserField.error = errMsgEmpty
@@ -493,11 +528,8 @@ class LoginServerFragment : Fragment() {
             && !hasStoredSession(selectedServerType())) {
             binding.serverPasswordField.error = errMsgEmpty
             return false
-        } else if (binding.serverPublicUrlField.text.toString().isEmpty()) {
-            binding.serverPublicUrlField.error = errMsgEmpty
-            return false
-        } else if (!urlSanitization(binding.serverPublicUrlField.text.toString())) {
-            binding.serverPublicUrlField.error = errMsgUrl
+        } else if (binding.serverNameField.text.toString().isEmpty()) {
+            binding.serverNameField.error = errMsgEmpty
             return false
         } else if (binding.serverLocalUrlSwitch.isChecked
             && binding.serverLocalUrlField.text.toString().isEmpty()) {
@@ -528,7 +560,45 @@ class LoginServerFragment : Fragment() {
         return true
     }
 
+    /** Drift: the server as typed in the form, to test it before saving. */
+    private fun formServer(): Server? {
+        if (binding.serverNameField.text.isNullOrBlank()) binding.serverNameField.setText(
+            binding.serverPublicUrlField.text.toString().trim().toHttpUrlOrNull()?.host ?: "")
+        if (!inputSanitization()) return null
+        val base = if (selectedServerPosition == 0) null else serverList[selectedServerPosition]
+        val typedPassword = binding.serverPasswordField.text.toString()
+        return Server(
+            serverId = base?.serverId ?: "test",
+            serverName = binding.serverNameField.text.toString(),
+            username = binding.serverUserField.text.toString(),
+            password = typedPassword.ifEmpty { base?.password ?: "" },
+            address = binding.serverPublicUrlField.text.toString().trim(),
+            localAddress = binding.serverLocalUrlField.text.toString(),
+            timestamp = System.currentTimeMillis(),
+            isLowSecurity = binding.serverPlaintextPassowrd.isChecked && selectedServerType() == ServerType.SUBSONIC,
+            clientCert = binding.serverCertField.text.toString(),
+            customHeaders = binding.serverHeadersField.text.toString().trim().ifEmpty { null },
+            serverType = selectedServerType()
+        )
+    }
+
     private fun testConnection() {
+        val server = formServer() ?: return
+        // Jellyfin/Emby with a typed password: the test is a real sign-in (nothing is saved)
+        if (ServerType.isMediaBrowser(server.serverType) && !JellyfinCredential.isCredential(server.password)) {
+            binding.testButton.isEnabled = false
+            Toast.makeText(context, getString(R.string.la_server_toast_connection_testing), Toast.LENGTH_SHORT).show()
+            Thread {
+                val result = runCatching {
+                    JellyfinAuthenticator.authenticate(server.address, server.serverType, server.username, server.password, buildAuthClient())
+                }
+                activity?.runOnUiThread {
+                    result.onSuccess { showTestResult(R.string.la_server_toast_connection_success, null, Toast.LENGTH_SHORT) }
+                        .onFailure { e -> showTestResult(R.string.la_server_toast_connection_failure, e.message, Toast.LENGTH_LONG) }
+                }
+            }.start()
+            return
+        }
         binding.testButton.isEnabled = false
         Toast.makeText(
             context,
@@ -537,7 +607,7 @@ class LoginServerFragment : Fragment() {
         ).show()
 
         SystemRepository().checkUserCredential(
-            App.getSubsonicClientInstance(serverList[selectedServerPosition]),
+            App.getSubsonicClientInstance(server),
             object : SystemCallback {
                 override fun onNetworkFailure(exception: Exception) {
                     showTestResult(

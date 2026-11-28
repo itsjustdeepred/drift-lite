@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/landingFragment">
+    <fragment
+        android:id="@+id/landingFragment"
+        android:name="com.eddyizm.tempus.ui.fragment.LandingFragment"
+        android:label="fragment_landing"
+        tools:layout="@layout/fragment_landing">
+        <action
+            android:id="@+id/action_landingFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/landingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.eddyizm.tempus.ui.fragment.DriftSpotifyFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_playlistPageFragment"
+            app:destination="@id/playlistPageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_playlistCatalogueFragment"
+            app:destination="@id/playlistCatalogueFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.eddyizm.tempus.lite.LiteLibraryFragment"
+        android:label="LibraryFragment">
+        <action
+            android:id="@+id/action_libraryFragment_to_playlistCatalogueFragment"
+            app:destination="@id/playlistCatalogueFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_playlistPageFragment"
+            app:destination="@id/playlistPageFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_libraryFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/downloadFragment"
+        android:name="com.eddyizm.tempus.lite.LiteOfflineFragment"
+        android:label="DownloadFragment">
+        <action
+            android:id="@+id/action_downloadFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_playlistPageFragment"
+            app:destination="@id/playlistPageFragment" />
+        <action
+            android:id="@+id/action_downloadFragment_to_playlistCatalogueFragment"
+            app:destination="@id/playlistCatalogueFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.eddyizm.tempus.ui.fragment.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_equalizerFragment"
+            app:destination="@id/equalizerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.eddyizm.tempus.lite.LiteSearchFragment"
+        android:label="SearchFragment">
+    </fragment>
+    <fragment
+        android:id="@+id/playlistCatalogueFragment"
+        android:name="com.eddyizm.tempus.lite.LitePlaylistsFragment"
+        android:label="PlaylistCatalogueFragment">
+        <action
+            android:id="@+id/action_playlistCatalogueFragment_to_playlistPageFragment"
+            app:destination="@id/playlistPageFragment" />
+        <argument
+            android:name="playlist_all"
+            app:argType="string"
+            android:defaultValue="ALL" />
+    </fragment>
+    <fragment
+        android:id="@+id/playlistPageFragment"
+        android:name="com.eddyizm.tempus.lite.LitePlaylistPageFragment"
+        android:label="PlaylistPageFragment" />
+    <fragment
+        android:id="@+id/liteForYouFragment"
+        android:name="com.eddyizm.tempus.lite.LiteForYouFragment"
+        android:label="LiteForYouFragment" />
+    <fragment
+        android:id="@+id/playerControllerFragment"
+        android:name="com.eddyizm.tempus.ui.fragment.PlayerControllerFragment"
+        android:label="PlayerControllerFragment"
+        tools:layout="@layout/inner_fragment_player_controller">
+        <action
+            android:id="@+id/action_playerControllerFragment_to_equalizerFragment"
+            app:destination="@id/equalizerFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/equalizerFragment"
+        android:name="com.eddyizm.tempus.ui.fragment.EqualizerFragment"
+        android:label="EqualizerFragment"
+        tools:layout="@layout/fragment_equalizer" />
+    <dialog
+        android:id="@+id/songBottomSheetDialog"
+        android:name="com.eddyizm.tempus.ui.fragment.bottomsheetdialog.SongBottomSheetDialog"
+        android:label="SongBottomSheetDialog"
+        tools:layout="@layout/bottom_sheet_song_dialog" />
+    <fragment
+        android:id="@+id/driftSpotifyFragment"
+        android:name="com.eddyizm.tempus.ui.fragment.DriftSpotifyFragment"
+        android:label="DriftSpotifyFragment" />
+    <fragment
+        android:id="@+id/driftSpotifyPlaylistFragment"
+        android:name="com.eddyizm.tempus.ui.fragment.DriftSpotifyPlaylistFragment"
+        android:label="DriftSpotifyPlaylistFragment" />
+</navigation>

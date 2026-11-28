@@ -108,7 +108,8 @@ class LoginActivity : AppCompatActivity() {
                     )
                 }
                 SERVERS_FRAGMENT -> {
-                    binding.topAppBar.title = getString(R.string.la_appbar_server_title)
+                    // Drift: the page has its own title ("Connect your server")
+                    binding.topAppBar.title = ""
                     LoginServerFragment.newInstance(
                         singlePageMode = hideTabLayout
                     )

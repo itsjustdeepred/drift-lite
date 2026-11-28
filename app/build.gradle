@@ -15,8 +15,6 @@ android {
         //noinspection OldTargetApi
         targetSdk = 37
 
-        versionCode 53
-        versionName '4.32.0'
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         // Drift: Undertow server address and token (from local.properties, not versioned)
@@ -67,42 +65,20 @@ android {
     flavorDimensions += "default"
 
     productFlavors {
-        tempus {
-            dimension = "default"
-            // Drift: overridable from local.properties (drift.applicationId)
-            applicationId = driftLocal.getProperty('drift.applicationId', 'io.github.itsjustdeepred.drift')
-        }
-
-        degoogled {
-            dimension = "default"
-            applicationId = "com.eddyizm.degoogled.tempus"
-        }
-
-        play {
-            dimension = "default"
-            applicationId = "com.eddyizm.play.tempus"
-        }
-
         lite {
             dimension = "default"
             applicationId = 'io.github.itsjustdeepred.driftlite'
             // Drift Lite has its own version line, independent from Tempus
-            versionCode 8
-            versionName '1.1.1'
+            versionCode 9
+            versionName '1.1.2'
             buildConfigField 'boolean', 'LITE', 'true'
+            buildConfigField 'String', 'UPDATE_REPO', '"itsjustdeepred/drift-lite"'
+            buildConfigField 'String', 'UPDATE_APK', '"DriftLite"'
             buildConfigField 'String', 'DRIFT_SIDECAR_URL', '""'
             buildConfigField 'String', 'DRIFT_SIDECAR_TOKEN', '""'
         }
     }
 
-    // Drift Lite: same code and resources as the Drift build (Android Auto, Cast)
-    sourceSets {
-        lite {
-            java.srcDirs += 'src/tempus/java'
-            kotlin.srcDirs += 'src/tempus/java'
-            res.srcDirs += 'src/tempus/res'
-        }
-    }
 
     // Release signing for Drift Lite: keystore.properties at the path in LITE_KEYSTORE (never in the repo)
     def liteKeystore = System.getenv('LITE_KEYSTORE')
@@ -150,13 +126,6 @@ android {
         disable += "MissingTranslation"
     }
 
-    sourceSets {
-        play {
-            java.srcDirs += ['src/tempus/java']
-            kotlin.srcDirs += ['src/tempus/java']
-            res.srcDirs += ['src/tempus/res']
-        }
-    }
 }
 
 dependencies {
@@ -207,15 +176,12 @@ dependencies {
     implementation libs.media3.ui
     implementation libs.media3.exoplayer.hls
     implementation libs.media3.datasource.okhttp
-    tempusImplementation libs.media3.cast
-    liteImplementation libs.media3.cast
+    implementation libs.media3.cast
     // Drift Lite: YouTube Music (search + audio stream) without a server
     implementation 'com.github.teamnewpipe:NewPipeExtractor:v0.27.1'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.5'
-    playImplementation libs.media3.cast
 
-    // Route picker. Pulled in transitively by the Cast SDK for the tempus flavor
-    // already; declared here at the same version so the degoogled flavor has it too.
+    // Route picker (devices sheet), also pulled in by the Cast SDK
     implementation libs.mediarouter
 
     // Room Compiler

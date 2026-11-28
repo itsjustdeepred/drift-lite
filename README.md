@@ -36,7 +36,7 @@ playlists for those genres and new releases from the artists you follow.
 <tr><td align="center" width="33%"><img src="docs/features/lyrics.svg" width="48" alt=""/><br/><b>Synced lyrics</b><br/><sub>Line by line, also full screen. Tap a line to jump.</sub></td><td align="center" width="33%"><img src="docs/features/playlists.svg" width="48" alt=""/><br/><b>Your playlists</b><br/><sub>Create, rename, reorder. Liked songs included.</sub></td><td align="center" width="33%"><img src="docs/features/speakers.svg" width="48" alt=""/><br/><b>Network speakers</b><br/><sub>Play on Sonos and DLNA speakers on your Wi-Fi.</sub></td></tr>
 <tr><td align="center" width="33%"><img src="docs/features/auto.svg" width="48" alt=""/><br/><b>Android Auto</b><br/><sub>Home, playlists, Liked and Offline in the car.</sub></td><td align="center" width="33%"><img src="docs/features/backup.svg" width="48" alt=""/><br/><b>Backup</b><br/><sub>To a file or Google Drive, restore in one tap.</sub></td><td align="center" width="33%"><img src="docs/features/private.svg" width="48" alt=""/><br/><b>No account needed</b><br/><sub>Nothing to sign up for. Your data stays on the phone.</sub></td></tr>
 <tr><td align="center" width="33%"><img src="docs/features/recognize.svg" width="48" alt=""/><br/><b>Recognize songs</b><br/><sub>Hear something you like? Tap the mic, then save it to a playlist.</sub></td><td align="center" width="33%"><img src="docs/features/updates.svg" width="48" alt=""/><br/><b>Updates in the app</b><br/><sub>New versions show up with a short changelog.</sub></td><td align="center" width="33%"><img src="docs/features/languages.svg" width="48" alt=""/><br/><b>Six languages</b><br/><sub>English, Italian, Spanish, French, German, Portuguese.</sub></td></tr>
-<tr><td align="center" width="33%"><img src="docs/features/lastfm.svg" width="48" alt=""/><br/><b>Recommended for you</b><br/><sub>Connect your free Last.fm account for picks based on your taste.</sub></td><td align="center" width="33%"><img src="docs/features/themes.svg" width="48" alt=""/><br/><b>Light, dark, true black</b><br/><sub>Follows your phone. Pick from 18 accent colors.</sub></td><td align="center" width="33%"><img src="docs/features/reorder.svg" width="48" alt=""/><br/><b>Drag to reorder</b><br/><sub>Long-press a playlist or a song and move it.</sub></td></tr>
+<tr><td align="center" width="33%"><img src="docs/features/lastfm.svg" width="48" alt=""/><br/><b>Recommended for you</b><br/><sub>Connect your free Last.fm account: picks based on your taste show up in For you.</sub></td><td align="center" width="33%"><img src="docs/features/themes.svg" width="48" alt=""/><br/><b>Light, dark, true black</b><br/><sub>Follows your phone. Pick from 18 accent colors.</sub></td><td align="center" width="33%"><img src="docs/features/reorder.svg" width="48" alt=""/><br/><b>Drag to reorder</b><br/><sub>Long-press a playlist or a song and move it.</sub></td></tr>
 </table>
 
 <br/><br/>
@@ -102,8 +102,8 @@ cd drift-lite
 To sign release builds, set the `LITE_KEYSTORE` environment variable to a `keystore.properties` file with
 `storeFile`, `storePassword`, `keyAlias` and `keyPassword`.
 
-The code is a fork of [Tempus](https://github.com/eddyizm/tempus). Drift Lite is the `lite` build flavor;
-the other flavors build the original Subsonic client.
+The code is a fork of [Tempus](https://github.com/eddyizm/tempus), shared with [Drift](https://github.com/itsjustdeepred/drift),
+the version for your own music server. This repository holds Drift Lite only.
 
 <br/><br/>
 
@@ -127,7 +127,7 @@ the other flavors build the original Subsonic client.
 <br/>
 <blockquote>
 <p>Drift Lite is the simple edition: install it and it works, nothing else to set up.</p>
-<p>The full <strong>Drift</strong> is for people who run their own music server. It plays your library from Navidrome or any
+<p>The full <a href="https://github.com/itsjustdeepred/drift"><strong>Drift</strong></a> is for people who run their own music server. It plays your library from Navidrome or any
 Subsonic server, and Jellyfin or Emby, and comes with <strong>Undertow</strong>, a small companion server that:</p>
 <ul>
 <li>downloads missing albums and songs from Soulseek (slskd), Lidarr or YouTube straight into your library</li>
@@ -173,7 +173,7 @@ subscriptions, no ads, no features behind a paywall. Donations are welcome but n
 <summary><img src="docs/faq-q.svg" height="20" align="top"/>&nbsp; <b>Can I use my own music server?</b></summary>
 <br/>
 <blockquote>
-<p>Not with Drift Lite, which is meant to work without one. That's what the full Drift is for (see <em>Why "Lite"?</em> above).</p>
+<p>Not with Drift Lite, which is meant to work without one. That's what <a href="https://github.com/itsjustdeepred/drift">Drift</a> is for (see <em>Why "Lite"?</em> above).</p>
 </blockquote>
 </details>
 <br/>

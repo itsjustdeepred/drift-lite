@@ -46,12 +46,11 @@
     <string name="drift_recog_not_in_library">Pas dans la bibliothèque</string>
     <string name="drift_recog_not_found">Impossible d\'identifier le titre</string>
     <string name="drift_recog_not_found_sub">Réessaie plus près de la musique, ou quand il y a moins de voix autour</string>
-    <string name="drift_recog_disabled">L\'identification n\'est pas activée sur Undertow : active-la dans le panneau</string>
     <string name="drift_recog_error">Un problème est survenu</string>
     <string name="drift_recog_mic_busy">Le micro n\'est pas disponible : une autre app l\'utilise ?</string>
     <string name="drift_recog_song_gone">Le titre n\'est plus dans la bibliothèque</string>
     <string name="drift_recog_rationale_title">Utiliser le micro ?</string>
-    <string name="drift_recog_rationale">Pour identifier un titre, Drift écoute environ 10 secondes avec le micro et les envoie à ton Undertow, qui les fait reconnaître par Shazam. L\'enregistrement n\'est pas conservé.</string>
+    <string name="drift_recog_rationale">Pour reconnaître un morceau, Drift écoute environ 10 secondes au micro et transforme le son en empreinte audio, envoyée à un service de reconnaissance en ligne. L\'enregistrement ne quitte jamais le téléphone.</string>
     <string name="drift_recog_continue">Continuer</string>
     <string name="drift_recog_not_now">Pas maintenant</string>
     <string name="drift_recog_denied">Sans le micro, je ne peux pas identifier les titres</string>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Drift Lite: "Your playlists" are the ones made on the phone; this group holds the saved charts, playlists and albums -->
+    <string name="drift_group_mine">Salvas</string>
+</resources>

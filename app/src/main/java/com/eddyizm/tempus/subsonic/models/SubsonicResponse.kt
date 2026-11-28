@@ -23,7 +23,7 @@ class SubsonicResponse {
     var lyrics: Lyrics? = null
     var songsByGenre: Songs? = null
     var randomSongs: Songs? = null
-        get() = field?.also { it.songs = com.eddyizm.tempus.helper.DriftKids.filter(it.songs) }  // Drift: no kids' music in random songs
+        get() = field?.also { it.songs = com.eddyizm.tempus.flavor.FlavorHooks.filterSongs(it.songs) }  // Drift: content exclusions (Undertow) apply to random songs
     var albumList2: AlbumList2? = null
     var albumList: AlbumList? = null
     var chatMessages: ChatMessages? = null

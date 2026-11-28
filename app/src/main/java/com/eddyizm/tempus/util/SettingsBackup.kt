@@ -121,10 +121,10 @@ object SettingsBackup {
     @JvmStatic
     fun exportSettings(prefs: SharedPreferences, keys: Map<String, Spec>): String {
         val json = toJson(prefs.all, keys)
-        if (!com.eddyizm.tempus.BuildConfig.LITE) return json
         // Drift Lite: the same file also holds followed playlists and YouTube songs (not the audio files)
+        val (name, extra) = com.eddyizm.tempus.flavor.FlavorHooks.backupExtra() ?: return json
         val root = JsonParser.parseString(json).asJsonObject
-        root.add("drift_lite", com.eddyizm.tempus.lite.LiteCatalog.backup())
+        root.add(name, extra)
         return root.toString()
     }
 
@@ -132,10 +132,7 @@ object SettingsBackup {
     @JvmStatic
     fun importSettings(json: String, prefs: SharedPreferences, keys: Map<String, Spec>): Int {
         val values = fromJson(json, keys) ?: return -1
-        if (com.eddyizm.tempus.BuildConfig.LITE) {
-            runCatching { JsonParser.parseString(json).asJsonObject.getAsJsonObject("drift_lite") }.getOrNull()
-                ?.let { com.eddyizm.tempus.lite.LiteCatalog.restore(it) }
-        }
+        runCatching { JsonParser.parseString(json).asJsonObject }.getOrNull()?.let { com.eddyizm.tempus.flavor.FlavorHooks.restoreExtra(it) }
         val editor = prefs.edit()
         for ((key, value) in values) {
             when (value) {

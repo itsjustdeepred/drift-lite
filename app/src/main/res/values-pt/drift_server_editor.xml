@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_editor_title">Ligue o seu servidor</string>
+    <string name="drift_editor_title_edit">Editar servidor</string>
+    <string name="drift_editor_sub">O endereço, o utilizador e a palavra-passe do seu servidor de música. Ficam neste telemóvel.</string>
+    <string name="drift_editor_saved_servers">Servidores guardados</string>
+    <string name="drift_editor_address">Endereço do servidor</string>
+    <string name="drift_editor_address_helper">Por exemplo https://musica.exemplo.com</string>
+    <string name="drift_editor_name">Nome (opcional)</string>
+    <string name="drift_editor_advanced">Opções avançadas</string>
+    <string name="drift_editor_save">Guardar</string>
+    <string name="drift_editor_test">Testar ligação</string>
+</resources>

@@ -46,12 +46,11 @@
     <string name="drift_recog_not_in_library">Fora da biblioteca</string>
     <string name="drift_recog_not_found">Não foi possível reconhecer</string>
     <string name="drift_recog_not_found_sub">Tente de novo mais perto da música, ou quando houver menos vozes por perto</string>
-    <string name="drift_recog_disabled">O reconhecimento não está ativado no Undertow: ative no painel</string>
     <string name="drift_recog_error">Algo deu errado</string>
     <string name="drift_recog_mic_busy">O microfone não está disponível: outro app está usando?</string>
     <string name="drift_recog_song_gone">A música não está mais na biblioteca</string>
     <string name="drift_recog_rationale_title">Usar o microfone?</string>
-    <string name="drift_recog_rationale">Para reconhecer uma música, o Drift ouve cerca de 10 segundos pelo microfone e os envia para o seu Undertow, que usa o Shazam para identificá-la. A gravação não é salva.</string>
+    <string name="drift_recog_rationale">Para reconhecer uma música, o Drift ouve cerca de 10 segundos pelo microfone e transforma o som numa impressão digital de áudio, enviada a um serviço de reconhecimento online. A gravação nunca sai do telemóvel.</string>
     <string name="drift_recog_continue">Continuar</string>
     <string name="drift_recog_not_now">Agora não</string>
     <string name="drift_recog_denied">Sem o microfone, não consigo reconhecer músicas</string>

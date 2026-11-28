@@ -300,19 +300,6 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.global_preferences, rootKey);
 
-        if (true) { // Drift: no GitHub updates (they would lead to Tempus)
-            PreferenceCategory githubUpdateCategory = findPreference("settings_github_update_category_key");
-            if (githubUpdateCategory != null) {
-                getPreferenceScreen().removePreference(githubUpdateCategory);
-            }
-        }
-
-        if (BuildConfig.FLAVOR.equals("degoogled")) {
-            ClickablePreferenceCategory androidAutoCategory = findPreference("settings_androidauto_category_key");
-            if (androidAutoCategory != null) {
-                getPreferenceScreen().removePreference(androidAutoCategory);
-            }
-        }
 
         PreferenceScreen screen = getPreferenceScreen();
         if (screen != null) {
@@ -385,42 +372,15 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
             });
         }
 
-        // Drift: Undertow is configured here (build values only remain as defaults)
-        androidx.preference.EditTextPreference uUrl = findPreference(com.eddyizm.tempus.helper.Undertow.KEY_URL);
-        if (uUrl != null) {
-            if (uUrl.getText() == null || uUrl.getText().isEmpty()) uUrl.setText(com.eddyizm.tempus.helper.Undertow.INSTANCE.getUrl());
-            uUrl.setOnBindEditTextListener(e -> e.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_URI));
-        }
-        androidx.preference.EditTextPreference uToken = findPreference(com.eddyizm.tempus.helper.Undertow.KEY_TOKEN);
-        if (uToken != null) {
-            uToken.setOnBindEditTextListener(e -> e.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD));
-            uToken.setSummaryProvider(p -> com.eddyizm.tempus.helper.Undertow.INSTANCE.getToken().isEmpty() ? getString(R.string.drift_undertow_token_unset) : getString(R.string.drift_undertow_token_set));
-        }
-        Preference uTest = findPreference("undertow_test");
-        if (uTest != null) uTest.setOnPreferenceClickListener(p -> {
-            p.setSummary(getString(R.string.drift_undertow_testing));
-            new Thread(() -> {
-                String err = com.eddyizm.tempus.helper.Undertow.check();
-                if (isAdded()) requireActivity().runOnUiThread(() -> p.setSummary(err == null ? getString(R.string.drift_undertow_connected) : getString(R.string.drift_undertow_no_answer, err)));
-            }).start();
-            return true;
-        });
-        Preference uPanel = findPreference("undertow_panel");
-        if (uPanel != null) uPanel.setOnPreferenceClickListener(p -> {
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(com.eddyizm.tempus.helper.Undertow.panelUrl())));
-            } catch (Exception e) {
-                android.widget.Toast.makeText(requireContext(), getString(R.string.drift_no_browser), android.widget.Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        });
+        // Drift: Undertow address, token, test and web panel
+        com.eddyizm.tempus.flavor.FlavorHooks.setupServerSettings(this);
 
         initChartCountry();
         initDriveBackup();
 
         // Drift Lite: no Undertow, only offline for followed playlists remains
         if (com.eddyizm.tempus.BuildConfig.LITE) {
-            for (String k : new String[]{com.eddyizm.tempus.helper.Undertow.KEY_URL, com.eddyizm.tempus.helper.Undertow.KEY_TOKEN, "undertow_test", "undertow_panel",
+            for (String k : new String[]{"undertow_url", "undertow_token", "undertow_test", "undertow_panel",
                     "manage_servers", "logout"}) {
                 Preference x = findPreference(k);
                 if (x != null) x.setVisible(false);
@@ -432,7 +392,7 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
             if (profile != null) {
                 profile.setVisible(true);
                 profile.setOnPreferenceClickListener(p -> {
-                    com.eddyizm.tempus.lite.LiteApp.INSTANCE.setOnboarded(false);
+                    com.eddyizm.tempus.flavor.FlavorHooks.restartOnboarding();
                     requireActivity().recreate();
                     return true;
                 });
@@ -610,7 +570,11 @@ public class SettingsContainerFragment extends PreferenceFragmentCompat {
         ICONS.put("settings_export", R.drawable.ds_upload);
         ICONS.put("settings_import", R.drawable.ds_restore);
         ICONS.put("version", R.drawable.ds_info);
-        ICONS.put("github_update_check", R.drawable.ds_sync);
+        ICONS.put("undertow_url", R.drawable.ds_server);
+        ICONS.put("undertow_token", R.drawable.ds_lock);
+        ICONS.put("drift_follow_offline", R.drawable.ds_download);
+        ICONS.put("undertow_test", R.drawable.ds_sync);
+        ICONS.put("undertow_panel", R.drawable.ds_link);
     }
 
     private void applyIcons(PreferenceGroup group) {

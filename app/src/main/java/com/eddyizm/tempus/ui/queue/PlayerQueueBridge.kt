@@ -26,7 +26,6 @@ import com.eddyizm.tempus.repository.DownloadRepository
 import com.eddyizm.tempus.service.MediaManager
 import com.eddyizm.tempus.subsonic.models.Child
 import com.eddyizm.tempus.subsonic.models.PlayQueue
-import com.eddyizm.tempus.ui.dialog.PlaylistChooserDialog
 import com.eddyizm.tempus.ui.fragment.PlayerBottomSheetFragment
 import com.eddyizm.tempus.util.Constants
 import com.eddyizm.tempus.util.DownloadUtil
@@ -331,12 +330,7 @@ class PlayerQueueBridge @JvmOverloads constructor(
             Toast.makeText(context, R.string.player_queue_empty, Toast.LENGTH_SHORT).show()
             return
         }
-        val bundle = Bundle().apply {
-            putParcelableArrayList(Constants.TRACKS_OBJECT, ArrayList(songs))
-        }
-        PlaylistChooserDialog().apply {
-            arguments = bundle
-        }.show(fragment.parentFragmentManager, null)
+        com.eddyizm.tempus.flavor.FlavorHooks.showPlaylistPicker(fragment.requireActivity(), songs)
     }
 
     private fun downloadAll(songs: List<Child>) {

@@ -22,7 +22,7 @@ import com.eddyizm.tempus.helper.ThemeHelper;
 import com.eddyizm.tempus.service.DownloaderService;
 import com.eddyizm.tempus.service.MediaService;
 import com.eddyizm.tempus.ui.dialog.BatteryOptimizationDialog;
-import com.eddyizm.tempus.util.Flavors;
+import com.eddyizm.tempus.util.CastSupport;
 import com.eddyizm.tempus.util.Preferences;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -45,7 +45,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Drift: AppCompat rebuilds the theme in super.onCreate (night mode), so the accent overlay goes on again here, before any view
         com.eddyizm.tempus.helper.DriftAccent.apply(this);
-        Flavors.initializeCastContext(this);
+        CastSupport.initializeCastContext(this);
         initializeDownloader();
         checkBatteryOptimization();
         checkPermission();
@@ -82,7 +82,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void checkBatteryOptimization() {
         if (batteryAsked) return;
-        if (com.eddyizm.tempus.BuildConfig.LITE && !com.eddyizm.tempus.lite.LiteApp.INSTANCE.getOnboarded()) return;
+        if (!com.eddyizm.tempus.flavor.FlavorHooks.getOnboarded()) return;
         if (detectBatteryOptimization() && Preferences.askForOptimization()) {
             batteryAsked = true;
             showBatteryOptimizationDialog();

@@ -17,7 +17,7 @@
             android:title="@string/ds_switch"
             android:summary="@string/ds_switch_summary" />
     </com.eddyizm.tempus.util.ClickablePreferenceCategory>
-    <com.eddyizm.tempus.util.ClickablePreferenceCategory app:title="@string/ds_undertow">
+    <com.eddyizm.tempus.util.ClickablePreferenceCategory app:title="@string/ds_undertow_title">
         <EditTextPreference
             android:key="undertow_url"
             android:title="@string/ds_undertow_url"
@@ -720,16 +720,6 @@
             android:key="settings_import"
             android:title="@string/settings_import_title"
             android:summary="@string/settings_import_summary"/>
-    </com.eddyizm.tempus.util.ClickablePreferenceCategory>
-    <com.eddyizm.tempus.util.ClickablePreferenceCategory android:key="settings_github_update_category_key" app:title="@string/settings_github_update">
-        <Preference
-            app:selectable="false"
-            app:summary="@string/settings_github_update_summary" />
-
-        <SwitchPreference
-            android:title="@string/settings_github_update_title"
-            android:defaultValue="false"
-            android:key="github_update_check" />
     </com.eddyizm.tempus.util.ClickablePreferenceCategory>
     <com.eddyizm.tempus.util.ClickablePreferenceCategory app:title="@string/ds_about">
         <Preference

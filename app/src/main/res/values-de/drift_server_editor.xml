@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drift_editor_title">Verbinde deinen Server</string>
+    <string name="drift_editor_title_edit">Server bearbeiten</string>
+    <string name="drift_editor_sub">Adresse, Benutzer und Passwort deines Musikservers. Sie bleiben auf diesem Telefon.</string>
+    <string name="drift_editor_saved_servers">Gespeicherte Server</string>
+    <string name="drift_editor_address">Serveradresse</string>
+    <string name="drift_editor_address_helper">Zum Beispiel https://musik.beispiel.de</string>
+    <string name="drift_editor_name">Name (optional)</string>
+    <string name="drift_editor_advanced">Erweiterte Optionen</string>
+    <string name="drift_editor_save">Speichern</string>
+    <string name="drift_editor_test">Verbindung testen</string>
+</resources>

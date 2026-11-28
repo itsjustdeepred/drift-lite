@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drift Lite: recommendations and scrobbling with the user's Last.fm account -->
+<resources>
+    <string name="lite_fy_title">Consigliati per te</string>
+    <string name="lite_fy_from">Dai tuoi ascolti su Last.fm · %s</string>
+    <string name="lite_fy_card_connect">Collega un account Last.fm gratuito per avere consigli sui tuoi gusti</string>
+    <string name="lite_fy_pitch">Con un account Last.fm gratuito Drift Lite impara i tuoi gusti da quello che ascolti e ti trova musica nuova.</string>
+    <string name="lite_fy_point_tracks">Brani che non conosci ancora, vicini a quelli che ascolti di più</string>
+    <string name="lite_fy_point_artists">Artisti nuovi, simili ai tuoi preferiti</string>
+    <string name="lite_fy_point_history">La tua cronologia di ascolto salvata sul profilo Last.fm (scrobbling), insieme a quella delle altre app che usi</string>
+    <string name="lite_fy_connect">Collega Last.fm</string>
+    <string name="lite_fy_join">Non hai un account? Crealo gratis</string>
+    <string name="lite_fy_privacy">L\'accesso avviene sul sito di Last.fm: Drift Lite non vede mai la tua password. Puoi scollegarti quando vuoi.</string>
+    <string name="lite_fy_tracks">Brani per te</string>
+    <string name="lite_fy_artists">Artisti per te</string>
+    <string name="lite_fy_empty">Ascolta prima qualche brano: i consigli arrivano dopo i primi ascolti.</string>
+    <string name="lite_fy_failed">Last.fm non risponde. Riprova più tardi.</string>
+    <string name="lite_fy_refresh">Aggiorna</string>
+    <string name="lite_fy_disconnect">Scollega Last.fm</string>
+    <string name="lite_fy_scrobble_on">Attiva lo scrobbling</string>
+    <string name="lite_fy_scrobble_off">Disattiva lo scrobbling</string>
+    <string name="lite_fy_scrobble_now_on">Gli ascolti vengono salvati su Last.fm</string>
+    <string name="lite_fy_scrobble_now_off">Gli ascolti non vengono più salvati su Last.fm</string>
+    <string name="lite_fy_connected_as">Collegato a Last.fm come %s</string>
+    <string name="lite_fy_login_failed">Collegamento a Last.fm non riuscito. Riprova.</string>
+    <string name="lite_fy_mix_sub">In base a quello che ascolti</string>
+</resources>

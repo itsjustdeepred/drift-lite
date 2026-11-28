@@ -376,7 +376,7 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 Log.d(TAG, "onMediaItemTransition" + player.currentMediaItemIndex)
                 // Drift Lite: resolve the next YouTube songs now, so skipping to them starts at once
-                if (com.eddyizm.tempus.BuildConfig.LITE) com.eddyizm.tempus.lite.LiteTracks.prefetchNext(player)
+                com.eddyizm.tempus.flavor.FlavorHooks.prefetchNext(player)
                 if (mediaItem == null) return
                 if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO ||
                     reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK) {
@@ -442,7 +442,7 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
 
             override fun onTimelineChanged(timeline: Timeline, reason: Int) {
                 Log.d(TAG, "onTimelineChanged reason=$reason")
-                if (com.eddyizm.tempus.BuildConfig.LITE) com.eddyizm.tempus.lite.LiteTracks.prefetchNext(player)
+                com.eddyizm.tempus.flavor.FlavorHooks.prefetchNext(player)
                 tryApplyPlayNextFixup()
                 try {
                     ReplayGainUtil.prefetchQueueGains(player)

@@ -22,4 +22,5 @@
     <string name="ds_undertow_test">Probar la conexión</string>
     <string name="ds_undertow_panel">Abrir el panel de Undertow</string>
     <string name="ds_undertow_panel_summary">Fuentes de descarga, letras, listas, mixes: todo se configura ahí</string>
+    <string name="ds_sum_undertow">Descargas · Mixes · Letras</string>
 </resources>

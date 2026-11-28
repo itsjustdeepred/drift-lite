@@ -24,4 +24,6 @@
     <string name="ds_undertow_test">Test the connection</string>
     <string name="ds_undertow_panel">Open the Undertow panel</string>
     <string name="ds_undertow_panel_summary">Download sources, lyrics, charts, mixes: everything is set up there</string>
+    <string name="ds_undertow_title" translatable="false">Undertow</string>
+    <string name="ds_sum_undertow">Downloads · Mixes · Lyrics</string>
 </resources>

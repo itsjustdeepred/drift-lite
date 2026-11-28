@@ -4,12 +4,6 @@
     <string name="drift_releases_new_title">Nuova uscita: %1$s</string>
 
     <!-- DriftRecognition -->
-    <string name="drift_rec_not_configured">Undertow non è configurato: impostalo in Impostazioni → Undertow</string>
-    <string name="drift_rec_bad_token">Token di Undertow non valido: controllalo in Impostazioni → Undertow</string>
-    <string name="drift_rec_too_large">Registrazione troppo grande: riprova</string>
-    <string name="drift_rec_bad_audio">Registrazione non leggibile: riprova</string>
-    <string name="drift_rec_provider">Shazam non ha risposto: riprova tra poco</string>
-    <string name="drift_rec_http">Undertow ha risposto HTTP %1$d</string>
 
     <!-- DriftDevices -->
     <string name="drift_devices_this_phone">Questo telefono</string>

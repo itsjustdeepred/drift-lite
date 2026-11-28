@@ -46,12 +46,11 @@
     <string name="drift_recog_not_in_library">Non in libreria</string>
     <string name="drift_recog_not_found">Non l\'ho riconosciuto</string>
     <string name="drift_recog_not_found_sub">Riprova più vicino alla musica, o in un momento con meno voci intorno</string>
-    <string name="drift_recog_disabled">Il riconoscimento non è attivo su Undertow: accendilo nel pannello</string>
     <string name="drift_recog_error">Qualcosa non ha funzionato</string>
     <string name="drift_recog_mic_busy">Il microfono non è disponibile: un\'altra app lo sta usando?</string>
     <string name="drift_recog_song_gone">Non trovo più il brano in libreria</string>
     <string name="drift_recog_rationale_title">Usare il microfono?</string>
-    <string name="drift_recog_rationale">Per riconoscere un brano Drift ascolta circa 10 secondi dal microfono e li manda al tuo Undertow, che li fa riconoscere a Shazam. La registrazione non viene salvata.</string>
+    <string name="drift_recog_rationale">Per riconoscere un brano, Drift ascolta circa 10 secondi dal microfono e trasforma il suono in un\'impronta audio, che invia a un servizio di riconoscimento online. La registrazione non lascia mai il telefono.</string>
     <string name="drift_recog_continue">Continua</string>
     <string name="drift_recog_not_now">Non ora</string>
     <string name="drift_recog_denied">Senza microfono non posso riconoscere i brani</string>

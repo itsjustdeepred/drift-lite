@@ -54,7 +54,7 @@ import androidx.mediarouter.media.MediaRouteSelector
 import androidx.mediarouter.media.MediaRouter
 import com.eddyizm.tempus.R
 import com.eddyizm.tempus.upnp.UpnpRouteProvider
-import com.eddyizm.tempus.util.Flavors
+import com.eddyizm.tempus.util.CastSupport
 import com.eddyizm.tempus.util.Preferences
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -73,7 +73,7 @@ object DriftDevices {
     fun selector(context: Context): MediaRouteSelector {
         val b = MediaRouteSelector.Builder()
             .addControlCategory(MediaControlIntent.CATEGORY_LIVE_AUDIO)
-        Flavors.addCastCategories(context, b)
+        CastSupport.addCastCategories(context, b)
         if (Preferences.isUpnpEnabled()) b.addControlCategory(UpnpRouteProvider.CATEGORY_UPNP)
         return b.build()
     }
